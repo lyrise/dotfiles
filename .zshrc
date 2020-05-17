@@ -1,8 +1,15 @@
+if [ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ]; then
+   zcompile ~/.zshrc
+fi
+
 # デバッグ用環境変数
 DEBUG=
 
 # パスを追加
-export PATH="$HOME/bin:$PATH"
+if [ -z $ZSH_ENV_LOADED ]; then
+  export PATH="${HOME}/local/bin:${PATH}"
+  export ZSH_ENV_LOADED="1"
+fi
 
 # Rust
 export PATH=$HOME/.cargo/bin:$PATH
@@ -168,35 +175,37 @@ if ! zplug check --verbose; then
 fi
 zplug load
 
-# 左プロンプトの設定
-PROMPT="%(?.%{${fg[green]}%}.%{${fg[red]}%})%n${reset_color}@${fg[blue]}%m${reset_color}
-> "
-
-# 右プロンプトの設定
+# プロンプトの設定
+PROMPT=""
+## ユーザー名とホスト名
+#PROMPT="%(?.%{${fg[green]}%}.%{${fg[red]}%})%n${reset_color}@${fg[blue]}%m${reset_color}
+#"
 ## カレントディレクトリパスの表示
-RPROMPT="%{${fg[blue]}%}[%~]%{${reset_color}%}"
-## Gitの表示
+PROMPT=$PROMPT$'%{\e[38;5;246m%}%~%{${reset_color}%}'
+## Gitのブランチ名の表示
 autoload -Uz vcs_info
 setopt prompt_subst
 zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
 zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
-zstyle ':vcs_info:*' formats "%F{green}%c%u[%b]%f"
-zstyle ':vcs_info:*' actionformats '[%b|%a]'
+zstyle ':vcs_info:git*' formats "%{$fg[blue]%}%b%{$reset_color%}%m%u%c%{$reset_color%} "
+zstyle ':vcs_info:git*' actionformats "%s  %r/%S %b %m%u%c "
 precmd () { vcs_info }
-RPROMPT=$RPROMPT'${vcs_info_msg_0_}'
+PROMPT=$PROMPT' ${vcs_info_msg_0_}'
 ## kubernetes情報の表示
 source $ZPLUG_REPOS/jonmosco/kube-ps1/kube-ps1.sh
 KUBE_PS1_SYMBOL_ENABLE='false'
-KUBE_PS1_PREFIX='['
+KUBE_PS1_PREFIX=' ['
 KUBE_PS1_SUFFIX=']'
 KUBE_PS1_DIVIDER=':'
-KUBE_PS1_CTX_COLOR=238
-KUBE_PS1_NS_COLOR=242
-RPROMPT=$RPROMPT'$(kube_ps1)'
+KUBE_PS1_CTX_COLOR=red
+KUBE_PS1_NS_COLOR=cyan
+PROMPT=$PROMPT'$(kube_ps1)'
+PROMPT=$PROMPT"
+> "
 
 # コマンド実行前に時刻を表示
-prezexec () {
+preexec () {
     echo -e "Execution start: $(date +"%Y/%m/%d %H:%M:%S")"
 }
 
