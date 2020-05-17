@@ -178,10 +178,9 @@ zplug load
 # プロンプトの設定
 PROMPT=""
 ## ユーザー名とホスト名
-#PROMPT="%(?.%{${fg[green]}%}.%{${fg[red]}%})%n${reset_color}@${fg[blue]}%m${reset_color}
-#"
+PROMPT=$PROMPT$'%{\e[38;5;246m%}%n@%m%{${reset_color}%} '
 ## カレントディレクトリパスの表示
-PROMPT=$PROMPT$'%{\e[38;5;246m%}%~%{${reset_color}%}'
+PROMPT=$PROMPT$'%{\e[38;5;2m%}%~%{${reset_color}%}'
 ## Gitのブランチ名の表示
 autoload -Uz vcs_info
 setopt prompt_subst
