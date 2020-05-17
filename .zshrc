@@ -94,7 +94,7 @@ setopt share_history
 # 補完候補のカーソル選択を有効に
 zstyle ':completion:*:default' menu select=2
 # 補完候補の色づけ
-eval `dircolors`
+#eval `dircolors`
 export ZLS_COLORS=$LS_COLORS
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 # ディレクトリ名だけでcd
@@ -187,7 +187,7 @@ setopt prompt_subst
 zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
 zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
-zstyle ':vcs_info:git*' formats "%{$fg[blue]%}%b%{$reset_color%}%m%u%c%{$reset_color%} "
+zstyle ':vcs_info:git*' formats "%{$fg[blue]%}%b%{$reset_color%}%m%u%c%{$reset_color%}"
 zstyle ':vcs_info:git*' actionformats "%s  %r/%S %b %m%u%c "
 precmd () { vcs_info }
 PROMPT=$PROMPT' ${vcs_info_msg_0_}'
