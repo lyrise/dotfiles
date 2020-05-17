@@ -1,0 +1,7 @@
+[alias]
+    pull-request = "!hub browse -- compare/develop...$(git symbolic-ref --short HEAD)?body=%0A%23$(echo $(git symbolic-ref --short HEAD) | awk -F'[/_-]' '{print $2}')"
+    log-graph = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    log-graph-all = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    push-with-set-upstream = "!git push --set-upstream origin $(git symbolic-ref --short HEAD)"
+[include]
+    path = ~/.gitconfig.include
