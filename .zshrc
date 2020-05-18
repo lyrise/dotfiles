@@ -1,5 +1,13 @@
+# zcompileを実施
 if [ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ]; then
    zcompile ~/.zshrc
+fi
+
+# 実行環境を識別
+if [ "$(uname)" == 'Darwin' ]; then
+  OS='Mac'
+elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
+  OS='Linux'
 fi
 
 # デバッグ用環境変数
@@ -29,13 +37,17 @@ export COMPOSE_DOCKER_CLI_BUILD=1
 # エイリアス集
 alias ll='exa -lah --time-style=long-iso'
 alias grep='grep --color=always'
-alias pbcopy='xclip -selection clipboard'
-alias pbpaste='xclip -selection clipboard -o'
 alias k='kubectl'
 alias d='docker'
 alias dc='docker-compose'
 alias g='git'
 alias g-pr='git pull-request'
+
+if [ $OS == 'Mac' ]; then
+elif [ $OS == 'Linux' ]; then
+    alias pbcopy='xclip -selection clipboard'
+    alias pbpaste='xclip -selection clipboard -o'
+fi
 
 # 履歴の保存先
 HISTFILE=$HOME/.zsh-history
