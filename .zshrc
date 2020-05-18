@@ -4,9 +4,9 @@ if [ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ]; then
 fi
 
 # 実行環境を識別
-if [ "$(uname)" == 'Darwin' ]; then
+if [ "$(uname)" = 'Darwin' ]; then
   OS='Mac'
-elif [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
+elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]; then
   OS='Linux'
 fi
 
@@ -43,8 +43,8 @@ alias dc='docker-compose'
 alias g='git'
 alias g-pr='git pull-request'
 
-if [ $OS == 'Mac' ]; then
-elif [ $OS == 'Linux' ]; then
+if [ $OS = 'Mac' ]; then
+elif [ $OS = 'Linux' ]; then
     alias pbcopy='xclip -selection clipboard'
     alias pbpaste='xclip -selection clipboard -o'
 fi
