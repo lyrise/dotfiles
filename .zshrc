@@ -157,7 +157,11 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 # cdの強化
 zplug 'b4b4r07/enhancd', use:init.sh
 # fzfのセットアップ
-zplug 'junegunn/fzf-bin', as:command, from:gh-r, rename-to:fzf, defer:2
+if [ $OS = 'Mac' ]; then
+    zplug 'junegunn/fzf-bin', as:command, from:gh-r, rename-to:fzf, defer:2, use:"*darwin*amd64*"
+elif [ $OS = 'Linux' ]; then
+    zplug 'junegunn/fzf-bin', as:command, from:gh-r, rename-to:fzf, defer:2, use:"*linux*amd64*"
+fi
 zplug 'junegunn/fzf', use:shell/key-bindings.zsh
 zplug 'junegunn/fzf', use:shell/completion.zsh
 # シンタックスハイライト
@@ -251,13 +255,24 @@ bindkey '^r' history-fzf
 
 # killするプロセスをfzfで検索
 kill-fzf() {
-    local list=$(ps auxwl)
-    local head=$(echo $list | head -n 1)
-    local pid=$(echo $list | sed 1d | fzf -m --header="$head" | awk '{print $2}')
+    if [ $OS = 'Mac' ]; then
+        local list=$(ps auxwl)
+        local head=$(echo $list | head -n 1)
+        local pid=$(echo $list | sed 1d | fzf -m --header="$head" | awk '{print $2}')
 
-    if [ "x$pid" != "x" ]
-    then
-        echo $pid | xargs sudo kill -${1:-9}
+        if [ "$pid" != "" ]
+        then
+            echo $pid | xargs sudo kill -${1:-9}
+        fi
+    elif [ $OS = 'Linux' ]; then
+        local list=$(ps all)
+        local head=$(echo $list | head -n 1)
+        local pid=$(echo $list | sed 1d | fzf -m --header="$head" | awk '{print $3}')
+
+        if [ "$pid" != "" ]
+        then
+            echo $pid | xargs sudo kill -${1:-9}
+        fi
     fi
     zle accept-line
 }
@@ -272,7 +287,7 @@ rg-file() {
 zle -N rg-file
 bindkey '^f' rg-file
 
-# Select a docker container to start and attach to
+# アタッチするDockerコンテナをfzfで検索
 d-attach() {
   local cid
   cid=$(docker ps -a | sed 1d | fzf -1 -q "$1" | awk '{print $1}')
@@ -280,7 +295,7 @@ d-attach() {
   [ -n "$cid" ] && docker start "$cid" && docker attach "$cid"
 }
 
-# Select a running docker container to stop
+# 停止するDockerコンテナをfzfで検索
 d-stop() {
   local cid
   cid=$(docker ps | sed 1d | fzf -q "$1" | awk '{print $1}')
@@ -288,12 +303,17 @@ d-stop() {
   [ -n "$cid" ] && docker stop "$cid"
 }
 
-# Select a docker container to remove
+# 削除するDockerコンテナをfzfで検索
 d-rm() {
   local cid
   cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{print $1}')
 
   [ -n "$cid" ] && docker rm -f "$cid"
+}
+
+# すべてのDockerコンテナを削除
+d-rm-all() {
+    docker container rm $(docker ps -aq) -f
 }
 
 # gitのチェックアウト

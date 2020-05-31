@@ -1,7 +1,7 @@
-#!bin/zsh
+#!/bin/sh
 
 # dotfiles
-zsh install.sh
+sh install.sh
 
 # dotnet
 wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
