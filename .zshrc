@@ -157,11 +157,7 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 # cdの強化
 zplug 'b4b4r07/enhancd', use:init.sh
 # fzfのセットアップ
-if [ $OS = 'Mac' ]; then
-    zplug 'junegunn/fzf-bin', as:command, from:gh-r, rename-to:fzf, defer:2, use:"*darwin*amd64*"
-elif [ $OS = 'Linux' ]; then
-    zplug 'junegunn/fzf-bin', as:command, from:gh-r, rename-to:fzf, defer:2, use:"*linux*amd64*"
-fi
+zplug 'junegunn/fzf-bin', as:command, from:gh-r, rename-to:fzf, defer:2
 zplug 'junegunn/fzf', use:shell/key-bindings.zsh
 zplug 'junegunn/fzf', use:shell/completion.zsh
 # シンタックスハイライト
