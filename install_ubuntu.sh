@@ -24,3 +24,8 @@ git clone https://github.com/zplug/zplug $HOME/.zplug
 
 # tools
 cargo install exa bat sd fd-find dutree
+
+# clean
+sudo apt autoremove -y
+sudo apt clean -y
+sudo rm -rf /var/lib/apt/lists/*
