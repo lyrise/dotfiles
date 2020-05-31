@@ -2,7 +2,6 @@
 
 # base install
 zsh install.sh
-. ~/.zshrc
 
 # dotnet
 wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
