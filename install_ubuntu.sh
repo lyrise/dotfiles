@@ -21,7 +21,7 @@ git clone https://github.com/zplug/zplug $HOME/.zplug
 
 # dotfiles
 zsh install.sh
-. ~/.zshrc
+. $HOME/.zshrc
 
 # tools
 cargo install exa bat sd fd-find dutree
