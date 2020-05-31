@@ -1,8 +1,5 @@
 #!bin/zsh
 
-# base install
-zsh install.sh
-
 # dotnet
 wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
@@ -21,6 +18,10 @@ git clone https://github.com/syndbg/goenv.git $HOME/.goenv
 
 # zplug
 git clone https://github.com/zplug/zplug $HOME/.zplug
+
+# dotfiles
+zsh install.sh
+. ~/.zshrc
 
 # tools
 cargo install exa bat sd fd-find dutree
