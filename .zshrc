@@ -43,8 +43,7 @@ alias dc='docker-compose'
 alias g='git'
 alias g-pr='git pull-request'
 
-if [ $OS = 'Mac' ]; then
-elif [ $OS = 'Linux' ]; then
+if [ $OS = 'Linux' ]; then
     alias pbcopy='xclip -selection clipboard'
     alias pbpaste='xclip -selection clipboard -o'
 fi
