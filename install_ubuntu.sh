@@ -27,6 +27,6 @@ export PATH=$HOME/.cargo/bin:$PATH
 cargo install exa bat sd fd-find dutree
 
 # clean
-sudo apt autoremove -y
-sudo apt clean -y
+sudo apt-get autoremove -y
+sudo apt-get clean -y
 sudo rm -rf /var/lib/apt/lists/*
