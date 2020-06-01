@@ -3,6 +3,10 @@
 # dotfiles
 sh install.sh
 
+# fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
+$HOME/.fzf/install --no-key-bindings --no-completion --no-bash --no-zsh
+
 # dotnet
 wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb

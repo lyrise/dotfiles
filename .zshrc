@@ -1,3 +1,6 @@
+# デバッグ用環境変数
+DEBUG=
+
 # zcompileを実施
 if [ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ]; then
    zcompile ~/.zshrc
@@ -10,29 +13,25 @@ elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]; then
   OS='Linux'
 fi
 
-# デバッグ用環境変数
-DEBUG=
+# goenv
+export GOENV_DISABLE_GOPATH=1
+export GOENV_ROOT=$HOME/.goenv
+eval "$(goenv init -)"
+export GOPATH=$HOME/.go
+
+# docker
+export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
 
 # パスを追加
 if [ -z $ZSH_ENV_LOADED ]; then
-  export PATH="${HOME}/local/bin:${PATH}"
-  export ZSH_ENV_LOADED="1"
+    export PATH=$HOME/local/bin:$PATH
+    export PATH=$HOME/.cargo/bin:$PATH
+    export PATH=$HOME/.goenv/bin:$PATH
+    export PATH=$GOPATH/bin:$PATH
+    export PATH=$HOME/.fzf/bin:$PATH
+    export ZSH_ENV_LOADED="1"
 fi
-
-# Rust
-export PATH=$HOME/.cargo/bin:$PATH
-
-# Go
-export GOENV_DISABLE_GOPATH=1
-export GOENV_ROOT=$HOME/.goenv
-export PATH=$GOENV_ROOT/bin:$PATH
-eval "$(goenv init -)"
-export GOPATH=$HOME/.go
-export PATH=$GOPATH/bin:$PATH
-
-# Docker
-export DOCKER_BUILDKIT=1
-export COMPOSE_DOCKER_CLI_BUILD=1
 
 # エイリアス集
 alias ll='exa -lah --time-style=long-iso'
@@ -157,7 +156,8 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 # cdの強化
 zplug 'b4b4r07/enhancd', use:init.sh
 # fzfのセットアップ
-zplug 'junegunn/fzf-bin', as:command, from:gh-r, rename-to:fzf, defer:2
+# 'junegunn/fzf-bin'のインストールに失敗するようになった
+#zplug 'junegunn/fzf-bin', from:gh-r, as:command, rename-to:fzf
 zplug 'junegunn/fzf', use:shell/key-bindings.zsh
 zplug 'junegunn/fzf', use:shell/completion.zsh
 # シンタックスハイライト
