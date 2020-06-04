@@ -13,16 +13,6 @@ elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]; then
   OS='Linux'
 fi
 
-# goenv
-export GOENV_DISABLE_GOPATH=1
-export GOENV_ROOT=$HOME/.goenv
-eval "$(goenv init -)"
-export GOPATH=$HOME/.go
-
-# docker
-export DOCKER_BUILDKIT=1
-export COMPOSE_DOCKER_CLI_BUILD=1
-
 # パスを追加
 if [ -z $ZSH_ENV_LOADED ]; then
     export PATH=$HOME/local/bin:$PATH
@@ -32,6 +22,16 @@ if [ -z $ZSH_ENV_LOADED ]; then
     export PATH=$HOME/.fzf/bin:$PATH
     export ZSH_ENV_LOADED="1"
 fi
+
+# goenv
+export GOENV_DISABLE_GOPATH=1
+export GOENV_ROOT=$HOME/.goenv
+eval "$(goenv init -)"
+export GOPATH=$HOME/.go
+
+# docker
+export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
 
 # エイリアス集
 alias ll='exa -lah --time-style=long-iso'

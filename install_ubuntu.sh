@@ -28,10 +28,10 @@ git clone https://github.com/zplug/zplug $HOME/.zplug
 
 # tools
 export PATH=$HOME/.cargo/bin:$PATH
-cargo install exa bat sd fd-find dutree
+cargo install cargo-cache exa bat sd fd-find dutree
 
 # clean
 sudo apt-get autoremove -y
 sudo apt-get clean -y
 sudo rm -rf /var/lib/apt/lists/*
-sudo rm -rf $HOME/.cargo
+cargo cache --remove-dir all
