@@ -15,11 +15,11 @@ fi
 
 # パスを追加
 if [ -z $ZSH_ENV_LOADED ]; then
-    export PATH=$HOME/local/bin:$PATH
-    export PATH=$HOME/.cargo/bin:$PATH
-    export PATH=$HOME/.goenv/bin:$PATH
-    export PATH=$GOPATH/bin:$PATH
-    export PATH=$HOME/.fzf/bin:$PATH
+    export PATH="$HOME/local/bin:$PATH"
+    export PATH="$HOME/.cargo/bin:$PATH"
+    export PATH="$HOME/.goenv/bin:$PATH"
+    export PATH="$GOPATH/bin:$PATH"
+    export PATH="$HOME/.fzf/bin:$PATH"
     export ZSH_ENV_LOADED="1"
 fi
 

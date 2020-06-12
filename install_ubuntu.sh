@@ -1,13 +1,18 @@
 #!/bin/sh
 
-# dotfiles
+# Install packages
+sudo apt-get update
+sudo apt-get install -y zsh build-essentiall
+sudo chsh -s /bin/zsh
+
+# Install dotfiles
 sh install.sh
 
-# fzf
+# Install fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
 $HOME/.fzf/install --no-key-bindings --no-completion --no-bash --no-zsh
 
-# dotnet
+# Install dotnet
 wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
 sudo dpkg -i packages-microsoft-prod.deb
 rm packages-microsoft-prod.deb
@@ -17,17 +22,18 @@ sudo apt-get install -y apt-transport-https
 sudo apt-get update
 sudo apt-get install -y dotnet-sdk-3.1
 
-# rust
+# Install rust
 curl https://sh.rustup.rs -sSf | sh -s -- -q -y
 
-# goenv
+# Install goenv
 git clone https://github.com/syndbg/goenv.git $HOME/.goenv
 
-# zplug
+# Install zplug
 git clone https://github.com/zplug/zplug $HOME/.zplug
+zsh -ic 'zplug install'
 
-# tools
-export PATH=$HOME/.cargo/bin:$PATH
+# Install tools
+export PATH="$HOME/.cargo/bin:$PATH"
 cargo install cargo-cache exa bat sd fd-find dutree
 
 # clean
