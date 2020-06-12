@@ -333,4 +333,6 @@ zle -N g-checkout
 bindkey '^b' g-checkout
 
 # Custom
-. ~/.zshrc.include
+if [ -e ~/.zshrc.include ]; then
+    . ~/.zshrc.include
+fi
