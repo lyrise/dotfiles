@@ -2,7 +2,7 @@
 
 # Install packages
 sudo apt-get update
-sudo apt-get install -y zsh build-essentiall
+sudo apt-get install -y zsh build-essential
 sudo chsh -s /bin/zsh
 
 # Install dotfiles
