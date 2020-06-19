@@ -30,7 +30,7 @@ git clone https://github.com/syndbg/goenv.git $HOME/.goenv
 
 # Install zplug
 git clone https://github.com/zplug/zplug $HOME/.zplug
-zsh -ic 'zplug install'
+zsh -ic 'zplug install' </dev/null
 
 # Install NPM
 sudo apt-get install -y npm

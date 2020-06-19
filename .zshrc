@@ -365,4 +365,6 @@ gs() {
 }
 
 # Custom
-. ~/.zshrc.include
+if [ -e ~/.zshrc.include ]; then
+    . ~/.zshrc.include
+fi
