@@ -32,9 +32,13 @@ git clone https://github.com/syndbg/goenv.git $HOME/.goenv
 git clone https://github.com/zplug/zplug $HOME/.zplug
 zsh -ic 'zplug install'
 
+# Install NPM
+sudo apt-get install -y npm
+
 # Install tools
 export PATH="$HOME/.cargo/bin:$PATH"
 cargo install cargo-cache exa bat sd fd-find dutree
+npm install -g diff-so-fancy
 
 # clean
 sudo apt-get autoremove -y

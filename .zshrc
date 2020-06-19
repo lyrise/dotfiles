@@ -170,6 +170,8 @@ zplug 'chrissicool/zsh-256color'
 zplug 'kwhrtsk/docker-fzf-completion'
 zplug 'docker/cli', use:'contrib/completion/zsh/_docker', lazy:true
 zplug 'docker/compose', use:'contrib/completion/zsh/_docker-compose', lazy:true
+# gitのショートカット
+zplug 'wfxr/forgit'
 # zのセットアップ
 zplug 'rupa/z', use:z.sh
 # コマンドの実行時間を表示
@@ -224,7 +226,7 @@ ZSH_COMMAND_TIME_MIN_SECONDS=1
 ZSH_COMMAND_TIME_MSG="Execution time: %s sec"
 
 # fzfの設定
-export FZF_DEFAULT_OPTS="--height 50% --layout=reverse --border --inline-info --exact"
+export FZF_DEFAULT_OPTS="--height 80% --layout=reverse --border --inline-info --exact"
 export FZF_COMPLETION_TRIGGER=','
 
 # zの履歴をfzfで検索
@@ -277,34 +279,34 @@ bindkey '^x' kill-fzf
 
 # ファイルをfzfで検索
 rg-file() {
-  if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
-  rg --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
+    if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
+    rg --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
 }
 zle -N rg-file
 bindkey '^f' rg-file
 
 # アタッチするDockerコンテナをfzfで検索
 d-attach() {
-  local cid
-  cid=$(docker ps -a | sed 1d | fzf -1 -q "$1" | awk '{print $1}')
+    local cid
+    cid=$(docker ps -a | sed 1d | fzf -1 -q "$1" | awk '{print $1}')
 
-  [ -n "$cid" ] && docker start "$cid" && docker attach "$cid"
+    [ -n "$cid" ] && docker start "$cid" && docker attach "$cid"
 }
 
 # 停止するDockerコンテナをfzfで検索
 d-stop() {
-  local cid
-  cid=$(docker ps | sed 1d | fzf -q "$1" | awk '{print $1}')
+    local cid
+    cid=$(docker ps | sed 1d | fzf -q "$1" | awk '{print $1}')
 
-  [ -n "$cid" ] && docker stop "$cid"
+    [ -n "$cid" ] && docker stop "$cid"
 }
 
 # 削除するDockerコンテナをfzfで検索
 d-rm() {
-  local cid
-  cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{print $1}')
+    local cid
+    cid=$(docker ps -a | sed 1d | fzf -q "$1" | awk '{print $1}')
 
-  [ -n "$cid" ] && docker rm -f "$cid"
+    [ -n "$cid" ] && docker rm -f "$cid"
 }
 
 # すべてのDockerコンテナを削除
@@ -312,25 +314,55 @@ d-rm-all() {
     docker container rm $(docker ps -aq) -f
 }
 
-# gitのチェックアウト
-g-checkout() {
-  local tags branches target
-  branches=$(
-    git --no-pager branch --all \
-      --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" \
-    | sed '/^$/d') || return
-  tags=$(
-    git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
-  target=$(
-    (echo "$branches"; echo "$tags") |
-    fzf --no-hscroll --no-multi -n 2 \
-        --ansi --preview="git --no-pager log -150 --pretty=format:%s '..{2}'") || return
-  branch=$(awk '{print $2}' <<<"$target" )
-  local_branch=$(echo "$branch" | sed -e "s/^origin\///")
-  git checkout $branch -b $local_branch
+forgit_log=glo
+forgit_diff=gd
+forgit_add=ga
+forgit_reset_head=grh
+forgit_ignore=gi
+forgit_restore=gcf
+forgit_clean=gclean
+forgit_stash_show=gss
+
+# checkout git branch or tag with previews
+gc() {
+    local tags branches target
+    branches=$(
+        git --no-pager branch --all \
+            --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" \
+        | sed '/^$/d') || return
+    tags=$(
+        git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
+    target=$(
+        (echo "$branches"; echo "$tags") |
+        fzf --no-hscroll --no-multi -n 2 \
+            --ansi --preview="git --no-pager log -150 --pretty=format:%s '..{2}'") || return
+    git checkout $(awk '{print $2}' <<<"$target" )
 }
 zle -N g-checkout
 bindkey '^b' g-checkout
+
+alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
+_gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
+_viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
+
+# checkout git commit with previews
+gcc() {
+  local commit
+  commit=$( glNoGraph |
+    fzf --no-sort --reverse --tiebreak=index --no-multi \
+        --ansi --preview="$_viewGitLogLine" ) &&
+  git checkout $(echo "$commit" | sed "s/ .*//")
+}
+
+# git commit browser with previews
+gs() {
+    glNoGraph |
+        fzf --no-sort --reverse --tiebreak=index --no-multi \
+            --ansi --preview="$_viewGitLogLine" \
+                --header "enter to view, alt-y to copy hash" \
+                --bind "enter:execute:$_viewGitLogLine   | less -R" \
+                --bind "alt-y:execute:$_gitLogLineToHash | xclip"
+}
 
 # Custom
 . ~/.zshrc.include
