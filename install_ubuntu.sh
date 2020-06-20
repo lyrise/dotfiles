@@ -37,7 +37,7 @@ sudo apt-get install -y npm
 
 # Install tools
 export PATH="$HOME/.cargo/bin:$PATH"
-cargo install cargo-cache exa bat sd fd-find dutree
+cargo install cargo-cache lsd bat sd fd-find dutree
 npm install -g diff-so-fancy
 
 # clean

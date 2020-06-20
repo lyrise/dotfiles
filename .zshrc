@@ -34,7 +34,7 @@ export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
 
 # エイリアス集
-alias ll='exa -lah --time-style=long-iso'
+alias ll='lsd -al --date "+%F %T"'
 alias grep='grep --color=always'
 alias k='kubectl'
 alias d='docker'
