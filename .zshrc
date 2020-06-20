@@ -3,14 +3,14 @@ DEBUG=
 
 # zcompileを実施
 if [ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ]; then
-   zcompile ~/.zshrc
+    zcompile ~/.zshrc
 fi
 
 # 実行環境を識別
 if [ "$(uname)" = 'Darwin' ]; then
-  OS='Mac'
+    OS='Mac'
 elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]; then
-  OS='Linux'
+    OS='Linux'
 fi
 
 # パスを追加
@@ -231,7 +231,7 @@ export FZF_COMPLETION_TRIGGER=','
 
 # zの履歴をfzfで検索
 z-fzf() {
-    local res=$(z | cut -c 12- | awk '!a[$0]++' | fzf)
+    local res=$(z | tac | cut -c 12- | awk '!a[$0]++' | fzf)
     if [ -n "$res" ]; then
         BUFFER+="cd $res"
         zle accept-line
@@ -347,11 +347,11 @@ _viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always 
 
 # checkout git commit with previews
 gcc() {
-  local commit
-  commit=$( glNoGraph |
-    fzf --no-sort --reverse --tiebreak=index --no-multi \
-        --ansi --preview="$_viewGitLogLine" ) &&
-  git checkout $(echo "$commit" | sed "s/ .*//")
+    local commit
+    commit=$( glNoGraph |
+        fzf --no-sort --reverse --tiebreak=index --no-multi \
+            --ansi --preview="$_viewGitLogLine" ) &&
+    git checkout $(echo "$commit" | sed "s/ .*//")
 }
 
 # git commit browser with previews

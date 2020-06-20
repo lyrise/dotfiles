@@ -18,9 +18,7 @@ sudo dpkg -i packages-microsoft-prod.deb
 rm packages-microsoft-prod.deb
 sudo add-apt-repository universe
 sudo apt-get update
-sudo apt-get install -y apt-transport-https
-sudo apt-get update
-sudo apt-get install -y dotnet-sdk-3.1
+sudo apt-get install -y apt-transport-https dotnet-sdk-3.1
 
 # Install rust
 curl https://sh.rustup.rs -sSf | sh -s -- -q -y
@@ -39,9 +37,3 @@ sudo apt-get install -y npm
 export PATH="$HOME/.cargo/bin:$PATH"
 cargo install cargo-cache lsd bat sd fd-find dutree
 npm install -g diff-so-fancy
-
-# clean
-sudo apt-get autoremove -y
-sudo apt-get clean -y
-sudo rm -rf /var/lib/apt/lists/*
-cargo cache --remove-dir all
