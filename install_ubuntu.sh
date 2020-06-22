@@ -26,10 +26,6 @@ curl https://sh.rustup.rs -sSf | sh -s -- -q -y
 # Install goenv
 git clone https://github.com/syndbg/goenv.git $HOME/.goenv
 
-# Install zplug
-git clone https://github.com/zplug/zplug $HOME/.zplug
-zsh -ic 'zplug install' </dev/null
-
 # Install NPM
 sudo apt-get install -y npm
 
@@ -37,3 +33,13 @@ sudo apt-get install -y npm
 export PATH="$HOME/.cargo/bin:$PATH"
 cargo install cargo-cache lsd bat sd fd-find dutree
 npm install -g diff-so-fancy
+
+# Install zplug
+git clone https://github.com/zplug/zplug $HOME/.zplug
+zsh -ic 'zplug install' </dev/null
+
+# clean
+sudo apt-get autoremove -y
+sudo apt-get clean -y
+sudo rm -rf /var/lib/apt/lists/*
+cargo cache --remove-dir all
