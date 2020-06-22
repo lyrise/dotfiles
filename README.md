@@ -1,0 +1,5 @@
+# dotfiles
+
+## License
+
++ MIT License.
