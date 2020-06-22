@@ -7,4 +7,4 @@ delete-merged-branch = "!git fetch --prune; git branch --merged|egrep -v '\\*|de
 [include]
 path = ~/.gitconfig.include
 [core]
-excludesfile = /Users/your_user_name/.gitignore_global
+excludesfile = ~/.gitignore_global

@@ -338,8 +338,8 @@ gc() {
             --ansi --preview="git --no-pager log -150 --pretty=format:%s '..{2}'") || return
     git checkout $(awk '{print $2}' <<<"$target" )
 }
-zle -N g-checkout
-bindkey '^b' g-checkout
+zle -N gc
+bindkey '^b' gc
 
 alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
 _gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
