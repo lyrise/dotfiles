@@ -13,25 +13,31 @@ elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]; then
     OS='Linux'
 fi
 
-# パスを追加
-if [ -z $ZSH_ENV_LOADED ]; then
-    export PATH="$HOME/local/bin:$PATH"
-    export PATH="$HOME/.cargo/bin:$PATH"
-    export PATH="$HOME/.goenv/bin:$PATH"
-    export PATH="$GOPATH/bin:$PATH"
-    export PATH="$HOME/.fzf/bin:$PATH"
-    export ZSH_ENV_LOADED="1"
-fi
+# common
+export PATH="$HOME/bin:$PATH"
+
+# docker
+export DOCKER_BUILDKIT=1
+export COMPOSE_DOCKER_CLI_BUILD=1
+
+# fzf
+export PATH="$HOME/.fzf/bin:$PATH"
 
 # goenv
 export GOENV_DISABLE_GOPATH=1
 export GOENV_ROOT=$HOME/.goenv
 eval "$(goenv init -)"
 export GOPATH=$HOME/.go
+export PATH="$HOME/.goenv/bin:$PATH"
+export PATH="$GOPATH/bin:$PATH"
 
-# docker
-export DOCKER_BUILDKIT=1
-export COMPOSE_DOCKER_CLI_BUILD=1
+# rust
+export PATH="$HOME/.cargo/bin:$PATH"
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
 # エイリアス集
 alias ll='lsd -al --date "+%F %T"'
