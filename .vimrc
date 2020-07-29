@@ -21,12 +21,13 @@ nnoremap <C-l> 5l
 nnoremap <leader>dw di<leader>w
 nnoremap <leader>cw ci<leader>w
 
+nnoremap <leader>s <leader><leader>/
 inoremap { {}<LEFT>
 inoremap [ []<LEFT>
 inoremap < <><LEFT>
 inoremap ( ()<LEFT>
 inoremap " ""<LEFT>
-inoremap ' ''F
+inoremap ' ''<LEFT>
 
 inoremap <C-d> <DEL>
 inoremap <C-r> <CR>
@@ -47,8 +48,6 @@ nmap x "_x
 nnoremap <leader>P "0P
 nnoremap <leader>p "0p
 vnoremap p "_dP
-
-nnoremap <leader>s <leader><leader>/
 
 nnoremap <C-a> ggvG
 inoremap <C-a> <Esc>ggvG
