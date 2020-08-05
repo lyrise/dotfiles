@@ -47,7 +47,8 @@ nmap x "_x
 
 nnoremap <leader>P "0P
 nnoremap <leader>p "0p
-vnoremap p "_dP
+vnoremap P "_dP
+vnoremap p "_dp
 
 nnoremap <C-a> ggvG
 inoremap <C-a> <Esc>ggvG
