@@ -39,8 +39,8 @@ nnoremap <C-w> :w!<CR>
 
 nnoremap n nzz
 nnoremap N Nzz
-nmap s "_s
-nmap x "_x
+nnoremap s "_s
+nnoremap x "_x
 
 nnoremap <leader>P "0P
 nnoremap <leader>p "0p
