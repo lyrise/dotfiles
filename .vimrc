@@ -1,3 +1,5 @@
+nnoremap <leader><Esc> :noh<CR>
+
 nnoremap : ;
 nnoremap ; :
 vnoremap : ;
@@ -5,6 +7,8 @@ vnoremap ; :
 
 inoremap kk <Esc>
 inoremap jj <Esc>
+inoremap hh <Esc>
+inoremap ll <Esc>
 
 inoremap <C-k> <UP>
 inoremap <C-j> <DOWN>
@@ -21,7 +25,7 @@ vnoremap <C-l> 5l
 nnoremap <leader>dw di<leader>w
 nnoremap <leader>cw ci<leader>w
 
-nnoremap <leader>s <leader><leader>/
+nnoremap f <leader><leader>/
 inoremap { {}<LEFT>
 inoremap [ []<LEFT>
 inoremap < <><LEFT>
@@ -30,6 +34,10 @@ inoremap " ""<LEFT>
 inoremap ' ''<LEFT>
 
 nnoremap <CR> i<CR><Esc>
+inoremap <S-CR> <End><CR>
+inoremap <C-S-CR> <UP><End><CR>
+nnoremap <S-CR> <End><CR>
+nnoremap <C-S-CR> <UP><End><CR>
 
 nnoremap <C-w> :w!<CR>
 
@@ -43,7 +51,6 @@ nnoremap <leader>p "0p
 vnoremap p "_dP
 vnoremap <leader>p "_d"0P
 
-vnoremap p "_dP
 nnoremap <C-a> ggvG
 inoremap <C-a> <Esc>ggvG
 
