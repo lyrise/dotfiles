@@ -1,3 +1,5 @@
+nnoremap <leader><Esc> :noh<CR>
+
 nnoremap : ;
 nnoremap ; :
 vnoremap : ;
@@ -30,6 +32,10 @@ inoremap " ""<LEFT>
 inoremap ' ''<LEFT>
 
 nnoremap <CR> i<CR><Esc>
+inoremap <S-CR> <End><CR>
+inoremap <C-S-CR> <UP><End><CR>
+nnoremap <S-CR> <End><CR>
+nnoremap <C-S-CR> <UP><End><CR>
 
 nnoremap <C-w> :w!<CR>
 
