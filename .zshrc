@@ -23,6 +23,9 @@ export COMPOSE_DOCKER_CLI_BUILD=1
 # fzf
 export PATH="$HOME/.fzf/bin:$PATH"
 
+# dotnet
+export PATH="$HOME/.dotnet/tools:$PATH"
+
 # goenv
 export GOENV_DISABLE_GOPATH=1
 export GOENV_ROOT=$HOME/.goenv
