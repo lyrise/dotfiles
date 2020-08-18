@@ -5,8 +5,8 @@ nnoremap ; :
 vnoremap : ;
 vnoremap ; :
 
-inoremap kk <Esc>:<C-u>w<CR>
-inoremap jj <Esc>:<C-u>w<CR>
+inoremap kk <Esc>
+inoremap jj <Esc>
 
 inoremap <C-k> <UP>
 inoremap <C-j> <DOWN>
@@ -20,8 +20,8 @@ vnoremap <C-k> 5k
 vnoremap <C-j> 5j
 vnoremap <C-h> 5h
 vnoremap <C-l> 5l
-nnoremap <leader>dw di<leader>w
-nnoremap <leader>cw ci<leader>w
+nnoremap <leader>d di<leader>w
+nnoremap <leader>c ci<leader>w
 
 nnoremap f <leader><leader>/
 inoremap { {}<LEFT>
@@ -42,15 +42,21 @@ nnoremap <C-w> :w!<CR>
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap s "_s
+vnoremap s "_s
 nnoremap x "_x
+vnoremap x "_x
 
 nnoremap <leader>P "0P
 nnoremap <leader>p "0p
-vnoremap p "_dp
-vnoremap <leader>p "_d"0p
+vnoremap p "_dP
+vnoremap <leader>p "_d"0P
 
 nnoremap <C-a> ggvG
 inoremap <C-a> <Esc>ggvG
 
-vnoremap < <gv
-vnoremap > >gv
+vnoremap { S}
+vnoremap ( S)
+vnoremap [ S]
+vnoremap " S"
+vnoremap ' S'
+vmap < S]<ESC>cs[>
