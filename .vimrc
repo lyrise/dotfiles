@@ -12,6 +12,8 @@ inoremap <C-k> <UP>
 inoremap <C-j> <DOWN>
 inoremap <C-h> <LEFT>
 inoremap <C-l> <RIGHT>
+nnoremap k gk
+nnoremap j gj
 nnoremap <C-k> 5k
 nnoremap <C-j> 5j
 nnoremap <C-h> 5h
@@ -37,7 +39,8 @@ inoremap <C-S-CR> <UP><End><CR>
 nnoremap <S-CR> <End><CR>
 nnoremap <C-S-CR> <UP><End><CR>
 
-nnoremap <C-w> :w!<CR>
+nnoremap <C-w> :w<CR>
+nnoremap <C-q> :q<CR>
 
 nnoremap n nzz
 nnoremap N Nzz
