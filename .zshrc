@@ -44,7 +44,7 @@ eval "$(pyenv init -)"
 
 # エイリアス集
 alias ll='lsd -al --date "+%F %T"'
-alias grep='grep --color=always'
+# alias grep='grep --color=always'
 alias k='kubectl'
 alias d='docker'
 alias dc='docker-compose'
