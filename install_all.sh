@@ -42,7 +42,7 @@ goenv rehash
 git clone https://github.com/pyenv/pyenv.git $HOME/.pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-PYTHON_VERSION="3.6.10"
+PYTHON_VERSION="3.8.3"
 pyenv install $PYTHON_VERSION
 pyenv global $PYTHON_VERSION
 pyenv rehash
