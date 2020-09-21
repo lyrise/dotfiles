@@ -1,3 +1,5 @@
+let mapleader = ","
+
 nnoremap <leader><Esc> :noh<CR>
 
 nnoremap : ;
