@@ -27,7 +27,7 @@ vnoremap <C-l> 5l
 nnoremap <leader>d di<leader>w
 nnoremap <leader>c ci<leader>w
 
-nnoremap f <leader><leader>/
+nnoremap s <leader><leader>/
 inoremap { {}<LEFT>
 inoremap [ []<LEFT>
 inoremap < <><LEFT>
