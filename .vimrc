@@ -51,7 +51,7 @@ vnoremap x "_x
 
 nnoremap <leader>P "0P
 nnoremap <leader>p "0p
-vnoremap  p "_s<C-V><ESC>
+vnoremap p "_s<C-V><ESC>
 
 nnoremap <C-a> ggvG
 inoremap <C-a> <Esc>ggvG
@@ -62,3 +62,5 @@ vnoremap [ S]
 vnoremap " S"
 vnoremap ' S'
 vmap < S]<ESC>cs[>
+
+vnoremap $ $<LEFT>
