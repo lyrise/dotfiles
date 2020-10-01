@@ -24,8 +24,6 @@ vnoremap <C-k> 5k
 vnoremap <C-j> 5j
 vnoremap <C-h> 5h
 vnoremap <C-l> 5l
-nnoremap <leader>d di<leader>w
-nnoremap <leader>c ci<leader>w
 
 nnoremap <leader><leader> <leader><leader>/
 inoremap { {}<LEFT>
@@ -53,8 +51,7 @@ vnoremap x "_x
 
 nnoremap <leader>P "0P
 nnoremap <leader>p "0p
-vnoremap p "_dP
-vnoremap <leader>p "_d"0P
+vnoremap  p "_s<C-V><ESC>
 
 nnoremap <C-a> ggvG
 inoremap <C-a> <Esc>ggvG
