@@ -163,6 +163,8 @@ zstyle ':zle:*' word-style unspecified
 # zplugのセットアップ
 source ~/.zplug/init.zsh
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+# powerline
+zplug 'romkatv/powerlevel10k', as:theme, depth:1
 # cdの強化
 zplug 'b4b4r07/enhancd', use:init.sh
 # fzfのセットアップ
@@ -197,34 +199,6 @@ if ! zplug check --verbose; then
     fi
 fi
 zplug load
-
-# プロンプトの設定
-PROMPT=""
-## ユーザー名とホスト名
-PROMPT=$PROMPT$'%{\e[38;5;246m%}%n@%m%{${reset_color}%} '
-## カレントディレクトリパスの表示
-PROMPT=$PROMPT$'%{\e[38;5;2m%}%~%{${reset_color}%}'
-## Gitのブランチ名の表示
-autoload -Uz vcs_info
-setopt prompt_subst
-zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
-zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
-zstyle ':vcs_info:git*' formats " %{$fg[blue]%}%b%{$reset_color%}%m%u%c%{$reset_color%}"
-zstyle ':vcs_info:git*' actionformats "%s  %r/%S %b %m%u%c "
-precmd () { vcs_info }
-PROMPT=$PROMPT'${vcs_info_msg_0_}'
-## kubernetes情報の表示
-source $ZPLUG_REPOS/jonmosco/kube-ps1/kube-ps1.sh
-KUBE_PS1_SYMBOL_ENABLE='false'
-KUBE_PS1_PREFIX=' ['
-KUBE_PS1_SUFFIX=']'
-KUBE_PS1_DIVIDER=':'
-KUBE_PS1_CTX_COLOR=red
-KUBE_PS1_NS_COLOR=cyan
-PROMPT=$PROMPT'$(kube_ps1)'
-PROMPT=$PROMPT"
-> "
 
 # コマンド実行前に時刻を表示
 preexec () {
@@ -378,3 +352,6 @@ gs() {
 if [ -e ~/.zshrc.include ]; then
     . ~/.zshrc.include
 fi
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh. 
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
