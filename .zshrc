@@ -16,6 +16,9 @@ fi
 # common
 export PATH="$HOME/bin:$PATH"
 
+# direnv
+eval "$(direnv hook zsh)"
+
 # docker
 export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
@@ -181,6 +184,14 @@ zplug 'kwhrtsk/docker-fzf-completion'
 zplug 'docker/cli', use:'contrib/completion/zsh/_docker', lazy:true
 zplug 'docker/compose', use:'contrib/completion/zsh/_docker-compose', lazy:true
 # gitのショートカット
+forgit_log="g-log"
+forgit_diff="g-diff"
+forgit_add="g-add"
+forgit_reset_head="g-reset-hard"
+forgit_ignore="g-ignore"
+forgit_restore="g-restore"
+forgit_clean="g-clean"
+forgit_stash_show="g-stash-show"
 zplug 'wfxr/forgit'
 # zのセットアップ
 zplug 'rupa/z', use:z.sh
@@ -324,17 +335,8 @@ d-rm-all() {
     docker container rm $(docker ps -aq) -f
 }
 
-forgit_log=glo
-forgit_diff=gd
-forgit_add=ga
-forgit_reset_head=grh
-forgit_ignore=gi
-forgit_restore=gcf
-forgit_clean=gclean
-forgit_stash_show=gss
-
 # checkout git branch or tag with previews
-gc() {
+g-checkout() {
     local tags branches target
     branches=$(
         git --no-pager branch --all \
@@ -348,30 +350,20 @@ gc() {
             --ansi --preview="git --no-pager log -150 --pretty=format:%s '..{2}'") || return
     git checkout $(awk '{print $2}' <<<"$target" )
 }
-zle -N gc
-bindkey '^b' gc
+zle -N g-checkout
+bindkey '^b' g-checkout
 
 alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
 _gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
 _viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
 
 # checkout git commit with previews
-gcc() {
+g-checkout-commit() {
     local commit
     commit=$( glNoGraph |
         fzf --no-sort --reverse --tiebreak=index --no-multi \
             --ansi --preview="$_viewGitLogLine" ) &&
     git checkout $(echo "$commit" | sed "s/ .*//")
-}
-
-# git commit browser with previews
-gs() {
-    glNoGraph |
-        fzf --no-sort --reverse --tiebreak=index --no-multi \
-            --ansi --preview="$_viewGitLogLine" \
-                --header "enter to view, alt-y to copy hash" \
-                --bind "enter:execute:$_viewGitLogLine   | less -R" \
-                --bind "alt-y:execute:$_gitLogLineToHash | xclip"
 }
 
 # Custom
