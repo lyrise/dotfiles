@@ -25,7 +25,7 @@ vnoremap <C-j> 5j
 vnoremap <C-h> 5h
 vnoremap <C-l> 5l
 
-nnoremap <leader><leader> <leader><leader>/
+nnoremap f <leader><leader>/
 inoremap { {}<LEFT>
 inoremap [ []<LEFT>
 inoremap < <><LEFT>
