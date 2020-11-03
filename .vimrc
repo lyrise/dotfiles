@@ -30,8 +30,6 @@ inoremap { {}<LEFT>
 inoremap [ []<LEFT>
 inoremap < <><LEFT>
 inoremap ( ()<LEFT>
-inoremap " ""<LEFT>
-inoremap ' ''<LEFT>
 
 nnoremap <CR> i<CR><Esc>
 inoremap <S-CR> <End><CR>

@@ -1,31 +1,35 @@
 #!/bin/sh
 
-# Install packages
 sudo apt-get update
-sudo apt-get install -y git zsh build-essential gcc make openssl libssl-dev libbz2-dev libreadline-dev libsqlite3-dev zlib1g-dev
+
+# install packages
+sudo apt-get install -y \
+    git zsh build-essential \
+    curl wget \
+    openssl libssl-dev \
+    libbz2-dev zlib1g-dev \
+    libsqlite3-dev \
+    postgres-client libpq-dev
+
+# set default shell
 sudo chsh -s /bin/zsh
 
-# Install dotfiles
-sh install.sh
+# install dotfiles
+sh ./install_dotfiles.sh
 
-# Install fzf
+# install fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
 $HOME/.fzf/install --no-key-bindings --no-completion --no-bash --no-zsh
 
-# Install dotnet
-wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
-sudo apt-get update; \
-  sudo apt-get install -y apt-transport-https && \
-  sudo apt-get update && \
-  sudo apt-get install -y dotnet-sdk-3.1
-rm packages-microsoft-prod.deb
+# install dotnet
+sudo snap install dotnet-sdk --channel=5.0/beta --classic
+sudo snap alias dotnet-sdk.dotnet dotnet
 
-# Install rust
+# install rust
 curl https://sh.rustup.rs -sSf | sh -s -- -q -y
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# Install goenv
+# install goenv
 git clone https://github.com/syndbg/goenv.git $HOME/.goenv
 export GOENV_DISABLE_GOPATH=1
 export GOENV_ROOT=$HOME/.goenv
@@ -38,23 +42,25 @@ goenv install $GOLANG_VERSION
 goenv global $GOLANG_VERSION
 goenv rehash
 
-# Install pyenv
+# install pyenv
 git clone https://github.com/pyenv/pyenv.git $HOME/.pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-PYTHON_VERSION="3.8.3"
+PYTHON_VERSION="3.9.0"
 pyenv install $PYTHON_VERSION
 pyenv global $PYTHON_VERSION
 pyenv rehash
 
-# Install npm
-sudo apt-get install -y npm
+# install npm
+sudo apt-get install npm
 
-# Install tools
-cargo install cargo-cache lsd bat sd fd-find dutree
-npm install -g diff-so-fancy
+# install tools
+sudo snap install lsd
+sudo apt-get install fd-find ripgrep
+cargo install cargo-cache bat dutree
+sudo npm install -g diff-so-fancy
 
-# Install zplug
+# install zplug
 git clone https://github.com/zplug/zplug $HOME/.zplug
 zsh -ic 'zplug install' </dev/null
 
