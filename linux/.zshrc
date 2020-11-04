@@ -247,7 +247,7 @@ ZSH_COMMAND_TIME_MIN_SECONDS=1
 ZSH_COMMAND_TIME_MSG="Execution time: %s"
 
 # fzfの設定
-export FZF_DEFAULT_OPTS="--height 80% --layout=reverse --border --inline-info --exact"
+export FZF_DEFAULT_OPTS="--height 80% --layout=reverse --border --inline-info --exact --no-sort"
 export FZF_COMPLETION_TRIGGER=','
 
 # zの履歴をfzfで検索

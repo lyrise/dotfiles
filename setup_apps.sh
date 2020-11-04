@@ -15,7 +15,7 @@ sudo apt-get install -y \
 sudo chsh -s /bin/zsh
 
 # install dotfiles
-sh ./install_dotfiles.sh
+sh ./setup_dotfiles.sh
 
 # install fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf

@@ -11,11 +11,10 @@ dotfiles_dir=$HOME/.dotfiles
 rm -r $dotfiles_dir
 mkdir $dotfiles_dir
 
-for f in .??*; do
-    [ "$f" = ".git" ] && continue
-
-    cp "$f" $dotfiles_dir/"$f"
-    ln -snfv $dotfiles_dir/"$f" ~/
+for f in $(find ./linux -type f); do
+    target=$dotfiles_dir/$(basename $f)
+    cp "$f" "$target"
+    ln -snfv $target ~/
 done
 
 echo "dotfiles setup finished!"
