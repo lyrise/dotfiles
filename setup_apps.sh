@@ -1,21 +1,19 @@
-#!/bin/sh
+#!/bin/bash
 
 sudo apt-get update
 
 # install packages
 sudo apt-get install -y \
-    git zsh build-essential \
     curl wget \
+    git zsh build-essential \
     openssl libssl-dev \
     libbz2-dev zlib1g-dev \
     libsqlite3-dev \
-    postgres-client libpq-dev
+    postgres-client libpq-dev \
+    direnv
 
 # set default shell
 sudo chsh -s /bin/zsh
-
-# install dotfiles
-sh ./setup_dotfiles.sh
 
 # install fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
@@ -55,9 +53,8 @@ pyenv rehash
 sudo apt-get install npm
 
 # install tools
-sudo snap install lsd
 sudo apt-get install fd-find ripgrep
-cargo install cargo-cache bat dutree
+cargo install cargo-cache bat dutree lsd
 sudo npm install -g diff-so-fancy
 
 # install zplug
