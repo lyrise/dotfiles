@@ -18,18 +18,15 @@ nnoremap k gk
 nnoremap j gj
 nnoremap <C-k> 5k
 nnoremap <C-j> 5j
-nnoremap <C-h> 5h
-nnoremap <C-l> 5l
+nnoremap <C-h> ^
+nnoremap <C-l> $
 vnoremap <C-k> 5k
 vnoremap <C-j> 5j
-vnoremap <C-h> 5h
-vnoremap <C-l> 5l
+vnoremap <C-h> ^
+vnoremap <C-l> $
 
-nnoremap f <leader><leader>/
-inoremap { {}<LEFT>
-inoremap [ []<LEFT>
-inoremap < <><LEFT>
-inoremap ( ()<LEFT>
+nnoremap t <leader><leader>/
+nnoremap m  %
 
 nnoremap <CR> i<CR><Esc>
 inoremap <S-CR> <End><CR>
