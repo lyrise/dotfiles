@@ -27,6 +27,7 @@ vnoremap <C-l> $
 
 nnoremap t <leader><leader>/
 nnoremap m  %
+vnoremap m  %
 
 nnoremap <CR> i<CR><Esc>
 inoremap <S-CR> <End><CR>
