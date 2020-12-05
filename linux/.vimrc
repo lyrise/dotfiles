@@ -7,9 +7,6 @@ nnoremap ; :
 vnoremap : ;
 vnoremap ; :
 
-inoremap kk <Esc>
-inoremap jj <Esc>
-
 inoremap <C-k> <UP>
 inoremap <C-j> <DOWN>
 inoremap <C-h> <LEFT>
