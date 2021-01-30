@@ -32,9 +32,9 @@ export PATH="$HOME/.dotnet/tools:$PATH"
 # goenv
 export GOENV_DISABLE_GOPATH=1
 export GOENV_ROOT=$HOME/.goenv
+export GOPATH=$HOME/.go
 export PATH="$HOME/.goenv/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
-export GOPATH=$HOME/.go
 eval "$(goenv init -)"
 
 # rust

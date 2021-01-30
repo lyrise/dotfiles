@@ -10,7 +10,8 @@ sudo apt-get install -y \
     libbz2-dev zlib1g-dev \
     libsqlite3-dev \
     postgres-client libpq-dev \
-    direnv
+    direnv \
+    npm
 
 # set default shell
 sudo chsh -s /bin/zsh
@@ -18,10 +19,6 @@ sudo chsh -s /bin/zsh
 # install fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
 $HOME/.fzf/install --no-key-bindings --no-completion --no-bash --no-zsh
-
-# install dotnet
-sudo snap install dotnet-sdk --channel=5.0/beta --classic
-sudo snap alias dotnet-sdk.dotnet dotnet
 
 # install rust
 curl https://sh.rustup.rs -sSf | sh -s -- -q -y
@@ -31,10 +28,10 @@ export PATH="$HOME/.cargo/bin:$PATH"
 git clone https://github.com/syndbg/goenv.git $HOME/.goenv
 export GOENV_DISABLE_GOPATH=1
 export GOENV_ROOT=$HOME/.goenv
-eval "$(goenv init -)"
 export GOPATH=$HOME/.go
 export PATH="$HOME/.goenv/bin:$PATH"
 export PATH="$GOPATH/bin:$PATH"
+eval "$(goenv init -)"
 GOLANG_VERSION="1.14.4"
 goenv install $GOLANG_VERSION
 goenv global $GOLANG_VERSION
@@ -49,11 +46,8 @@ pyenv install $PYTHON_VERSION
 pyenv global $PYTHON_VERSION
 pyenv rehash
 
-# install npm
-sudo apt-get install npm
-
 # install tools
-sudo apt-get install fd-find ripgrep
+sudo apt-get install -y fd-find ripgrep
 cargo install cargo-cache bat dutree lsd
 sudo npm install -g diff-so-fancy
 
