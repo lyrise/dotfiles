@@ -46,6 +46,9 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
+# vim
+export EDITOR=vim
+
 # エイリアス集
 alias ll='lsd -al --date "+%F %T"'
 # alias grep='grep --color=always'
