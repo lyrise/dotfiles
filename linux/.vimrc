@@ -2,11 +2,6 @@ let mapleader = ","
 
 nnoremap <leader><Esc> :noh<CR>
 
-nnoremap : ;
-nnoremap ; :
-vnoremap : ;
-vnoremap ; :
-
 inoremap <C-k> <UP>
 inoremap <C-j> <DOWN>
 inoremap <C-h> <LEFT>
