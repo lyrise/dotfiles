@@ -40,11 +40,8 @@ eval "$(goenv init -)"
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# python
-export PIPENV_VENV_IN_PROJECT=true
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# poetry
+export PATH="/home/lyrise/.local/bin:$PATH"
 
 # vim
 export EDITOR=vim
