@@ -219,15 +219,15 @@ PROMPT=$PROMPT$'%{\e[38;5;246m%}%n@%m%{${reset_color}%} '
 ## カレントディレクトリパスの表示
 PROMPT=$PROMPT$'%{\e[38;5;2m%}%~%{${reset_color}%}'
 ## Gitのブランチ名の表示
-autoload -Uz vcs_info
-setopt prompt_subst
-zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
-zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
-zstyle ':vcs_info:git*' formats " %{$fg[blue]%}%b%{$reset_color%}%m%u%c%{$reset_color%}"
-zstyle ':vcs_info:git*' actionformats "%s  %r/%S %b %m%u%c "
-precmd () { vcs_info }
-PROMPT=$PROMPT'${vcs_info_msg_0_}'
+# autoload -Uz vcs_info
+# setopt prompt_subst
+# zstyle ':vcs_info:git:*' check-for-changes true
+# zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
+# zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
+# zstyle ':vcs_info:git*' formats " %{$fg[blue]%}%b%{$reset_color%}%m%u%c%{$reset_color%}"
+# zstyle ':vcs_info:git*' actionformats "%s  %r/%S %b %m%u%c "
+# precmd () { vcs_info }
+# PROMPT=$PROMPT'${vcs_info_msg_0_}'
 ## kubernetes情報の表示
 source $ZPLUG_REPOS/jonmosco/kube-ps1/kube-ps1.sh
 KUBE_PS1_SYMBOL_ENABLE='false'
