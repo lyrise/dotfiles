@@ -33,18 +33,18 @@ export PATH="$HOME/.fzf/bin:$PATH"
 export PATH="$HOME/.dotnet/tools:$PATH"
 
 # goenv
-export GOENV_DISABLE_GOPATH=1
-export GOENV_ROOT=$HOME/.goenv
-export GOPATH=$HOME/.go
-export PATH="$HOME/.goenv/bin:$PATH"
-export PATH="$GOPATH/bin:$PATH"
-eval "$(goenv init -)"
+#export GOENV_DISABLE_GOPATH=1
+#export GOENV_ROOT=$HOME/.goenv
+#export GOPATH=$HOME/.go
+#export PATH="$HOME/.goenv/bin:$PATH"
+#export PATH="$GOPATH/bin:$PATH"
+#eval "$(goenv init -)"
 
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # poetry
-export PATH="/home/lyrise/.local/bin:$PATH"
+#export PATH="/home/lyrise/.local/bin:$PATH"
 
 # vim
 export EDITOR=vim

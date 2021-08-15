@@ -35,4 +35,3 @@ cargo install cargo-cache bat dutree lsd
 
 # install zplug
 git clone https://github.com/zplug/zplug $HOME/.zplug
-zsh -ic 'zplug install' </dev/null

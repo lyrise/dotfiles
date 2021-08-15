@@ -2,7 +2,7 @@
 export PATH='/mnt/c/Program Files/PowerShell/7':$PATH
 
 # Get Windows USERNAME
-export WINDOWS_USERNAME=$(pwsh.exe -Command echo '$env:USERNAME' | sed -e "s:[\r\n]\+::g)"
+export WINDOWS_USERNAME=$(pwsh.exe -Command echo '$env:USERNAME' | sed -e "s:[\r\n]\+::g")
 
 # VSCode
 export PATH='/mnt/c/Users/$WINDOWS_USERNAME/AppData/Local/Programs/Microsoft VS Code/bin':$PATH
