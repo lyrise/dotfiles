@@ -1,20 +1,20 @@
 # scoop
-export PATH=$PATH:'/mnt/c/Users/Lyrise/scoop/shims/'
+export PATH=$PATH:"/mnt/c/Users/Lyrise/scoop/shims/"
 
 # Get Windows USERNAME
 export WINDOWS_USERNAME=$(pwsh.exe -Command echo '$env:USERNAME' | sed -e "s:[\r\n]\+::g")
 
 # VSCode
-export PATH=$PATH:'/mnt/c/Users/$WINDOWS_USERNAME/AppData/Local/Programs/Microsoft VS Code/bin'
+export PATH=$PATH:"/mnt/c/Users/$WINDOWS_USERNAME/AppData/Local/Programs/Microsoft VS Code/bin"
 
 # Docker
-export PATH=$PATH:'/mnt/c/Program Files/Docker/Docker/resources/bin'
-export PATH=$PATH:'/mnt/c/ProgramData/DockerDesktop/version-bin'
+export PATH=$PATH:"/mnt/c/Program Files/Docker/Docker/resources/bin"
+export PATH=$PATH:"/mnt/c/ProgramData/DockerDesktop/version-bin"
 
 # Git
 function git () {
   if [[ `pwd -P` == /mnt/* ]]; then
-    '/mnt/c/Users/$WINDOWS_USERNAME/scoop/shims/git.exe' "$@"
+    "/mnt/c/Users/$WINDOWS_USERNAME/scoop/shims/git.exe" "$@"
   else
     /usr/bin/git "$@"
   fi
