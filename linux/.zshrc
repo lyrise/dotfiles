@@ -1,6 +1,9 @@
 # デバッグ用環境変数
 DEBUG=
 
+# zshベンチマーク
+# zmodload zsh/zprof && zprof
+
 # zcompileを実施
 if [ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ]; then
     zcompile ~/.zshrc
@@ -151,7 +154,7 @@ setopt inc_append_history
 # 余分な空白は詰めて記録
 setopt hist_reduce_blanks
 # cdrコマンドで履歴にないディレクトリにも移動可能に
-zstyle ":chpwd:*" recent-dirs-default true
+# zstyle ":chpwd:*" recent-dirs-default true
 # cdrコマンドを有効 ログアウトしても有効なディレクトリ履歴
 # cdr タブでリストを表示
 autoload -Uz add-zsh-hook
@@ -176,23 +179,23 @@ zplug 'junegunn/fzf', use:shell/completion.zsh
 # シンタックスハイライト
 zplug 'zsh-users/zsh-syntax-highlighting', defer:2
 # コマンド補完
-zplug 'zsh-users/zsh-autosuggestions'
-zplug 'zsh-users/zsh-completions'
-zplug 'zsh-users/zsh-history-substring-search'
-zplug 'chrissicool/zsh-256color'
-zplug 'kwhrtsk/docker-fzf-completion'
+zplug 'zsh-users/zsh-autosuggestions', lazy:true
+zplug 'zsh-users/zsh-completions', lazy:true
+zplug 'zsh-users/zsh-history-substring-search', lazy:true
+zplug 'chrissicool/zsh-256color', lazy:true
+zplug 'kwhrtsk/docker-fzf-completion', lazy:true
 zplug 'docker/cli', use:'contrib/completion/zsh/_docker', lazy:true
 zplug 'docker/compose', use:'contrib/completion/zsh/_docker-compose', lazy:true
 # gitのショートカット
-forgit_log="g-log"
-forgit_diff="g-diff"
-forgit_add="g-add"
-forgit_reset_head="g-reset-hard"
-forgit_ignore="g-ignore"
-forgit_restore="g-restore"
-forgit_clean="g-clean"
-forgit_stash_show="g-stash-show"
-zplug 'wfxr/forgit'
+# forgit_log="g-log"
+# forgit_diff="g-diff"
+# forgit_add="g-add"
+# forgit_reset_head="g-reset-hard"
+# forgit_ignore="g-ignore"
+# forgit_restore="g-restore"
+# forgit_clean="g-clean"
+# forgit_stash_show="g-stash-show"
+# zplug 'wfxr/forgit'
 # zのセットアップ
 zplug 'rupa/z', use:z.sh
 # コマンドの実行時間を表示
@@ -200,13 +203,13 @@ zplug "popstas/zsh-command-time"
 # kube-ps1のセットアップ
 zplug 'jonmosco/kube-ps1'
 # プラグインのインストール
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo
-        zplug install
-    fi
-fi
+# if ! zplug check --verbose; then
+#     printf "Install? [y/N]: "
+#     if read -q; then
+#         echo
+#         zplug install
+#     fi
+# fi
 zplug load
 
 # プロンプトの設定
@@ -216,15 +219,15 @@ PROMPT=$PROMPT$'%{\e[38;5;246m%}%n@%m%{${reset_color}%} '
 ## カレントディレクトリパスの表示
 PROMPT=$PROMPT$'%{\e[38;5;2m%}%~%{${reset_color}%}'
 ## Gitのブランチ名の表示
-autoload -Uz vcs_info
-setopt prompt_subst
-zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
-zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
-zstyle ':vcs_info:git*' formats " %{$fg[blue]%}%b%{$reset_color%}%m%u%c%{$reset_color%}"
-zstyle ':vcs_info:git*' actionformats "%s  %r/%S %b %m%u%c "
-precmd () { vcs_info }
-PROMPT=$PROMPT'${vcs_info_msg_0_}'
+# autoload -Uz vcs_info
+# setopt prompt_subst
+# zstyle ':vcs_info:git:*' check-for-changes true
+# zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
+# zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
+# zstyle ':vcs_info:git*' formats " %{$fg[blue]%}%b%{$reset_color%}%m%u%c%{$reset_color%}"
+# zstyle ':vcs_info:git*' actionformats "%s  %r/%S %b %m%u%c "
+# precmd () { vcs_info }
+# PROMPT=$PROMPT'${vcs_info_msg_0_}'
 ## kubernetes情報の表示
 source $ZPLUG_REPOS/jonmosco/kube-ps1/kube-ps1.sh
 KUBE_PS1_SYMBOL_ENABLE='false'
@@ -370,3 +373,7 @@ g-checkout-commit() {
 if [ -e ~/.zshrc.include ]; then
     . ~/.zshrc.include
 fi
+
+# if (which zprof > /dev/null 2>&1) ;then
+#   zprof
+# fi
