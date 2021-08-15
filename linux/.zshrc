@@ -369,6 +369,11 @@ g-checkout-commit() {
     git checkout $(echo "$commit" | sed "s/ .*//")
 }
 
+# https://stackoverflow.com/questions/60922620/shell-script-to-check-if-running-in-windows-when-using-wsl
+if [ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/ip') ]; then
+    . ~/.zshrc.wsl
+fi
+
 # Custom
 if [ -e ~/.zshrc.include ]; then
     . ~/.zshrc.include

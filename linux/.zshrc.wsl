@@ -1,0 +1,21 @@
+# PowerShell
+export PATH='/mnt/c/Program Files/PowerShell/7':$PATH
+
+# Get Windows USERNAME
+export WINDOWS_USERNAME=$(pwsh.exe -Command echo '$env:USERNAME' | sed -e "s:[\r\n]\+::g)"
+
+# VSCode
+export PATH='/mnt/c/Users/$WINDOWS_USERNAME/AppData/Local/Programs/Microsoft VS Code/bin':$PATH
+
+# Docker
+export PATH='/mnt/c/Program Files/Docker/Docker/resources/bin':$PATH
+export PATH='/mnt/c/ProgramData/DockerDesktop/version-bin':$PATH
+
+# Git
+function git () {
+  if [[ `pwd -P` == /mnt/* ]]; then
+    /mnt/c/Users/$WINDOWS_USERNAME/scoop/shims/git.exe "$@"
+  else
+    /usr/bin/git "$@"
+  fi
+}
