@@ -13,7 +13,7 @@ sudo apt-get install -y \
     direnv
 
 # set default shell
-sudo chsh -s /bin/zsh
+sudo chsh -s $(which zsh)
 
 # install fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
