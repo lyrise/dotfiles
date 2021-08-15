@@ -52,3 +52,5 @@ vnoremap ' S'
 vmap < S]<ESC>cs[>
 
 vnoremap $ $<LEFT>
+
+set clipboard=unnamed,autoselect
