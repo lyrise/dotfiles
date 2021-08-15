@@ -9,7 +9,7 @@ sudo apt-get install -y \
     openssl libssl-dev \
     libbz2-dev zlib1g-dev \
     libsqlite3-dev \
-    postgres-client libpq-dev \
+    postgresql-client libpq-dev \
     direnv
 
 # set default shell
