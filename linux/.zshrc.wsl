@@ -1,7 +1,7 @@
-USERPROFILE=$(wslpath "$(wslvar USERPROFILE)")
-ProgramData=$(wslpath "$(wslvar ProgramData)")
-ProgramFiles=$(wslpath "$(wslvar ProgramFiles)")
-GIT_INSTALL_ROOT=$(wslpath "$(wslvar GIT_INSTALL_ROOT)")
+USERPROFILE=$(wslpath "$(wslvar USERPROFILE 2> /dev/null)")
+ProgramData=$(wslpath "$(wslvar ProgramData 2> /dev/null)")
+ProgramFiles=$(wslpath "$(wslvar ProgramFiles 2> /dev/null)")
+GIT_INSTALL_ROOT=$(wslpath "$(wslvar GIT_INSTALL_ROOT 2> /dev/null)")
 
 # VSCode
 export PATH=$PATH:"$USERPROFILE/AppData/Local/Programs/Microsoft VS Code/bin"
