@@ -162,14 +162,14 @@ source ~/.zinit/bin/zinit.zsh
 zinit ice pick'init.sh'
 zinit light 'b4b4r07/enhancd'
 # fzfのセットアップ
-zinit ice multisrc="shell/{completion,key-bindings}.zsh"
+zinit ice multisrc='shell/{completion,key-bindings}.zsh'
 zinit light 'junegunn/fzf'
 # コマンド補完
 zinit wait lucid atload"zicompinit; zicdreplay" blockf for \
-    zsh-users/zsh-completions \
-    zsh-users/zsh-autosuggestions \
-    zsh-users/zsh-history-substring-search \
-    zsh-users/zsh-syntax-highlighting
+    'zsh-users/zsh-completions'
+zinit light 'zsh-users/zsh-autosuggestions'
+zinit light 'zsh-users/zsh-history-substring-search'
+zinit light 'zsh-users/zsh-syntax-highlighting'
 zinit light 'chrissicool/zsh-256color'
 zinit light 'kwhrtsk/docker-fzf-completion'
 # zinit ice pick'contrib/completion/zsh/_docker'
