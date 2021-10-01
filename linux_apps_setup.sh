@@ -23,15 +23,10 @@ git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
 curl https://sh.rustup.rs -sSf | sh -s -- -q -y
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# install goenv
-git clone https://github.com/syndbg/goenv.git ~/.goenv
-
-# install pyenv
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-
 # install tools
 sudo apt-get install -y fd-find ripgrep
 cargo install cargo-cache bat dutree lsd
 
 # install zplug
-git clone https://github.com/zplug/zplug ~/.zplug
+mkdir ~/.zinit
+git clone https://github.com/zdharma/zinit.git ~/.zinit/bin

@@ -1,19 +1,22 @@
-USERPROFILE=$(wslpath "$(wslvar USERPROFILE 2> /dev/null)")
-ProgramData=$(wslpath "$(wslvar ProgramData 2> /dev/null)")
-ProgramFiles=$(wslpath "$(wslvar ProgramFiles 2> /dev/null)")
-GIT_INSTALL_ROOT=$(wslpath "$(wslvar GIT_INSTALL_ROOT 2> /dev/null)")
+if ! [ -f ~/.zshrc.wsl.cache ]
+then
+    echo "export WIN_USER_DIR_PATH=\"$(wslpath $(wslvar USERPROFILE 2> /dev/null))\"" >> ~/.zshrc.wsl.cache
+    echo "export WIN_PROGRAM_DATA_DIR_PATH=\"$(wslpath $(wslvar ProgramData 2> /dev/null))\"" >> ~/.zshrc.wsl.cache
+    echo "export WIN_PROGRAM_FILES_DIR_PATH=\"$(wslpath $(wslvar ProgramFiles 2> /dev/null))\"" >> ~/.zshrc.wsl.cache
+fi
+. ~/.zshrc.wsl.cache
 
 # VSCode
-export PATH=$PATH:"$USERPROFILE/AppData/Local/Programs/Microsoft VS Code/bin"
+export PATH=$PATH:"$WIN_USER_DIR_PATH/AppData/Local/Programs/Microsoft VS Code/bin"
 
 # Docker
-export PATH=$PATH:"$ProgramFiles/Docker/Docker/resources/bin"
-export PATH=$PATH:"$ProgramData/DockerDesktop/version-bin"
+export PATH=$PATH:"$WIN_PROGRAM_FILES_DIR_PATH/Docker/Docker/resources/bin"
+export PATH=$PATH:"$WIN_PROGRAM_DATA_DIR_PATH/DockerDesktop/version-bin"
 
 # Git
 function git () {
   if [[ `pwd -P` == /mnt/* ]]; then
-    "$GIT_INSTALL_ROOT/bin/git.exe" "$@"
+    "$WIN_USER_DIR_PATH/scoop/shims/git.exe" "$@"
   else
     /usr/bin/git "$@"
   fi
@@ -22,7 +25,7 @@ function git () {
 # pwsh
 function pwsh () {
   if [[ `pwd -P` == /mnt/* ]]; then
-    "$USERPROFILE/scoop/shims/pwsh.exe" "$@"
+    "$WIN_USER_DIR_PATH/scoop/shims/pwsh.exe" "$@"
   else
     /usr/bin/pwsh "$@"
   fi

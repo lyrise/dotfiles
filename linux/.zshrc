@@ -19,9 +19,6 @@ fi
 # common
 export PATH="$HOME/bin:$PATH"
 
-# direnv
-eval "$(direnv hook zsh)"
-
 # docker
 export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
@@ -29,22 +26,8 @@ export COMPOSE_DOCKER_CLI_BUILD=1
 # fzf
 export PATH="$HOME/.fzf/bin:$PATH"
 
-# dotnet
-export PATH="$HOME/.dotnet/tools:$PATH"
-
-# goenv
-#export GOENV_DISABLE_GOPATH=1
-#export GOENV_ROOT=$HOME/.goenv
-#export GOPATH=$HOME/.go
-#export PATH="$HOME/.goenv/bin:$PATH"
-#export PATH="$GOPATH/bin:$PATH"
-#eval "$(goenv init -)"
-
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
-
-# poetry
-#export PATH="/home/lyrise/.local/bin:$PATH"
 
 # vim
 export EDITOR=vim
@@ -54,7 +37,7 @@ alias ll='lsd -al --date "+%F %T"'
 # alias grep='grep --color=always'
 alias k='kubectl'
 alias d='docker'
-alias dc='docker-compose'
+alias dc='docker compose'
 alias g='git'
 alias g-pr='git pull-request'
 
@@ -63,16 +46,22 @@ if [ $OS = 'Linux' ]; then
     alias pbpaste='xclip -selection clipboard -o'
 fi
 
+# https://stackoverflow.com/questions/60922620/shell-script-to-check-if-running-in-windows-when-using-wsl
+if [ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/ip') ]; then
+    . ~/.zshrc.wsl
+fi
+
+# Custom
+if [ -e ~/.zshrc.include ]; then
+    . ~/.zshrc.include
+fi
+
 # 履歴の保存先
 HISTFILE=$HOME/.zsh-history
 # メモリに展開する履歴の数
 HISTSIZE=100000
 # 保存する履歴の数
 SAVEHIST=100000
-
-# 補完機能の強化
-autoload -Uz compinit
-compinit
 
 # コアダンプサイズを制限
 limit coredumpsize 102400
@@ -167,25 +156,26 @@ zstyle ':zle:*' word-chars "_-./;@"
 zstyle ':zle:*' word-style unspecified
 
 # zplugのセットアップ
-source ~/.zplug/init.zsh
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+source ~/.zinit/bin/zinit.zsh
+
 # cdの強化
-zplug 'b4b4r07/enhancd', use:init.sh
+zinit ice pick'init.sh'
+zinit light 'b4b4r07/enhancd'
 # fzfのセットアップ
-# 'junegunn/fzf-bin'のインストールに失敗するようになった
-#zplug 'junegunn/fzf-bin', from:gh-r, as:command, rename-to:fzf
-zplug 'junegunn/fzf', use:shell/key-bindings.zsh
-zplug 'junegunn/fzf', use:shell/completion.zsh
-# シンタックスハイライト
-zplug 'zsh-users/zsh-syntax-highlighting', defer:2
+zinit ice multisrc="shell/{completion,key-bindings}.zsh"
+zinit light 'junegunn/fzf'
 # コマンド補完
-zplug 'zsh-users/zsh-autosuggestions'
-zplug 'zsh-users/zsh-completions'
-zplug 'zsh-users/zsh-history-substring-search'
-zplug 'chrissicool/zsh-256color'
-zplug 'kwhrtsk/docker-fzf-completion'
-zplug 'docker/cli', use:'contrib/completion/zsh/_docker'
-zplug 'docker/compose', use:'contrib/completion/zsh/_docker-compose'
+zinit wait lucid atload"zicompinit; zicdreplay" blockf for \
+    zsh-users/zsh-completions \
+    zsh-users/zsh-autosuggestions \
+    zsh-users/zsh-history-substring-search \
+    zsh-users/zsh-syntax-highlighting
+zinit light 'chrissicool/zsh-256color'
+zinit light 'kwhrtsk/docker-fzf-completion'
+# zinit ice pick'contrib/completion/zsh/_docker'
+# zinit light 'docker/cli'
+# zinit ice pick'contrib/completion/zsh/_docker-compose'
+# zinit light 'docker/compose'
 # gitのショートカット
 forgit_log="g-log"
 forgit_diff="g-diff"
@@ -195,41 +185,37 @@ forgit_ignore="g-ignore"
 forgit_restore="g-restore"
 forgit_clean="g-clean"
 forgit_stash_show="g-stash-show"
-zplug 'wfxr/forgit'
+zinit light 'wfxr/forgit'
 # zのセットアップ
-zplug 'rupa/z', use:z.sh
+zinit ice pick'z.sh'
+zinit light 'rupa/z'
 # コマンドの実行時間を表示
-zplug "popstas/zsh-command-time"
+zinit light 'popstas/zsh-command-time'
 # kube-ps1のセットアップ
-zplug 'jonmosco/kube-ps1'
-# プラグインのインストール
-if ! zplug check --verbose; then
-    printf "Install? [y/N]: "
-    if read -q; then
-        echo
-        zplug install
-    fi
-fi
-zplug load
+zinit ice pick'kube-ps1.sh'
+zinit light 'jonmosco/kube-ps1'
+
+# 補完機能の強化
+autoload -Uz compinit
+compinit
 
 # プロンプトの設定
 PROMPT=""
 ## ユーザー名とホスト名
-PROMPT=$PROMPT$'%{\e[38;5;246m%}%n@%m%{${reset_color}%} '
+PROMPT=$PROMPT$'%{\e[38;5;246m%}%n@%m%{%f%} '
 ## カレントディレクトリパスの表示
-PROMPT=$PROMPT$'%{\e[38;5;2m%}%~%{${reset_color}%}'
+PROMPT=$PROMPT$'%{\e[38;5;2m%}%~%{%f%}'
 ## Gitのブランチ名の表示
 autoload -Uz vcs_info
 setopt prompt_subst
 zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
 zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
-zstyle ':vcs_info:git*' formats " %{$fg[blue]%}%b%{$reset_color%}%m%u%c%{$reset_color%}"
+zstyle ':vcs_info:git*' formats " %{$fg[blue]%}%b%{%f%}%m%u%c%{%f%}"
 zstyle ':vcs_info:git*' actionformats "%s  %r/%S %b %m%u%c "
 precmd () { vcs_info }
 PROMPT=$PROMPT'${vcs_info_msg_0_}'
 ## kubernetes情報の表示
-source $ZPLUG_REPOS/jonmosco/kube-ps1/kube-ps1.sh
 KUBE_PS1_SYMBOL_ENABLE='false'
 KUBE_PS1_PREFIX=' ['
 KUBE_PS1_SUFFIX=']'
@@ -368,16 +354,6 @@ g-checkout-commit() {
             --ansi --preview="$_viewGitLogLine" ) &&
     git checkout $(echo "$commit" | sed "s/ .*//")
 }
-
-# https://stackoverflow.com/questions/60922620/shell-script-to-check-if-running-in-windows-when-using-wsl
-if [ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/ip') ]; then
-    . ~/.zshrc.wsl
-fi
-
-# Custom
-if [ -e ~/.zshrc.include ]; then
-    . ~/.zshrc.include
-fi
 
 # if (which zprof > /dev/null 2>&1) ;then
 #   zprof
