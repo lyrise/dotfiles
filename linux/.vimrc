@@ -19,8 +19,8 @@ vnoremap <C-l> $
 
 nnoremap w <leader>w
 vnoremap w <leader>w
-nnoremap b <leader>b
-vnoremap b <leader>b
+nnoremap e <leader>e
+vnoremap e <leader>e
 nnoremap b <leader>b
 vnoremap b <leader>b
 
