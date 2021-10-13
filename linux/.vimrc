@@ -21,6 +21,8 @@ nnoremap w <leader>w
 vnoremap w <leader>w
 nnoremap b <leader>b
 vnoremap b <leader>b
+nnoremap b <leader>b
+vnoremap b <leader>b
 
 nnoremap t <leader><leader>/
 nnoremap m %
