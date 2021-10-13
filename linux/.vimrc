@@ -17,13 +17,6 @@ vnoremap <C-j> 5j
 vnoremap <C-h> ^
 vnoremap <C-l> $
 
-nnoremap w <leader>w
-vnoremap w <leader>w
-nnoremap e <leader>e
-vnoremap e <leader>e
-nnoremap b <leader>b
-vnoremap b <leader>b
-
 nnoremap t <leader><leader>/
 nnoremap m %
 vnoremap m %
