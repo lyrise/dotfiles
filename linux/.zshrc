@@ -31,10 +31,10 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 # vim
 export EDITOR=vim
+bindkey -v
 
 # エイリアス集
 alias ll='lsd -al --date "+%F %T"'
-# alias grep='grep --color=always'
 alias k='kubectl'
 alias d='docker'
 alias dc='docker compose'
@@ -46,12 +46,13 @@ if [ $OS = 'Linux' ]; then
     alias pbpaste='xclip -selection clipboard -o'
 fi
 
+# wslの設定
 # https://stackoverflow.com/questions/60922620/shell-script-to-check-if-running-in-windows-when-using-wsl
 if [ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/ip') ]; then
     . ~/.zshrc.wsl
 fi
 
-# Custom
+# 任意の設定
 if [ -e ~/.zshrc.include ]; then
     . ~/.zshrc.include
 fi
@@ -67,8 +68,6 @@ SAVEHIST=100000
 limit coredumpsize 102400
 # 出力の文字列末尾に改行コードが無い場合でも表示
 unsetopt promptcr
-# Emacsライクキーバインド設定
-bindkey -e
 
 # 色を使う
 setopt prompt_subst
@@ -145,7 +144,7 @@ setopt hist_reduce_blanks
 # cdrコマンドで履歴にないディレクトリにも移動可能に
 # zstyle ":chpwd:*" recent-dirs-default true
 # cdrコマンドを有効 ログアウトしても有効なディレクトリ履歴
-# cdr タブでリストを表示
+# cdrタブでリストを表示
 autoload -Uz add-zsh-hook
 autoload -Uz chpwd_recent_dirs cdr
 add-zsh-hook chpwd chpwd_recent_dirs
@@ -200,34 +199,59 @@ autoload -Uz compinit
 compinit
 
 # プロンプトの設定
-PROMPT=""
-## ユーザー名とホスト名
-PROMPT=$PROMPT$'%{\e[38;5;246m%}%n@%m%{%f%} '
-## カレントディレクトリパスの表示
-PROMPT=$PROMPT$'%{\e[38;5;2m%}%~%{%f%}'
-## Gitのブランチ名の表示
-autoload -Uz vcs_info
-setopt prompt_subst
-zstyle ':vcs_info:git:*' check-for-changes true
-zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
-zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
-zstyle ':vcs_info:git*' formats " %{$fg[blue]%}%b%{%f%}%m%u%c%{%f%}"
-zstyle ':vcs_info:git*' actionformats "%s  %r/%S %b %m%u%c "
-precmd () { vcs_info }
-PROMPT=$PROMPT'${vcs_info_msg_0_}'
-## kubernetes情報の表示
-KUBE_PS1_SYMBOL_ENABLE='false'
-KUBE_PS1_PREFIX=' ['
-KUBE_PS1_SUFFIX=']'
-KUBE_PS1_DIVIDER=':'
-KUBE_PS1_CTX_COLOR=red
-KUBE_PS1_NS_COLOR=cyan
-PROMPT=$PROMPT'$(kube_ps1)'
-PROMPT=$PROMPT"
-> "
+function zle-line-pre-redraw zle-keymap-select zle-line-init {
+    PS1=""
+
+    ## ユーザー名とホスト名
+    PS1=$PS1$'%{\e[38;5;246m%}%n@%m%{%f%} '
+
+    ## カレントディレクトリパスの表示
+    PS1=$PS1$'%{\e[38;5;2m%}%~%{%f%}'
+
+    ## Gitのブランチ名の表示
+    autoload -Uz vcs_info
+    setopt prompt_subst
+    zstyle ':vcs_info:git:*' check-for-changes true
+    zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!%{%f%}"
+    zstyle ':vcs_info:git:*' unstagedstr "%F{red}+%{%f%}"
+    zstyle ':vcs_info:git*' formats " %{$fg[blue]%}%b%{%f%}%m%u%c%{%f%}"
+    zstyle ':vcs_info:git*' actionformats "%s  %r/%S %b %m%u%c %{%f%}"
+    precmd () { vcs_info }
+    PS1=$PS1'${vcs_info_msg_0_}'
+
+    ## kubernetes情報の表示
+    KUBE_PS1_SYMBOL_ENABLE='false'
+    KUBE_PS1_PREFIX=' ['
+    KUBE_PS1_SUFFIX=']'
+    KUBE_PS1_DIVIDER=':'
+    KUBE_PS1_CTX_COLOR=red
+    KUBE_PS1_NS_COLOR=cyan
+    PS1=$PS1'$(kube_ps1)'
+
+    ## 改行
+    PS1=$PS1'
+'
+
+    ## vimのモードの表示
+    VIM_NORMAL="%F{208}NORMAL%f"
+    VIM_INSERT="%F{075}INSERT%f"
+    PS1=$PS1"${${KEYMAP/vicmd/$VIM_NORMAL}/(main|viins)/$VIM_INSERT} "
+
+    ## ">"の表示
+    PS1=$PS1"> "
+
+    zle reset-prompt
+}
+
+zle -N zle-line-init
+zle -N zle-keymap-select
+zle -N zle-line-pre-redraw
+
+# プロンプトの設定 (2行目以降)
+PS2="> "
 
 # コマンド実行前に時刻を表示
-preexec () {
+preexec() {
     echo -e "Execution start: $(date +"%Y/%m/%d %H:%M:%S")"
 }
 
@@ -322,37 +346,6 @@ d-rm() {
 # すべてのDockerコンテナを削除
 d-rm-all() {
     docker container rm $(docker ps -aq) -f
-}
-
-# checkout git branch or tag with previews
-g-checkout() {
-    local tags branches target
-    branches=$(
-        git --no-pager branch --all \
-            --format="%(if)%(HEAD)%(then)%(else)%(if:equals=HEAD)%(refname:strip=3)%(then)%(else)%1B[0;34;1mbranch%09%1B[m%(refname:short)%(end)%(end)" \
-        | sed '/^$/d') || return
-    tags=$(
-        git --no-pager tag | awk '{print "\x1b[35;1mtag\x1b[m\t" $1}') || return
-    target=$(
-        (echo "$branches"; echo "$tags") |
-        fzf --no-hscroll --no-multi -n 2 \
-            --ansi --preview="git --no-pager log -150 --pretty=format:%s '..{2}'") || return
-    git checkout $(awk '{print $2}' <<<"$target" )
-}
-zle -N g-checkout
-bindkey '^b' g-checkout
-
-alias glNoGraph='git log --color=always --format="%C(auto)%h%d %s %C(black)%C(bold)%cr% C(auto)%an" "$@"'
-_gitLogLineToHash="echo {} | grep -o '[a-f0-9]\{7\}' | head -1"
-_viewGitLogLine="$_gitLogLineToHash | xargs -I % sh -c 'git show --color=always % | diff-so-fancy'"
-
-# checkout git commit with previews
-g-checkout-commit() {
-    local commit
-    commit=$( glNoGraph |
-        fzf --no-sort --reverse --tiebreak=index --no-multi \
-            --ansi --preview="$_viewGitLogLine" ) &&
-    git checkout $(echo "$commit" | sed "s/ .*//")
 }
 
 # if (which zprof > /dev/null 2>&1) ;then
