@@ -191,12 +191,28 @@ zinit light 'rupa/z'
 # コマンドの実行時間を表示
 zinit light 'popstas/zsh-command-time'
 # kube-ps1のセットアップ
+KUBE_PS1_SYMBOL_ENABLE='false'
+KUBE_PS1_PREFIX='['
+KUBE_PS1_SUFFIX=']'
+KUBE_PS1_DIVIDER=':'
+KUBE_PS1_CTX_COLOR=red
+KUBE_PS1_NS_COLOR=cyan
 zinit ice pick'kube-ps1.sh'
 zinit light 'jonmosco/kube-ps1'
 
 # 補完機能の強化
 autoload -Uz compinit
 compinit
+
+# git
+autoload -Uz vcs_info
+setopt prompt_subst
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!%{%f%}"
+zstyle ':vcs_info:git:*' unstagedstr "%F{red}+%{%f%}"
+zstyle ':vcs_info:git*' formats "%{$fg[blue]%}%b%{%f%}%m%u%c%{%f%}"
+zstyle ':vcs_info:git*' actionformats "%s %r/%S %b %m%u%c %{%f%}"
+precmd () { vcs_info }
 
 # プロンプトの設定
 function zle-line-pre-redraw zle-keymap-select zle-line-init {
@@ -206,26 +222,12 @@ function zle-line-pre-redraw zle-keymap-select zle-line-init {
     PS1=$PS1$'%{\e[38;5;246m%}%n@%m%{%f%} '
 
     ## カレントディレクトリパスの表示
-    PS1=$PS1$'%{\e[38;5;2m%}%~%{%f%}'
+    PS1=$PS1$'%{\e[38;5;2m%}%~%{%f%} '
 
     ## Gitのブランチ名の表示
-    autoload -Uz vcs_info
-    setopt prompt_subst
-    zstyle ':vcs_info:git:*' check-for-changes true
-    zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!%{%f%}"
-    zstyle ':vcs_info:git:*' unstagedstr "%F{red}+%{%f%}"
-    zstyle ':vcs_info:git*' formats " %{$fg[blue]%}%b%{%f%}%m%u%c%{%f%}"
-    zstyle ':vcs_info:git*' actionformats "%s  %r/%S %b %m%u%c %{%f%}"
-    precmd () { vcs_info }
-    PS1=$PS1'${vcs_info_msg_0_}'
+    PS1=$PS1'${vcs_info_msg_0_} '
 
     ## kubernetes情報の表示
-    KUBE_PS1_SYMBOL_ENABLE='false'
-    KUBE_PS1_PREFIX=' ['
-    KUBE_PS1_SUFFIX=']'
-    KUBE_PS1_DIVIDER=':'
-    KUBE_PS1_CTX_COLOR=red
-    KUBE_PS1_NS_COLOR=cyan
     PS1=$PS1'$(kube_ps1)'
 
     ## 改行
