@@ -20,12 +20,12 @@ git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf
 ~/.fzf/install --no-key-bindings --no-completion --no-bash --no-zsh
 
 # install rust
-curl https://sh.rustup.rs -sSf | sh -s -- -q -y
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # install tools
 sudo apt-get install -y fd-find ripgrep
-cargo install cargo-cache bat dutree lsd
+cargo install cargo-edit bat dutree lsd
 
 # install zplug
 mkdir ~/.zinit
