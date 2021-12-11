@@ -10,6 +10,7 @@ sudo apt-get install -y \
     libbz2-dev zlib1g-dev \
     libsqlite3-dev \
     postgresql-client libpq-dev \
+    pkg-config \
     direnv
 
 # set default shell
@@ -25,7 +26,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 
 # install tools
 sudo apt-get install -y fd-find ripgrep
-cargo install cargo-edit bat dutree lsd
+cargo install cargo-edit bat lsd
 
 # install zplug
 mkdir ~/.zinit
