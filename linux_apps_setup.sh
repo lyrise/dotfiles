@@ -29,4 +29,4 @@ cargo install cargo-cache bat dutree lsd
 
 # install zplug
 mkdir ~/.zinit
-git clone https://github.com/zdharma/zinit.git ~/.zinit/bin
+git clone https://github.com/zdharma-continuum/zinit.git ~/.zinit/bin
