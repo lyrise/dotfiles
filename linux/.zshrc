@@ -29,6 +29,9 @@ export PATH="$HOME/.fzf/bin:$PATH"
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
+# pyenv
+eval "$(pyenv init -)"
+
 # vim
 export EDITOR=vim
 bindkey -v
