@@ -1,10 +1,6 @@
-if ! [ -f ~/.zshrc.wsl.cache ]
-then
-    echo "export WIN_USER_DIR_PATH=\"$(wslpath $(wslvar USERPROFILE 2> /dev/null))\"" >> ~/.zshrc.wsl.cache
-    echo "export WIN_PROGRAM_DATA_DIR_PATH=\"$(wslpath $(wslvar ProgramData 2> /dev/null))\"" >> ~/.zshrc.wsl.cache
-    echo "export WIN_PROGRAM_FILES_DIR_PATH=\"$(wslpath $(wslvar ProgramFiles 2> /dev/null))\"" >> ~/.zshrc.wsl.cache
-fi
-. ~/.zshrc.wsl.cache
+export WIN_USER_DIR_PATH="/mnt/c/Users/Lyrise"
+export WIN_PROGRAM_DATA_DIR_PATH="/mnt/c/ProgramData"
+export WIN_PROGRAM_FILES_DIR_PATH="/mnt/c/Program Files"
 
 # VSCode
 export PATH=$PATH:"$WIN_USER_DIR_PATH/AppData/Local/Programs/Microsoft VS Code/bin"

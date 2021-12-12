@@ -1,3 +1,0 @@
-export WIN_USER_DIR_PATH="/mnt/c/Users/Lyrise"
-export WIN_PROGRAM_DATA_DIR_PATH="/mnt/c/ProgramData"
-export WIN_PROGRAM_FILES_DIR_PATH="/mnt/c/Program Files"
