@@ -41,8 +41,8 @@ nnoremap <leader>P "0P
 nnoremap <leader>p "0p
 vnoremap p "_s<C-V><ESC>
 
-nnoremap <C-a> ggvG
-inoremap <C-a> <Esc>ggvG
+nnoremap <C-a> ggVG
+inoremap <C-a> <Esc>ggVG
 
 vnoremap { S}
 vnoremap ( S)
