@@ -18,7 +18,7 @@ sudo chsh -s $(which zsh)
 
 # install zplug
 mkdir ~/.zinit
-git clone https://github.com/zdharma-continuum/zinit.git ~/.zinit/bin
+git clone --depth 1 https://github.com/zdharma-continuum/zinit.git ~/.zinit/bin
 
 # install fzf
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
@@ -29,19 +29,25 @@ sudo apt-get install -y openjdk-11-jdk
 
 # Install sbt
 SBT_VERSION=1.6.0
-sudo curl -L -o sbt-$SBT_VERSION.deb https://repo.scala-sbt.org/scalasbt/debian/sbt-$SBT_VERSION.deb
-sudo dpkg -i sbt-$SBT_VERSION.deb
-sudo rm sbt-$SBT_VERSION.deb
-sudo apt-get update
-sudo apt-get install -y sbt
+curl -L -o sbt-${SBT_VERSION}.deb https://repo.scala-sbt.org/scalasbt/debian/sbt-${SBT_VERSION}.deb
+sudo dpkg -i sbt-${SBT_VERSION}.deb
+rm sbt-${SBT_VERSION}.deb
 
 # install rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -q -y
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # install pyenv
-git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+git clone --depth 1 https://github.com/pyenv/pyenv.git ~/.pyenv
 
-# install tools
-sudo apt-get install -y fd-find ripgrep
-cargo install cargo-edit bat lsd
+# install fd-find
+sudo apt-get install -y fd-find
+
+# install ripgrep
+sudo apt-get install -y ripgrep
+
+# install lsd
+LSD_VERSION=0.21.0
+curl -L -o lsd-${LSD_VERSION}.deb https://github.com/Peltoche/lsd/releases/download/${LSD_VERSION}/lsd_${LSD_VERSION}_amd64.deb
+sudo dpkg -i lsd-${LSD_VERSION}.deb
+rm lsd-${LSD_VERSION}.deb
