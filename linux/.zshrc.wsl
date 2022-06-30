@@ -12,7 +12,7 @@ export PATH=$PATH:"$WIN_PROGRAM_DATA_DIR_PATH/DockerDesktop/version-bin"
 # Git
 function git () {
   if [[ `pwd -P` == /mnt/* ]]; then
-    "$WIN_USER_DIR_PATH/scoop/shims/git.exe" "$@"
+    "$WIN_PROGRAM_FILES_DIR_PATH/Git/cmd/git.exe" "$@"
   else
     /usr/bin/git "$@"
   fi
@@ -21,7 +21,7 @@ function git () {
 # pwsh
 function pwsh () {
   if [[ `pwd -P` == /mnt/* ]]; then
-    "$WIN_USER_DIR_PATH/scoop/shims/pwsh.exe" "$@"
+    "$WIN_PROGRAM_FILES_DIR_PATH/PowerShell/7/pwsh.exe" "$@"
   else
     /usr/bin/pwsh "$@"
   fi
