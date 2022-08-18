@@ -33,6 +33,9 @@ curl -L -o sbt-${SBT_VERSION}.deb https://repo.scala-sbt.org/scalasbt/debian/sbt
 sudo dpkg -i sbt-${SBT_VERSION}.deb
 rm sbt-${SBT_VERSION}.deb
 
+# install nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+
 # install rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -q -y
 export PATH="$HOME/.cargo/bin:$PATH"
