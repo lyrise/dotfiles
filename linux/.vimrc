@@ -42,7 +42,7 @@ vnoremap x "_x
 
 nnoremap <leader>P "0P
 nnoremap <leader>p "0p
-vnoremap p "0p<CR>
+vnoremap p "_s<C-V><ESC>
 
 nnoremap <C-a> ggVG
 inoremap <C-a> <Esc>ggVG
