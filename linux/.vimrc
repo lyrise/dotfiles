@@ -3,8 +3,6 @@ set clipboard+=autoselect
 
 let mapleader = ","
 
-nnoremap <leader><Esc> :noh<CR>
-
 inoremap <C-k> <UP>
 inoremap <C-j> <DOWN>
 inoremap <C-h> <LEFT>
@@ -19,10 +17,6 @@ vnoremap <C-k> 5k
 vnoremap <C-j> 5j
 vnoremap <C-h> ^
 vnoremap <C-l> $
-
-nnoremap t <leader><leader>/
-nnoremap m %
-vnoremap m %
 
 nnoremap <CR> i<CR><Esc>
 inoremap <S-CR> <End><CR>
@@ -40,13 +34,18 @@ vnoremap s "_s
 nnoremap x "_x
 vnoremap x "_x
 
+nnoremap <C-a> ggVG
+inoremap <C-a> <Esc>ggVG
+
+vnoremap $ $<LEFT>
+
+" copy&paste
 nnoremap <leader>P "0P
 nnoremap <leader>p "0p
 vnoremap p "_s<C-V><ESC>
 
-nnoremap <C-a> ggVG
-inoremap <C-a> <Esc>ggVG
-
+" surround
+set surround
 vnoremap { S}
 vnoremap ( S)
 vnoremap [ S]
@@ -54,4 +53,5 @@ vnoremap " S"
 vnoremap ' S'
 vmap < S]<ESC>cs[>
 
-vnoremap $ $<LEFT>
+" easymotion
+nnoremap t <leader><leader>/
