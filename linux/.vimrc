@@ -43,7 +43,6 @@ vnoremap $ $<LEFT>
 vnoremap p "_s<C-V><ESC>
 
 " surround
-set surround
 vnoremap { S}
 vnoremap ( S)
 vnoremap [ S]
