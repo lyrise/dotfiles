@@ -1,6 +1,7 @@
-let mapleader = ","
+set clipboard+=unnamed
+set clipboard+=autoselect
 
-nnoremap <leader><Esc> :noh<CR>
+let mapleader = ","
 
 inoremap <C-k> <UP>
 inoremap <C-j> <DOWN>
@@ -16,10 +17,6 @@ vnoremap <C-k> 5k
 vnoremap <C-j> 5j
 vnoremap <C-h> ^
 vnoremap <C-l> $
-
-nnoremap t <leader><leader>/
-nnoremap m %
-vnoremap m %
 
 nnoremap <CR> i<CR><Esc>
 inoremap <S-CR> <End><CR>
@@ -37,13 +34,15 @@ vnoremap s "_s
 nnoremap x "_x
 vnoremap x "_x
 
-nnoremap <leader>P "0P
-nnoremap <leader>p "0p
-vnoremap p "_s<C-V><ESC>
-
 nnoremap <C-a> ggVG
 inoremap <C-a> <Esc>ggVG
 
+vnoremap $ $<LEFT>
+
+" copy&paste
+vnoremap p "_s<C-V><ESC>
+
+" surround
 vnoremap { S}
 vnoremap ( S)
 vnoremap [ S]
@@ -51,6 +50,5 @@ vnoremap " S"
 vnoremap ' S'
 vmap < S]<ESC>cs[>
 
-vnoremap $ $<LEFT>
-
-set clipboard=unnamed,autoselect
+" easymotion
+nnoremap t <leader><leader>/
