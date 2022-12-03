@@ -28,17 +28,16 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 sudo apt-get install -y openjdk-11-jdk
 
 # Install sbt
-SBT_VERSION=1.6.0
+SBT_VERSION=1.8.0
 curl -L -o sbt-${SBT_VERSION}.deb https://repo.scala-sbt.org/scalasbt/debian/sbt-${SBT_VERSION}.deb
 sudo dpkg -i sbt-${SBT_VERSION}.deb
 rm sbt-${SBT_VERSION}.deb
 
-# install nvm
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+# install volta
+curl https://get.volta.sh | bash
 
 # install rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -q -y
-export PATH="$HOME/.cargo/bin:$PATH"
 
 # install pyenv
 git clone --depth 1 https://github.com/pyenv/pyenv.git ~/.pyenv
