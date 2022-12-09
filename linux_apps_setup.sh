@@ -5,6 +5,7 @@ sudo apt-get update
 # install packages
 sudo apt-get install -y \
     curl wget \
+    zip unzip \
     git zsh build-essential \
     openssl libssl-dev \
     libbz2-dev zlib1g-dev \
@@ -24,8 +25,8 @@ git clone --depth 1 https://github.com/zdharma-continuum/zinit.git ~/.zinit/bin
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 ~/.fzf/install --no-key-bindings --no-completion --no-bash --no-zsh
 
-# Install jdk
-sudo apt-get install -y openjdk-11-jdk
+# Install sdkman
+curl -s "https://get.sdkman.io" | bash
 
 # Install sbt
 SBT_VERSION=1.8.0
