@@ -1,4 +1,4 @@
-test.log
-.envrc
 .DS_Store
-.history/
+.venv
+.envrc
+*.db
