@@ -29,6 +29,10 @@ export PATH="$HOME/.fzf/bin:$PATH"
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
+# go
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
 # pyenv
 eval "$(pyenv init -)"
 
