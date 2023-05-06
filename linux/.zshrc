@@ -50,6 +50,10 @@ bindkey -v
 # sdkman
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 
+# java
+export JAVA_HOME=$HOME/.sdkman/candidates/java/current
+export PATH=$JAVA_HOME/bin:$PATH
+
 # エイリアス集
 alias ll='lsd -al --date "+%F %T"'
 alias k='kubectl'
