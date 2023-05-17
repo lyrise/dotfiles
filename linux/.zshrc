@@ -29,6 +29,10 @@ export PATH="$HOME/.fzf/bin:$PATH"
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
+# go
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+
 # pyenv
 eval "$(pyenv init -)"
 
@@ -45,6 +49,10 @@ bindkey -v
 
 # sdkman
 source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# java
+export JAVA_HOME=$HOME/.sdkman/candidates/java/current
+export PATH=$JAVA_HOME/bin:$PATH
 
 # エイリアス集
 alias ll='lsd -al --date "+%F %T"'
