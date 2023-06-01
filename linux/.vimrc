@@ -11,7 +11,7 @@ nnoremap k gk
 nnoremap j gj
 nnoremap <C-k> 5k
 nnoremap <C-j> 5j
-nnoremap <C-h> ^
+nnoremap <C-h> 0
 nnoremap <C-l> $
 vnoremap <C-k> 5k
 vnoremap <C-j> 5j

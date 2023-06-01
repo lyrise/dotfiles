@@ -5,10 +5,6 @@ export WIN_PROGRAM_FILES_DIR_PATH="/mnt/c/Program Files"
 # VSCode
 export PATH=$PATH:"$WIN_USER_DIR_PATH/AppData/Local/Programs/Microsoft VS Code/bin"
 
-# Docker
-export PATH=$PATH:"$WIN_PROGRAM_FILES_DIR_PATH/Docker/Docker/resources/bin"
-export PATH=$PATH:"$WIN_PROGRAM_DATA_DIR_PATH/DockerDesktop/version-bin"
-
 # Git
 function git () {
   if [[ `pwd -P` == /mnt/* ]]; then
