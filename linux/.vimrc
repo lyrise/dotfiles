@@ -39,9 +39,6 @@ inoremap <C-a> <Esc>ggVG
 
 vnoremap $ $<LEFT>
 
-" copy&paste
-vnoremap p "_di<C-V><Enter><ESC>
-
 " surround
 vnoremap { S}
 vnoremap ( S)
