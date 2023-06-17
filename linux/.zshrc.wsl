@@ -22,3 +22,12 @@ function pwsh () {
     /usr/bin/pwsh "$@"
   fi
 }
+
+# dotnet
+function dotnet () {
+  if [[ `pwd -P` == /mnt/* ]]; then
+    "$WIN_PROGRAM_FILES_DIR_PATH/dotnet/dotnet.exe" "$@"
+  else
+    /usr/bin/dotnet "$@"
+  fi
+}
