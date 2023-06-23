@@ -236,7 +236,10 @@ zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
 zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
 zstyle ':vcs_info:*' formats "%F{blue}%c%u[%b]%f"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
-precmd () { vcs_info }
+
+precmd() {
+    vcs_info
+}
 
 # プロンプトの設定
 function zle-line-pre-redraw zle-keymap-select zle-line-init {
@@ -289,18 +292,8 @@ ZSH_COMMAND_TIME_MSG="Execution time: %s"
 export FZF_DEFAULT_OPTS="--height 80% --layout=reverse --border --inline-info --exact --no-sort"
 export FZF_COMPLETION_TRIGGER=','
 
-# zの履歴をfzfで検索
-z-fzf() {
-    local res=$(z | tac | cut -c 12- | awk '!a[$0]++' | fzf)
-    if [ -n "$res" ]; then
-        BUFFER+="cd $res"
-        zle accept-line
-    else
-        return 1
-    fi
-}
-zle -N z-fzf
-bindkey '^z' z-fzf
+# Ctrl-Zを割り込みキーとする
+stty intr "^Z"
 
 # ヒストリーをfzfで検索
 history-fzf() {
