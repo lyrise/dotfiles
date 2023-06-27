@@ -16,6 +16,10 @@ elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]; then
     OS='Linux'
 fi
 
+if [ "${OS}" = 'Mac' ]; then
+    export PATH="/opt/homebrew/bin:$PATH"
+fi
+
 # common
 export PATH="$HOME/bin:$PATH"
 
@@ -29,6 +33,9 @@ export PATH="$HOME/.fzf/bin:$PATH"
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
+# goenv
+eval "$(goenv init -)"
+
 # go
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
@@ -38,10 +45,6 @@ eval "$(pyenv init -)"
 
 # poetry
 export PATH="$HOME/.local/bin:$PATH"
-
-# volta
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
 
 # vim
 export EDITOR=vim
@@ -70,7 +73,7 @@ if [ $OS = 'Linux' ]; then
     alias pbpaste='xclip -selection clipboard -o'
 fi
 
-# wslの設定
+# wslの設定を読み込む
 # https://stackoverflow.com/questions/60922620/shell-script-to-check-if-running-in-windows-when-using-wsl
 if [ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/ip') ]; then
     . ~/.zshrc.wsl
