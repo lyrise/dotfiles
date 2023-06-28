@@ -17,6 +17,9 @@ sudo apt-get install -y \
 # set default shell
 sudo chsh -s $(which zsh)
 
+# create app dir
+mkdir ~/app
+
 # install zplug
 mkdir ~/.zinit
 git clone --depth 1 https://github.com/zdharma-continuum/zinit.git ~/.zinit/bin
@@ -54,3 +57,14 @@ LSD_VERSION=0.21.0
 curl -L -o lsd-${LSD_VERSION}.deb https://github.com/Peltoche/lsd/releases/download/${LSD_VERSION}/lsd_${LSD_VERSION}_amd64.deb
 sudo dpkg -i lsd-${LSD_VERSION}.deb
 rm lsd-${LSD_VERSION}.deb
+
+# install neovim
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+chmod u+x nvim.appimage
+./nvim.appimage --appimage-extract
+mv squashfs-root ~/app/nvim
+sudo ln -s ~/app/nvim/AppRun /usr/bin/nvim
+rm ./nvim.appimage
+
+# install AstroNvim
+git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
