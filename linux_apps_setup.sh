@@ -20,6 +20,9 @@ sudo chsh -s $(which zsh)
 # create app dir
 mkdir ~/app
 
+# install goenv
+git clone https://github.com/syndbg/goenv.git ~/.goenv
+
 # install zplug
 mkdir ~/.zinit
 git clone --depth 1 https://github.com/zdharma-continuum/zinit.git ~/.zinit/bin

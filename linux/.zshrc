@@ -9,6 +9,17 @@ if [ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ]; then
     zcompile ~/.zshrc
 fi
 
+# 任意の設定を読み込む
+if [ -e ~/.zshrc.include ]; then
+    . ~/.zshrc.include
+fi
+
+# wslの設定を読み込む
+# https://stackoverflow.com/questions/60922620/shell-script-to-check-if-running-in-windows-when-using-wsl
+if [ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/ip') ]; then
+    . ~/.zshrc.wsl
+fi
+
 # 実行環境を識別
 if [ "$(uname)" = 'Darwin' ]; then
     OS='Mac'
@@ -34,6 +45,10 @@ export PATH="$HOME/.fzf/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # goenv
+if [ "${OS}" = 'Linux' ]; then
+    export GOENV_ROOT="$HOME/.goenv"
+    export PATH="$GOENV_ROOT/bin:$PATH"
+fi
 eval "$(goenv init -)"
 
 # go
@@ -71,17 +86,6 @@ alias g-pr='git pull-request'
 if [ $OS = 'Linux' ]; then
     alias pbcopy='xclip -selection clipboard'
     alias pbpaste='xclip -selection clipboard -o'
-fi
-
-# wslの設定を読み込む
-# https://stackoverflow.com/questions/60922620/shell-script-to-check-if-running-in-windows-when-using-wsl
-if [ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/ip') ]; then
-    . ~/.zshrc.wsl
-fi
-
-# 任意の設定
-if [ -e ~/.zshrc.include ]; then
-    . ~/.zshrc.include
 fi
 
 # 履歴の保存先
@@ -339,7 +343,6 @@ rg-file() {
     rg --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
 }
 zle -N rg-file
-bindkey '^f' rg-file
 
 # アタッチするDockerコンテナをfzfで検索
 d-attach() {
