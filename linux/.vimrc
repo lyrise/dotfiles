@@ -40,7 +40,7 @@ inoremap <C-a> <Esc>ggVG
 vnoremap $ $<LEFT>
 
 " copy&paste
-vnoremap p "_dP`[v`]<C-V><ESC>
+vnoremap p "_s<C-V><ESC>
 
 " surround
 vnoremap { S}
