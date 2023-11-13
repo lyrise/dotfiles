@@ -9,11 +9,6 @@ if [ ! -f ~/.zshrc.zwc -o ~/.zshrc -nt ~/.zshrc.zwc ]; then
     zcompile ~/.zshrc
 fi
 
-# 任意の設定を読み込む
-if [ -e ~/.zshrc.include ]; then
-    . ~/.zshrc.include
-fi
-
 # wslの設定を読み込む
 # https://stackoverflow.com/questions/60922620/shell-script-to-check-if-running-in-windows-when-using-wsl
 if [ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/ip') ]; then
@@ -45,10 +40,8 @@ export PATH="$HOME/.fzf/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # goenv
-if [ "${OS}" = 'Linux' ]; then
-    export GOENV_ROOT="$HOME/.goenv"
-    export PATH="$GOENV_ROOT/bin:$PATH"
-fi
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
 eval "$(goenv init -)"
 
 # go
@@ -74,6 +67,11 @@ export PATH=$JAVA_HOME/bin:$PATH
 
 # snap
 export PATH=/snap/bin:$PATH
+
+# 任意の設定を読み込む
+if [ -e ~/.zshrc.include ]; then
+    . ~/.zshrc.include
+fi
 
 # エイリアス集
 alias ll='lsd -al --date "+%F %T"'
