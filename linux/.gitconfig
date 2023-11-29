@@ -13,6 +13,6 @@
 [include]
     path = ~/.gitconfig.include
 [includeIf "gitdir:~/repos/lyrise/**"]
-	path = ~/.gitconfig.lyrise
+	path = ~/.gitconfig.include.lyrise
 [includeIf "gitdir:~/repos/omnius-labs/**"]
-	path = ~/.gitconfig.lyrise
+	path = ~/.gitconfig.include.lyrise
