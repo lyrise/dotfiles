@@ -15,9 +15,4 @@ for file in $(find $dotfiles_dir -maxdepth 1 -type f); do
     ln -snfv $file $HOME
 done
 
-nvim_user_dir=$HOME/.config/nvim/lua/user/
-rm -r $nvim_user_dir
-mkdir $nvim_user_dir
-(cd ./linux/nvim && cp -r ./ $nvim_user_dir)
-
 echo "dotfiles setup finished!"

@@ -68,6 +68,14 @@ export PATH=$JAVA_HOME/bin:$PATH
 # snap
 export PATH=/snap/bin:$PATH
 
+# Google Cloud SDK.
+if [ -f ~/google-cloud-sdk/path.zsh.inc ]; then
+    . ~/google-cloud-sdk/path.zsh.inc;
+fi
+if [ -f ~/google-cloud-sdk/completion.zsh.inc ]; then
+    . ~/google-cloud-sdk/completion.zsh.inc;
+fi
+
 # 任意の設定を読み込む
 if [ -e ~/.zshrc.include ]; then
     . ~/.zshrc.include
