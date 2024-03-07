@@ -1,4 +1,4 @@
-set clipboard+=unnamed
+set clipboard=unnamed
 
 let mapleader = ","
 
@@ -40,6 +40,3 @@ vnoremap $ $<LEFT>
 
 " copy&paste
 vnoremap p "_s<C-V><ESC>
-
-" surround
-set surround
