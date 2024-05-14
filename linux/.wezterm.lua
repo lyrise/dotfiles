@@ -24,10 +24,10 @@ config.keys = {
     { key = "h", mods = "CTRL|ALT", action = wezterm.action { ActivateTabRelative = -1 } },
 
     -- 新しいタブを開く
-    { key = "n", mods = "CTRL",     action = wezterm.action { SpawnTab = "CurrentPaneDomain" } },
+    { key = "n", mods = "CTRL|ALT", action = wezterm.action { SpawnTab = "CurrentPaneDomain" } },
 
     -- タブを閉じる
-    { key = "w", mods = "CTRL",     action = wezterm.action { CloseCurrentTab = { confirm = true } } },
+    { key = "q", mods = "CTRL",     action = wezterm.action { CloseCurrentTab = { confirm = true } } },
 
 }
 if wezterm.target_triple == 'aarch64-apple-darwin' then
