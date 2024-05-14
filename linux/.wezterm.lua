@@ -36,7 +36,7 @@ config.keys = {
     { key = "v", mods = "CTRL|SHIFT", action = wezterm.action { PasteFrom = "Clipboard" } },
 
     -- ActivateCopyMode
-    { key = 'z', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateCopyMode },
+    { key = '?', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateCopyMode },
 }
 
 return config
