@@ -14,7 +14,7 @@ if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
 end
 
 config.audible_bell = "Disabled"
-config.color_scheme = "Lab Fox"
+config.color_scheme = "Vs Code Dark+ (Gogh)"
 config.font = wezterm.font('HackGen Console NF')
 config.keys = {
     -- 次のタブに移動
@@ -34,6 +34,9 @@ config.keys = {
 
     -- 貼り付け
     { key = "v", mods = "CTRL|SHIFT", action = wezterm.action { PasteFrom = "Clipboard" } },
+
+    -- ActivateCopyMode
+    { key = 'x', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateCopyMode },
 }
 
 return config
