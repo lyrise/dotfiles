@@ -32,7 +32,7 @@ config.keys = {
 }
 if wezterm.target_triple == 'aarch64-apple-darwin' then
     table.insert(config.keys,
-        { key = 'z', mods = 'CMD|SHIFT', action = wezterm.action.ActivateCopyMode }
+        { key = 'x', mods = 'CMD|SHIFT', action = wezterm.action.ActivateCopyMode }
     )
     -- コピー
     table.insert(config.keys,
@@ -44,7 +44,7 @@ if wezterm.target_triple == 'aarch64-apple-darwin' then
     )
 else
     table.insert(config.keys,
-        { key = 'z', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateCopyMode }
+        { key = 'x', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateCopyMode }
     )
     -- コピー
     table.insert(config.keys,
