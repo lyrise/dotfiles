@@ -18,25 +18,25 @@ config.color_scheme = "Vs Code Dark+ (Gogh)"
 config.font = wezterm.font('HackGen Console NF')
 config.keys = {
     -- 次のタブに移動
-    { key = "l", mods = "CTRL|ALT", action = wezterm.action { ActivateTabRelative = 1 } },
+    { key = "l", mods = "CTRL|ALT",   action = wezterm.action { ActivateTabRelative = 1 } },
 
     -- 前のタブに移動
-    { key = "h", mods = "CTRL|ALT", action = wezterm.action { ActivateTabRelative = -1 } },
+    { key = "h", mods = "CTRL|ALT",   action = wezterm.action { ActivateTabRelative = -1 } },
 
     -- 新しいタブを開く
-    { key = "n", mods = "CTRL|ALT", action = wezterm.action { SpawnTab = "CurrentPaneDomain" } },
+    { key = "n", mods = "CTRL",       action = wezterm.action { SpawnTab = "CurrentPaneDomain" } },
 
     -- タブを閉じる
-    { key = "w", mods = "CTRL|ALT", action = wezterm.action { CloseCurrentTab = { confirm = true } } },
+    { key = "w", mods = "CTRL",       action = wezterm.action { CloseCurrentTab = { confirm = true } } },
 
     -- コピー
-    { key = "c", mods = "CTRL|ALT", action = wezterm.action { CopyTo = "Clipboard" } },
+    { key = "c", mods = "CTRL|SHIFT", action = wezterm.action { CopyTo = "Clipboard" } },
 
     -- 貼り付け
-    { key = "v", mods = "CTRL|ALT", action = wezterm.action { PasteFrom = "Clipboard" } },
+    { key = "v", mods = "CTRL|SHIFT", action = wezterm.action { PasteFrom = "Clipboard" } },
 
     -- ActivateCopyMode
-    { key = 'x', mods = 'CTRL|ALT', action = wezterm.action.ActivateCopyMode },
+    { key = 'z', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateCopyMode },
 }
 
 return config
