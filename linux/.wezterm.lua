@@ -4,9 +4,9 @@ wezterm.on('window-config-reloaded', function()
 end)
 
 local config = {}
-config.launch_menu = {}
 if wezterm.target_triple == 'x86_64-pc-windows-msvc' then
     config.default_prog = { 'pwsh' }
+    config.launch_menu = {}
     table.insert(config.launch_menu, {
         label = 'PowerShell',
         args = { 'pwsh.exe', '-NoLogo' },
