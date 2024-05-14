@@ -1,6 +1,6 @@
 local wezterm = require 'wezterm'
 wezterm.on('window-config-reloaded', function()
-    wezterm.log_info 'the config was reloaded for this window!'
+    wezterm.log_info('the config was reloaded for this window!')
 end)
 
 local config = {}
@@ -34,9 +34,15 @@ config.keys = {
 
     -- 貼り付け
     { key = "v", mods = "CTRL|SHIFT", action = wezterm.action { PasteFrom = "Clipboard" } },
-
-    -- ActivateCopyMode
-    { key = '?', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateCopyMode },
 }
+if wezterm.target_triple == 'x86_64-apple-darwin' then
+    table.insert(config.keys,
+        { key = 'z', mods = 'CMD|SHIFT', action = wezterm.action.ActivateCopyMode }
+    )
+else
+    table.insert(config.keys,
+        { key = 'z', mods = 'CTRL|SHIFT', action = wezterm.action.ActivateCopyMode }
+    )
+end
 
 return config
