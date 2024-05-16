@@ -83,16 +83,18 @@ if [ -e ~/.zshrc.include ]; then
 fi
 
 # エイリアス集
+alias l='ll'
 alias ll='lsd -al --date "+%F %T"'
 alias k='kubectl'
 alias d='docker'
 alias dc='docker compose'
 alias g='git'
-alias g-pr='git pull-request'
 
 if [ $OS = 'Linux' ]; then
     alias pbcopy='xclip -selection clipboard'
     alias pbpaste='xclip -selection clipboard -o'
+    # wazterm
+    alias wezterm='flatpak run org.wezfurlong.wezterm'
 fi
 
 # 履歴の保存先
