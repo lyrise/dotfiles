@@ -1,4 +1,4 @@
-# dotfiles - Lyrise's dotfiles
+# dotfiles
 
 ## License
 
