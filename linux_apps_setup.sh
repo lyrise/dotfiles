@@ -56,18 +56,8 @@ sudo apt-get install -y fd-find
 sudo apt-get install -y ripgrep
 
 # install lsd
-LSD_VERSION=0.21.0
-curl -L -o lsd-${LSD_VERSION}.deb https://github.com/Peltoche/lsd/releases/download/${LSD_VERSION}/lsd_${LSD_VERSION}_amd64.deb
-sudo dpkg -i lsd-${LSD_VERSION}.deb
-rm lsd-${LSD_VERSION}.deb
+sudo apt-get install -y lsd
 
-# install neovim
-curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
-chmod u+x nvim.appimage
-./nvim.appimage --appimage-extract
-mv squashfs-root ~/app/nvim
-sudo ln -s ~/app/nvim/AppRun /usr/bin/nvim
-rm ./nvim.appimage
-
-# install AstroNvim
-git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
+# install kustomize
+curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+mv ./kustomize ~/bin
