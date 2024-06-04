@@ -1,0 +1,21 @@
+#!/bin/bash
+
+branch=$(git rev-parse --abbrev-ref HEAD | tr -d '\n')
+
+case "$branch" in
+	"main" | "master" | "develop")
+		echo -en "\033[33mWarning: maybe you don't want to commit your work to 🌳 \033[31;1m$branch \033[m\033[33mbranch 🌳. Continue? [y/N]: \033[m"
+
+        exec < /dev/tty
+        read ANSWER
+
+        case $ANSWER in
+            "Y" | "y" | "yes" | "Yes" | "YES" ) echo "OK. commit start.";;
+            * ) echo "commit failed.";exit 1;;
+        esac
+        exit 0
+		;;
+esac
+
+# call the original
+. `dirname ${0}`/_local-hook-exec
