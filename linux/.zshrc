@@ -181,6 +181,11 @@ setopt histignorealldups
 setopt inc_append_history
 # 余分な空白は詰めて記録
 setopt hist_reduce_blanks
+# プロンプトを表示する直前にキャリッジリターンを出力します。
+setopt prompt_cr
+# prompt_cr オプションによって表示されなかった行を保持するようにします。
+setopt prompt_sp
+
 # cdrコマンドで履歴にないディレクトリにも移動可能に
 # zstyle ":chpwd:*" recent-dirs-default true
 # cdrコマンドを有効 ログアウトしても有効なディレクトリ履歴
