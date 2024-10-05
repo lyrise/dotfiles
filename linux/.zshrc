@@ -69,6 +69,9 @@ export PATH=$JAVA_HOME/bin:$PATH
 # snap
 export PATH=/snap/bin:$PATH
 
+# dotnet
+export PATH="$PATH:$HOME/.dotnet/tools"
+
 # Google Cloud SDK.
 if [ -f ~/google-cloud-sdk/path.zsh.inc ]; then
     . ~/google-cloud-sdk/path.zsh.inc;
