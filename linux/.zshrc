@@ -45,6 +45,9 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # export GOENV_DISABLE_GOPATH=1
 # eval "$(goenv init -)"
 
+# dotnet
+export PATH="$HOME/.dotnet/tools:$PATH"
+
 # go
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
@@ -249,8 +252,8 @@ zinit ice pick'kube-ps1.sh'
 zinit light 'jonmosco/kube-ps1'
 
 # 補完機能の強化
-autoload -Uz compinit
-compinit
+# autoload -Uz compinit
+# compinit
 
 # git
 autoload -Uz vcs_info
