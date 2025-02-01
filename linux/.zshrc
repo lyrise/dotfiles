@@ -40,10 +40,10 @@ export PATH="$HOME/.fzf/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # goenv
-export GOENV_ROOT="$HOME/.goenv"
-export PATH="$GOENV_ROOT/bin:$PATH"
-export GOENV_DISABLE_GOPATH=1
-eval "$(goenv init -)"
+# export GOENV_ROOT="$HOME/.goenv"
+# export PATH="$GOENV_ROOT/bin:$PATH"
+# export GOENV_DISABLE_GOPATH=1
+# eval "$(goenv init -)"
 
 # go
 export GOPATH=$HOME/go
