@@ -320,7 +320,7 @@ export FZF_DEFAULT_OPTS="--height 80% --layout=reverse --border --inline-info --
 export FZF_COMPLETION_TRIGGER=','
 
 # Ctrl-Zを割り込みキーとする
-stty intr "^Z"
+#stty intr "^Z"
 
 # ヒストリーをfzfで検索
 history-fzf() {
