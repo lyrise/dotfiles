@@ -29,6 +29,9 @@ fi
 # common
 export PATH="$HOME/bin:$PATH"
 
+# dotenv
+eval "$(direnv hook zsh)"
+
 # docker
 export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
