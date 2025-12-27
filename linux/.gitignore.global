@@ -4,7 +4,8 @@
 .env
 *.db
 *.db-*
-memo.*
+memo.txt
+memo.md
 digest.txt
 *.log
 .serena/
