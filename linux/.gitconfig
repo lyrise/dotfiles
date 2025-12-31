@@ -11,9 +11,9 @@
     defaultBranch = main
 
 [include]
-    path = ~/.gitconfig.include
+    path = ~/.gitconfig.local
 	hooksPath = ~/.dotfiles/git-hooks
 [includeIf "gitdir:~/repos/lyrise/**"]
-	path = ~/.gitconfig.include.lyrise
+	path = ~/.gitconfig.local.lyrise
 [includeIf "gitdir:~/repos/omnius-labs/**"]
-	path = ~/.gitconfig.include.lyrise
+	path = ~/.gitconfig.local.lyrise
