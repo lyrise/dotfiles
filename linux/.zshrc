@@ -24,9 +24,6 @@ if [ -f ~/google-cloud-sdk/completion.zsh.inc ]; then
     . ~/google-cloud-sdk/completion.zsh.inc;
 fi
 
-# pyenv
-eval "$(pyenv init -)"
-
 # wslの設定を読み込む
 # https://stackoverflow.com/questions/60922620/shell-script-to-check-if-running-in-windows-when-using-wsl
 if [ $(uname -r | sed -n 's/.*\( *Microsoft *\).*/\1/ip') ]; then
