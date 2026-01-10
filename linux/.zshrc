@@ -281,7 +281,7 @@ bindkey '^r' history-fzf
 # killするプロセスをfzfで検索
 kill-fzf() {
     if [ $OS = 'Mac' ]; then
-        local list=$(ps auxwl)
+        local list=$(ps aux)
         local head=$(echo $list | head -n 1)
         local pid=$(echo $list | sed 1d | fzf -m --header="$head" | awk '{print $2}')
 
