@@ -36,8 +36,8 @@ if [ -e ~/.zshrc.local ]; then
 fi
 
 # エイリアス集
-alias l='ll'
 alias ll='lsd -al --date "+%F %T"'
+alias l='lsd -1'
 alias k='kubectl'
 alias d='docker'
 alias dc='docker compose'

@@ -15,4 +15,8 @@ for file in $(find $dotfiles_dir -maxdepth 1 -type f); do
     ln -snfv $file $HOME
 done
 
+# rm -rf ~/.config/nvim
+# git clone --depth 1 https://github.com/AstroNvim/template ~/.config/nvim
+cp -r ./linux/nvim/plugins/* "$HOME/.config/nvim/lua/plugins/"
+
 echo "dotfiles setup finished!"
