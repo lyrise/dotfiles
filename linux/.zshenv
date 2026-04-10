@@ -40,6 +40,9 @@ export PATH="$HOME/.dotnet/tools:$PATH"
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
+# pyenv
+eval "$(pyenv init - --no-rehash)"
+
 # poetry
 export PATH="$HOME/.local/bin:$PATH"
 
