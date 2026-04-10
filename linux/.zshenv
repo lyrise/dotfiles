@@ -24,8 +24,6 @@ export PATH="$HOME/.fzf/bin:$PATH"
 
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
-export RUSTC_WRAPPER=$(which sccache)
-export SCCACHE_CACHE_SIZE="40G"
 
 # goenv
 # export GOENV_ROOT="$HOME/.goenv"
