@@ -21,7 +21,7 @@ sudo chsh -s $(which zsh)
 mkdir ~/app
 
 # install goenv
-git clone https://github.com/syndbg/goenv.git ~/.goenv
+git clone --depth 1 https://github.com/syndbg/goenv.git ~/.goenv
 
 # install zplug
 mkdir ~/.zinit

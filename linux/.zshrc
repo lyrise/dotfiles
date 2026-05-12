@@ -272,7 +272,9 @@ export FZF_COMPLETION_TRIGGER=','
 # ヒストリーをfzfで検索
 history-fzf() {
     local tac=${commands[tac]:-"tail -r"}
-    print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | sed 's/ *[0-9]* *//' | eval $tac | awk '!a[$0]++' | fzf +s)
+    local selected
+    selected=$(fc -ln 1 | eval $tac | awk '!a[$0]++' | fzf +s) || return
+    print -z -- "$selected"
     zle accept-line
 }
 zle -N history-fzf
