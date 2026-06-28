@@ -1,14 +1,9 @@
-#!/bin/bash
-
-set -u
-
-current_dir=$(
-    cd $(dirname $0)
-    pwd
-)
+#!/usr/bin/env bash
+set -euo pipefail
+cd $(dirname $0)
 
 dotfiles_dir=$HOME/.dotfiles
-rm -r $dotfiles_dir
+rm -rf $dotfiles_dir
 mkdir $dotfiles_dir
 (cd ./linux && cp -r ./ $dotfiles_dir)
 for file in $(find $dotfiles_dir -maxdepth 1 -type f); do
