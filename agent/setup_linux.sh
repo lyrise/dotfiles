@@ -4,7 +4,7 @@ cd $(dirname $0)
 
 SCRIPT_DIR="$(pwd)"
 
-ln -s "$SCRIPT_DIR/apm" "$HOME/.apm"
+ln -sfn "$SCRIPT_DIR/apm" "$HOME/.apm"
 apm install -g
 
 mkdir -p ~/.claude

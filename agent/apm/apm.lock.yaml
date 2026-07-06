@@ -1,10 +1,10 @@
 lockfile_version: '1'
-generated_at: '2026-06-28T03:08:19.698770+00:00'
+generated_at: '2026-07-06T13:49:49.554726+00:00'
 apm_version: 0.21.0
 dependencies:
 - repo_url: mattpocock/skills
   host: github.com
-  resolved_commit: 5d78bd0903420f97c791f834201e550c765699f8
+  resolved_commit: 16a2a5cd00b4416f673f4ff38c7971a04dd708e7
   resolved_ref: main
   virtual_path: skills/productivity/grilling
   is_virtual: true
@@ -15,12 +15,12 @@ dependencies:
   - .claude/skills/grilling
   - .claude/skills/grilling/SKILL.md
   deployed_file_hashes:
-    .agents/skills/grilling/SKILL.md: sha256:fe00af3e1815f97c0a7644605479328a726b5cd95ba6ef56a4be2a92fae6c20f
-    .claude/skills/grilling/SKILL.md: sha256:fe00af3e1815f97c0a7644605479328a726b5cd95ba6ef56a4be2a92fae6c20f
-  content_hash: sha256:ef685a6fa0bbe73b05bbd8dc1ec97258191587f07c6aa7dbc9006675ceb8f90f
+    .agents/skills/grilling/SKILL.md: sha256:5a35925d03a391bcfa46940868b649b72dba89ec9c19525e785bbb6bd3a7f478
+    .claude/skills/grilling/SKILL.md: sha256:5a35925d03a391bcfa46940868b649b72dba89ec9c19525e785bbb6bd3a7f478
+  content_hash: sha256:1de9e777a60b184b29412fadacb7bbde8c14bb7037e5c4d9d086c941281d1742
 - repo_url: microsoft/playwright-cli
   host: github.com
-  resolved_commit: 9805da3991435ce6c853fa1dd78c33276eaf5de9
+  resolved_commit: 74d9bf144a96770b6295ceedecb07a2fd7e86775
   resolved_ref: main
   virtual_path: skills/playwright-cli
   is_virtual: true
@@ -51,7 +51,7 @@ dependencies:
   - .claude/skills/playwright-cli/references/tracing.md
   - .claude/skills/playwright-cli/references/video-recording.md
   deployed_file_hashes:
-    .agents/skills/playwright-cli/SKILL.md: sha256:b4c81c39e39f30e4790607e57b12283878f3751daca9c0e44f301899f2108b13
+    .agents/skills/playwright-cli/SKILL.md: sha256:e72ed4ba7e35b594056efedbd1d773b747d501a18b29ad4f04ab58224f48d7ed
     .agents/skills/playwright-cli/references/element-attributes.md: sha256:bf19aa4671e0a50a0fefa9c790f39124e803060eefe395042b723c29fcb7faa2
     .agents/skills/playwright-cli/references/playwright-tests.md: sha256:c5b0719fef2cfdff50bd744051b2f9afc119775db4b48e9b2882c1cf3886797c
     .agents/skills/playwright-cli/references/request-mocking.md: sha256:54e801c9663fc2b6d68ceb058cb1c360724c2499f42acc7852a68e83e5b5f37c
@@ -62,7 +62,7 @@ dependencies:
     .agents/skills/playwright-cli/references/test-generation.md: sha256:2a9c4d94effa31b05cf367dfa8bbace8874a3bc9799987ad2b03269af224d299
     .agents/skills/playwright-cli/references/tracing.md: sha256:792e0ac7705e56ac48df84c0f5400221ce86107897c671590a64a4ea6a82508e
     .agents/skills/playwright-cli/references/video-recording.md: sha256:8555ab5400df0d90e66318aacc0a8a4418fbf872e7463824d55d5c41615abd83
-    .claude/skills/playwright-cli/SKILL.md: sha256:b4c81c39e39f30e4790607e57b12283878f3751daca9c0e44f301899f2108b13
+    .claude/skills/playwright-cli/SKILL.md: sha256:e72ed4ba7e35b594056efedbd1d773b747d501a18b29ad4f04ab58224f48d7ed
     .claude/skills/playwright-cli/references/element-attributes.md: sha256:bf19aa4671e0a50a0fefa9c790f39124e803060eefe395042b723c29fcb7faa2
     .claude/skills/playwright-cli/references/playwright-tests.md: sha256:c5b0719fef2cfdff50bd744051b2f9afc119775db4b48e9b2882c1cf3886797c
     .claude/skills/playwright-cli/references/request-mocking.md: sha256:54e801c9663fc2b6d68ceb058cb1c360724c2499f42acc7852a68e83e5b5f37c
@@ -73,4 +73,4 @@ dependencies:
     .claude/skills/playwright-cli/references/test-generation.md: sha256:2a9c4d94effa31b05cf367dfa8bbace8874a3bc9799987ad2b03269af224d299
     .claude/skills/playwright-cli/references/tracing.md: sha256:792e0ac7705e56ac48df84c0f5400221ce86107897c671590a64a4ea6a82508e
     .claude/skills/playwright-cli/references/video-recording.md: sha256:8555ab5400df0d90e66318aacc0a8a4418fbf872e7463824d55d5c41615abd83
-  content_hash: sha256:c75e106cec48dd02c8e87504a88e90d2b84f4472bfadf395e6fd4a86763c4a64
+  content_hash: sha256:75765540e8eac67f5850207dacf1e2d410763a13841658367b9be6e81ecd8010
