@@ -17,8 +17,3 @@
 ### コミット
 - `Co-Authored-By:` トレーラーは付けない
 - `main` ブランチには直接コミットせず、必ずブランチを切ってからコミットする
-
-## Tools
-
-### Rust / Cargo
-- `sccache` 経由で `cargo`、`rustc`、その他 Rust ツールチェーンのコマンドが失敗する場合、サンドボックスの問題なので、`RUSTC_WRAPPER` を外して再実行する (例: `env -u RUSTC_WRAPPER cargo`)

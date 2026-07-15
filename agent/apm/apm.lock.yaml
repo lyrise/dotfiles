@@ -1,10 +1,67 @@
 lockfile_version: '1'
-generated_at: '2026-07-06T13:49:49.554726+00:00'
+generated_at: '2026-07-15T17:25:47.430553+00:00'
 apm_version: 0.21.0
 dependencies:
+- repo_url: makinux/adversarial-panel
+  host: github.com
+  resolved_commit: 6b1061b50dbe27613f0e0b2b90882d297ed46a29
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/adversarial-panel
+  - .agents/skills/adversarial-panel/LICENSE
+  - .agents/skills/adversarial-panel/README.ja.md
+  - .agents/skills/adversarial-panel/README.md
+  - .agents/skills/adversarial-panel/SKILL.md
+  - .agents/skills/adversarial-panel/assets/architecture-ja.mmd
+  - .agents/skills/adversarial-panel/assets/architecture-ja.png
+  - .agents/skills/adversarial-panel/assets/architecture.mmd
+  - .agents/skills/adversarial-panel/assets/architecture.png
+  - .agents/skills/adversarial-panel/assets/protocol-ja.png
+  - .agents/skills/adversarial-panel/assets/protocol-ja.svg
+  - .agents/skills/adversarial-panel/assets/protocol.png
+  - .agents/skills/adversarial-panel/assets/protocol.svg
+  - .claude/skills/adversarial-panel
+  - .claude/skills/adversarial-panel/LICENSE
+  - .claude/skills/adversarial-panel/README.ja.md
+  - .claude/skills/adversarial-panel/README.md
+  - .claude/skills/adversarial-panel/SKILL.md
+  - .claude/skills/adversarial-panel/assets/architecture-ja.mmd
+  - .claude/skills/adversarial-panel/assets/architecture-ja.png
+  - .claude/skills/adversarial-panel/assets/architecture.mmd
+  - .claude/skills/adversarial-panel/assets/architecture.png
+  - .claude/skills/adversarial-panel/assets/protocol-ja.png
+  - .claude/skills/adversarial-panel/assets/protocol-ja.svg
+  - .claude/skills/adversarial-panel/assets/protocol.png
+  - .claude/skills/adversarial-panel/assets/protocol.svg
+  deployed_file_hashes:
+    .agents/skills/adversarial-panel/LICENSE: sha256:152e87d5c3e1d3479a375fddf09a9d0f30f9cfb4025aa84a6a5ebcd6c8d17c8e
+    .agents/skills/adversarial-panel/README.ja.md: sha256:c409f56c609733ce296f990fd4218712abe080ac40c448c550ae8beb40e4d21c
+    .agents/skills/adversarial-panel/README.md: sha256:8defeb74cd166d508b8fa7b5b6d5cc831c054452d71b2f973c330a6e23dea34e
+    .agents/skills/adversarial-panel/SKILL.md: sha256:a9145e60c013b93e07cfcd782485d2525c5832845cce7622689edab5fa32800d
+    .agents/skills/adversarial-panel/assets/architecture-ja.mmd: sha256:7c95cfe8c586ece94aaa1f1b178b06e6c1428bb9bfc8e85df88d7087277e3920
+    .agents/skills/adversarial-panel/assets/architecture-ja.png: sha256:55b0fdfeaafa1c4dcca9021942e4b195ec2a1c72ad82f9f2b927a3600f3c4931
+    .agents/skills/adversarial-panel/assets/architecture.mmd: sha256:4e0852b526b63512617c4990149ed94cd860398cd035f2cc5601206f34126498
+    .agents/skills/adversarial-panel/assets/architecture.png: sha256:42fd128bff455f88550ed9396685bab83cfef2c744ceb272520e64472ca51e7c
+    .agents/skills/adversarial-panel/assets/protocol-ja.png: sha256:70588b3b3af2562c96362dca13e68f7cffa31514cbab17f360081a513093aa8f
+    .agents/skills/adversarial-panel/assets/protocol-ja.svg: sha256:50886eb832fee532664ab4ce39ac38f85162f949ff62e1b644e8d68233f1294a
+    .agents/skills/adversarial-panel/assets/protocol.png: sha256:f85ea41db7acfd22b3cbd7b2f84cbd05fec8ebaff9bd95fd2b24542f842e98c4
+    .agents/skills/adversarial-panel/assets/protocol.svg: sha256:b4c9df81170d4728feecf133f6c05f53a0ad49e54bba5bd223f652aff7df52e4
+    .claude/skills/adversarial-panel/LICENSE: sha256:152e87d5c3e1d3479a375fddf09a9d0f30f9cfb4025aa84a6a5ebcd6c8d17c8e
+    .claude/skills/adversarial-panel/README.ja.md: sha256:c409f56c609733ce296f990fd4218712abe080ac40c448c550ae8beb40e4d21c
+    .claude/skills/adversarial-panel/README.md: sha256:8defeb74cd166d508b8fa7b5b6d5cc831c054452d71b2f973c330a6e23dea34e
+    .claude/skills/adversarial-panel/SKILL.md: sha256:a9145e60c013b93e07cfcd782485d2525c5832845cce7622689edab5fa32800d
+    .claude/skills/adversarial-panel/assets/architecture-ja.mmd: sha256:7c95cfe8c586ece94aaa1f1b178b06e6c1428bb9bfc8e85df88d7087277e3920
+    .claude/skills/adversarial-panel/assets/architecture-ja.png: sha256:55b0fdfeaafa1c4dcca9021942e4b195ec2a1c72ad82f9f2b927a3600f3c4931
+    .claude/skills/adversarial-panel/assets/architecture.mmd: sha256:4e0852b526b63512617c4990149ed94cd860398cd035f2cc5601206f34126498
+    .claude/skills/adversarial-panel/assets/architecture.png: sha256:42fd128bff455f88550ed9396685bab83cfef2c744ceb272520e64472ca51e7c
+    .claude/skills/adversarial-panel/assets/protocol-ja.png: sha256:70588b3b3af2562c96362dca13e68f7cffa31514cbab17f360081a513093aa8f
+    .claude/skills/adversarial-panel/assets/protocol-ja.svg: sha256:50886eb832fee532664ab4ce39ac38f85162f949ff62e1b644e8d68233f1294a
+    .claude/skills/adversarial-panel/assets/protocol.png: sha256:f85ea41db7acfd22b3cbd7b2f84cbd05fec8ebaff9bd95fd2b24542f842e98c4
+    .claude/skills/adversarial-panel/assets/protocol.svg: sha256:b4c9df81170d4728feecf133f6c05f53a0ad49e54bba5bd223f652aff7df52e4
+  content_hash: sha256:e4f60e57ed2b5958f37ff73d0a833f28aaa1e05397d9291aeedae4d92862fba4
 - repo_url: mattpocock/skills
   host: github.com
-  resolved_commit: 16a2a5cd00b4416f673f4ff38c7971a04dd708e7
+  resolved_commit: e9fcdf95b402d360f90f1db8d776d5dd450f9234
   resolved_ref: main
   virtual_path: skills/productivity/grilling
   is_virtual: true
@@ -12,15 +69,19 @@ dependencies:
   deployed_files:
   - .agents/skills/grilling
   - .agents/skills/grilling/SKILL.md
+  - .agents/skills/grilling/agents/openai.yaml
   - .claude/skills/grilling
   - .claude/skills/grilling/SKILL.md
+  - .claude/skills/grilling/agents/openai.yaml
   deployed_file_hashes:
-    .agents/skills/grilling/SKILL.md: sha256:5a35925d03a391bcfa46940868b649b72dba89ec9c19525e785bbb6bd3a7f478
-    .claude/skills/grilling/SKILL.md: sha256:5a35925d03a391bcfa46940868b649b72dba89ec9c19525e785bbb6bd3a7f478
-  content_hash: sha256:1de9e777a60b184b29412fadacb7bbde8c14bb7037e5c4d9d086c941281d1742
+    .agents/skills/grilling/SKILL.md: sha256:44331dda57f461db4fec3f2efb6ddabe7aaaa0a57ae0f88a883bc61aed8a0587
+    .agents/skills/grilling/agents/openai.yaml: sha256:cf29b9a8dbf35a58a908a6ca4f64dcd86c2b2130291eee0a78b9f706b138825b
+    .claude/skills/grilling/SKILL.md: sha256:44331dda57f461db4fec3f2efb6ddabe7aaaa0a57ae0f88a883bc61aed8a0587
+    .claude/skills/grilling/agents/openai.yaml: sha256:cf29b9a8dbf35a58a908a6ca4f64dcd86c2b2130291eee0a78b9f706b138825b
+  content_hash: sha256:1f05b0ffe26fb4d4457e3e40b41ec2f3e379ae2d6877613240bc6ffef5f7f338
 - repo_url: microsoft/playwright-cli
   host: github.com
-  resolved_commit: 74d9bf144a96770b6295ceedecb07a2fd7e86775
+  resolved_commit: eee5a185c98e6b04d88f580d45a854e9692ab50b
   resolved_ref: main
   virtual_path: skills/playwright-cli
   is_virtual: true
@@ -33,7 +94,6 @@ dependencies:
   - .agents/skills/playwright-cli/references/request-mocking.md
   - .agents/skills/playwright-cli/references/running-code.md
   - .agents/skills/playwright-cli/references/session-management.md
-  - .agents/skills/playwright-cli/references/spec-driven-testing.md
   - .agents/skills/playwright-cli/references/storage-state.md
   - .agents/skills/playwright-cli/references/test-generation.md
   - .agents/skills/playwright-cli/references/tracing.md
@@ -45,32 +105,29 @@ dependencies:
   - .claude/skills/playwright-cli/references/request-mocking.md
   - .claude/skills/playwright-cli/references/running-code.md
   - .claude/skills/playwright-cli/references/session-management.md
-  - .claude/skills/playwright-cli/references/spec-driven-testing.md
   - .claude/skills/playwright-cli/references/storage-state.md
   - .claude/skills/playwright-cli/references/test-generation.md
   - .claude/skills/playwright-cli/references/tracing.md
   - .claude/skills/playwright-cli/references/video-recording.md
   deployed_file_hashes:
-    .agents/skills/playwright-cli/SKILL.md: sha256:e72ed4ba7e35b594056efedbd1d773b747d501a18b29ad4f04ab58224f48d7ed
+    .agents/skills/playwright-cli/SKILL.md: sha256:29c0b669a524d42b51934d7db9144c1c07a566d0549ae6fb6ccd810e5a3cf61b
     .agents/skills/playwright-cli/references/element-attributes.md: sha256:bf19aa4671e0a50a0fefa9c790f39124e803060eefe395042b723c29fcb7faa2
     .agents/skills/playwright-cli/references/playwright-tests.md: sha256:c5b0719fef2cfdff50bd744051b2f9afc119775db4b48e9b2882c1cf3886797c
     .agents/skills/playwright-cli/references/request-mocking.md: sha256:54e801c9663fc2b6d68ceb058cb1c360724c2499f42acc7852a68e83e5b5f37c
     .agents/skills/playwright-cli/references/running-code.md: sha256:d95c539a5990b71d02d8bdf1d9414df16191eb6cff95b0063820518b7a13dcb2
     .agents/skills/playwright-cli/references/session-management.md: sha256:cd3e261b8763bf952f1e371b876cb78d054379afec85482f9250633e1b7e6c44
-    .agents/skills/playwright-cli/references/spec-driven-testing.md: sha256:3326b3af65ed6e05180aa394a7fd578f29822e67bde9f22f7c7f94e6c8e3a594
     .agents/skills/playwright-cli/references/storage-state.md: sha256:9ac47f9ae4a1aedcd2077f8ac9ab1ba6bee1962cb83ff51adcd36fb6d83b5ec6
-    .agents/skills/playwright-cli/references/test-generation.md: sha256:2a9c4d94effa31b05cf367dfa8bbace8874a3bc9799987ad2b03269af224d299
+    .agents/skills/playwright-cli/references/test-generation.md: sha256:12f54cfa718d9e559bad918120a4ca4f11c933167713d1b9c5f99872eddaf749
     .agents/skills/playwright-cli/references/tracing.md: sha256:792e0ac7705e56ac48df84c0f5400221ce86107897c671590a64a4ea6a82508e
     .agents/skills/playwright-cli/references/video-recording.md: sha256:8555ab5400df0d90e66318aacc0a8a4418fbf872e7463824d55d5c41615abd83
-    .claude/skills/playwright-cli/SKILL.md: sha256:e72ed4ba7e35b594056efedbd1d773b747d501a18b29ad4f04ab58224f48d7ed
+    .claude/skills/playwright-cli/SKILL.md: sha256:29c0b669a524d42b51934d7db9144c1c07a566d0549ae6fb6ccd810e5a3cf61b
     .claude/skills/playwright-cli/references/element-attributes.md: sha256:bf19aa4671e0a50a0fefa9c790f39124e803060eefe395042b723c29fcb7faa2
     .claude/skills/playwright-cli/references/playwright-tests.md: sha256:c5b0719fef2cfdff50bd744051b2f9afc119775db4b48e9b2882c1cf3886797c
     .claude/skills/playwright-cli/references/request-mocking.md: sha256:54e801c9663fc2b6d68ceb058cb1c360724c2499f42acc7852a68e83e5b5f37c
     .claude/skills/playwright-cli/references/running-code.md: sha256:d95c539a5990b71d02d8bdf1d9414df16191eb6cff95b0063820518b7a13dcb2
     .claude/skills/playwright-cli/references/session-management.md: sha256:cd3e261b8763bf952f1e371b876cb78d054379afec85482f9250633e1b7e6c44
-    .claude/skills/playwright-cli/references/spec-driven-testing.md: sha256:3326b3af65ed6e05180aa394a7fd578f29822e67bde9f22f7c7f94e6c8e3a594
     .claude/skills/playwright-cli/references/storage-state.md: sha256:9ac47f9ae4a1aedcd2077f8ac9ab1ba6bee1962cb83ff51adcd36fb6d83b5ec6
-    .claude/skills/playwright-cli/references/test-generation.md: sha256:2a9c4d94effa31b05cf367dfa8bbace8874a3bc9799987ad2b03269af224d299
+    .claude/skills/playwright-cli/references/test-generation.md: sha256:12f54cfa718d9e559bad918120a4ca4f11c933167713d1b9c5f99872eddaf749
     .claude/skills/playwright-cli/references/tracing.md: sha256:792e0ac7705e56ac48df84c0f5400221ce86107897c671590a64a4ea6a82508e
     .claude/skills/playwright-cli/references/video-recording.md: sha256:8555ab5400df0d90e66318aacc0a8a4418fbf872e7463824d55d5c41615abd83
-  content_hash: sha256:75765540e8eac67f5850207dacf1e2d410763a13841658367b9be6e81ecd8010
+  content_hash: sha256:823f5cee8a67bf3be400529cf8bce84f7b48023e3c9b06807e4dfaad4091512b

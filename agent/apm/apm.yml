@@ -2,24 +2,21 @@ name: agent
 version: 1.0.0
 description: APM project for agent
 author: Lyrise
-# Which agent platforms to deploy to.
-# Resolution order: --target flag > this field > auto-detect from filesystem.
-# Accepted values: vscode, agents, copilot, claude, cursor, opencode, codex,
-# gemini, antigravity, windsurf, kiro, agent-skills, all
 targets:
-  - claude
-  - codex
-  - copilot
-  - opencode
+- claude
+- codex
+- copilot
+- opencode
 dependencies:
-  dependencies:
+  dependencies: null
   apm:
-    - git: https://github.com/microsoft/playwright-cli.git
-      path: skills/playwright-cli
-      ref: main
-    - git: git@github.com:mattpocock/skills.git
-      path: skills/productivity/grilling
-      ref: main
+  - git: https://github.com/microsoft/playwright-cli.git
+    path: skills/playwright-cli
+    ref: main
+  - git: git@github.com:mattpocock/skills.git
+    path: skills/productivity/grilling
+    ref: main
+  - makinux/adversarial-panel
   mcp: []
 includes: auto
 scripts: {}
