@@ -16,7 +16,14 @@ dependencies:
   - git: git@github.com:mattpocock/skills.git
     path: skills/productivity/grilling
     ref: main
-  - makinux/adversarial-panel
+  - git: https://gist.github.com/k16shikano/eb2929f13ed19c97188393d297be8432.git
+    ref: main
+    alias: cognitive-rhythm-writing
+  - git: https://gist.github.com/k16shikano/fd287c3133457c4fd8f5601d34aa817d.git
+    ref: main
+    alias: japanese-tech-writing
+  - git: https://github.com/makinux/adversarial-panel.git
+    ref: main
   mcp: []
 includes: auto
 scripts: {}

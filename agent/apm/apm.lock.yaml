@@ -1,10 +1,39 @@
 lockfile_version: '1'
-generated_at: '2026-07-15T17:25:47.430553+00:00'
+generated_at: '2026-07-16T11:01:01.982680+00:00'
 apm_version: 0.21.0
 dependencies:
+- repo_url: k16shikano/eb2929f13ed19c97188393d297be8432
+  host: gist.github.com
+  resolved_commit: a3b1e26beced71d582e13314fb6f5b179b023c76
+  resolved_ref: main
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/cognitive-rhythm-writing
+  - .agents/skills/cognitive-rhythm-writing/SKILL.md
+  - .claude/skills/cognitive-rhythm-writing
+  - .claude/skills/cognitive-rhythm-writing/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/cognitive-rhythm-writing/SKILL.md: sha256:65486e64f33ce2ab03c5db198b1f92e2838e71abfb1a80085d1b405340c11437
+    .claude/skills/cognitive-rhythm-writing/SKILL.md: sha256:65486e64f33ce2ab03c5db198b1f92e2838e71abfb1a80085d1b405340c11437
+  content_hash: sha256:c9bc3d89d327689176561ef4d73135685c73d90eca03f70403e4e21af3c68a3b
+- repo_url: k16shikano/fd287c3133457c4fd8f5601d34aa817d
+  host: gist.github.com
+  resolved_commit: 209db7d6d19bc4727139844c0e8d786542e9ff68
+  resolved_ref: main
+  package_type: claude_skill
+  deployed_files:
+  - .agents/skills/japanese-tech-writing
+  - .agents/skills/japanese-tech-writing/SKILL.md
+  - .claude/skills/japanese-tech-writing
+  - .claude/skills/japanese-tech-writing/SKILL.md
+  deployed_file_hashes:
+    .agents/skills/japanese-tech-writing/SKILL.md: sha256:fefa815da10fbef2a248d883e75a4d161ec0f9e7162f3707f94eff7d8e366606
+    .claude/skills/japanese-tech-writing/SKILL.md: sha256:fefa815da10fbef2a248d883e75a4d161ec0f9e7162f3707f94eff7d8e366606
+  content_hash: sha256:2e668ef71cf34ad1a64ab7c7a996faa0ef0fd2be80b6f0e1326a2483740088e5
 - repo_url: makinux/adversarial-panel
   host: github.com
   resolved_commit: 6b1061b50dbe27613f0e0b2b90882d297ed46a29
+  resolved_ref: main
   package_type: claude_skill
   deployed_files:
   - .agents/skills/adversarial-panel
@@ -61,7 +90,7 @@ dependencies:
   content_hash: sha256:e4f60e57ed2b5958f37ff73d0a833f28aaa1e05397d9291aeedae4d92862fba4
 - repo_url: mattpocock/skills
   host: github.com
-  resolved_commit: e9fcdf95b402d360f90f1db8d776d5dd450f9234
+  resolved_commit: 9603c1cc8118d08bc1b3bf34cf714f62178dea3b
   resolved_ref: main
   virtual_path: skills/productivity/grilling
   is_virtual: true
