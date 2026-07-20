@@ -1,0 +1,11 @@
+# Skills vendored into ./skills by `./setup.py update`.
+# Key = directory name under ./skills. `path` defaults to the repository root,
+# `ref` defaults to "main". `exclude` takes globs matched against paths
+# relative to the skill root; excluding a directory drops its subtree.
+
+[skills]
+playwright-cli           = { url = "https://github.com/microsoft/playwright-cli.git", path = "skills/playwright-cli" }
+grilling                 = { url = "https://github.com/mattpocock/skills.git", path = "skills/productivity/grilling" }
+adversarial-panel        = { url = "https://github.com/makinux/adversarial-panel.git", exclude = ["assets", "README*.md"] }
+cognitive-rhythm-writing = { url = "https://gist.github.com/k16shikano/eb2929f13ed19c97188393d297be8432.git" }
+japanese-tech-writing    = { url = "https://gist.github.com/k16shikano/fd287c3133457c4fd8f5601d34aa817d.git" }

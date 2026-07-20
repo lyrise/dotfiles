@@ -1,0 +1,40 @@
+{
+  "adversarial-panel": {
+    "commit": "6b1061b50dbe27613f0e0b2b90882d297ed46a29",
+    "exclude": [
+      "assets",
+      "README*.md"
+    ],
+    "path": null,
+    "ref": "main",
+    "url": "https://github.com/makinux/adversarial-panel.git"
+  },
+  "cognitive-rhythm-writing": {
+    "commit": "a3b1e26beced71d582e13314fb6f5b179b023c76",
+    "exclude": [],
+    "path": null,
+    "ref": "main",
+    "url": "https://gist.github.com/k16shikano/eb2929f13ed19c97188393d297be8432.git"
+  },
+  "grilling": {
+    "commit": "082131022ca026f353ab74d9a6e1dcc11adbd954",
+    "exclude": [],
+    "path": "skills/productivity/grilling",
+    "ref": "main",
+    "url": "https://github.com/mattpocock/skills.git"
+  },
+  "japanese-tech-writing": {
+    "commit": "209db7d6d19bc4727139844c0e8d786542e9ff68",
+    "exclude": [],
+    "path": null,
+    "ref": "main",
+    "url": "https://gist.github.com/k16shikano/fd287c3133457c4fd8f5601d34aa817d.git"
+  },
+  "playwright-cli": {
+    "commit": "eee5a185c98e6b04d88f580d45a854e9692ab50b",
+    "exclude": [],
+    "path": "skills/playwright-cli",
+    "ref": "main",
+    "url": "https://github.com/microsoft/playwright-cli.git"
+  }
+}
