@@ -1,0 +1,4 @@
+interface:
+  display_name: "Grilling Impl"
+  short_description: "Grill decisions, then delegate implementation"
+  default_prompt: "Use $grilling-impl to question my plan one decision at a time, then delegate implementation after I approve the final brief."
