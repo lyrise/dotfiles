@@ -3,10 +3,10 @@
 # requires-python = ">=3.11"
 # dependencies = []
 # ///
-"""Manage agent skills and config files.
+"""Manage agent skills, subagents, and config files.
 
 update  - fetch skills declared in skills.toml into ./skills, record commits in skills.lock.json
-install - symlink ./skills and config files into the locations Claude Code and Codex read
+install - symlink skills, subagents, and config files into locations Claude Code and Codex read
 """
 
 from __future__ import annotations
@@ -38,6 +38,21 @@ def codex_home() -> Path:
 
 def skill_dests() -> list[Path]:
     return [Path.home() / ".claude" / "skills", codex_home() / "skills"]
+
+
+def agent_roots() -> list[tuple[Path, Path, str]]:
+    return [
+        (
+            ROOT / "config" / "claude" / "agents",
+            Path.home() / ".claude" / "agents",
+            ".md",
+        ),
+        (
+            ROOT / "config" / "codex" / "agents",
+            codex_home() / "agents",
+            ".toml",
+        ),
+    ]
 
 
 def config_links() -> list[tuple[Path, Path]]:
@@ -205,18 +220,19 @@ def link(src: Path, dst: Path, force: bool) -> bool:
     return True
 
 
-def prune(dest_root: Path) -> None:
-    """Drop symlinks we own whose skill no longer exists."""
-    skills = SKILLS_DIR.resolve()
+def prune(dest_root: Path, source_root: Path) -> None:
+    """Drop symlinks into source_root whose same-named source no longer exists."""
+    sources = source_root.resolve()
     for entry in sorted(dest_root.iterdir()):
         if not entry.is_symlink():
             continue
         target = Path(os.readlink(entry))
         if not target.is_absolute():
-            target = (dest_root / target).resolve()
-        if target.parent != skills:
+            target = dest_root / target
+        target = target.resolve()
+        if target.parent != sources:
             continue
-        if not (skills / entry.name).is_dir():
+        if not (sources / entry.name).exists():
             entry.unlink()
             print(f"pruned   {entry}")
 
@@ -228,14 +244,30 @@ def cmd_install(args: argparse.Namespace) -> int:
 
     for dest_root in skill_dests():
         dest_root.mkdir(parents=True, exist_ok=True)
-        prune(dest_root)
+        prune(dest_root, SKILLS_DIR)
         for src in sources:
             ok &= link(src.resolve(), dest_root / src.name, args.force)
+
+    agent_count = 0
+    agent_destinations: list[Path] = []
+    for source_root, dest_root, suffix in agent_roots():
+        dest_root.mkdir(parents=True, exist_ok=True)
+        prune(dest_root, source_root)
+        agent_sources = (
+            sorted(p for p in source_root.iterdir() if p.is_file() and p.suffix == suffix)
+            if source_root.is_dir()
+            else []
+        )
+        for src in agent_sources:
+            ok &= link(src.resolve(), dest_root / src.name, args.force)
+        agent_count += len(agent_sources)
+        agent_destinations.append(dest_root)
 
     for src, dst in config_links():
         ok &= link(src, dst, args.force)
 
     print(f"\n{len(sources)} skills -> {', '.join(str(d) for d in skill_dests())}")
+    print(f"{agent_count} agents -> {', '.join(str(d) for d in agent_destinations)}")
     return 0 if ok else 1
 
 
@@ -250,7 +282,9 @@ def main() -> int:
         func=cmd_update
     )
 
-    install = sub.add_parser("install", help="symlink skills and config files into place")
+    install = sub.add_parser(
+        "install", help="symlink skills, subagents, and config files into place"
+    )
     install.add_argument(
         "--force", action="store_true", help="replace existing files that are not symlinks"
     )

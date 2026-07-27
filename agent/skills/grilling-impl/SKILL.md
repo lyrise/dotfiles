@@ -1,6 +1,6 @@
 ---
 name: grilling-impl
-description: Grill the user one decision at a time, then delegate approved implementation to an available Claude- or GPT-family subagent. Use when the user wants to refine a plan before implementation, says “grill me, then implement” or “grillingの後に実装,” or explicitly invokes this skill. Use grilling for discussion-only requests.
+description: Grill the user one decision at a time, then delegate approved implementation to a named implementer and independently audit it with a named verifier. Use when the user wants to refine a plan before implementation, says “grill me, then implement” or “grillingの後に実装,” or explicitly invokes this skill. Use grilling for discussion-only requests.
 ---
 
 # Grilling Impl
@@ -27,10 +27,24 @@ should begin. Do not implement before the user confirms.
 
 ## Delegate and verify
 
-Delegate implementation to one available Claude- or GPT-family subagent.
-Give it the brief, working directory, applicable instructions, current worktree
-state, and verification commands. Require it to implement and verify the change
-without modifying unrelated work.
+Require the named `implementer` and `verifier` agents. If either is unavailable,
+do not fall back to another agent. Tell the user to run `agent/setup.py install`
+from this dotfiles repository and start a fresh session, then stop.
 
-Review the resulting diff in the main session, run the required checks, and
-report any unverified work.
+Give `implementer` the brief, working directory, applicable instructions,
+starting worktree state, and verification commands. Require scoped implementation
+and verification without modifying unrelated work.
+
+Give the resulting diff and verification evidence to `verifier`. Require strict
+read-only review and a `pass` or `changes-required` verdict. Only unmet
+requirements, correctness defects, regressions, safety issues, and missing
+required verification are blocking.
+
+Consolidate blocking findings from `verifier` and the main session before
+returning them to `implementer`. Allow at most two corrective handoffs in total,
+and rerun `verifier` after every correction.
+
+After `verifier` passes, review the diff in the main session and rerun the
+required checks. If a blocking issue remains and the correction limit is
+exhausted, do not fix it in the main session; report the remaining issue and all
+unverified work.
