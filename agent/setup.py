@@ -6,7 +6,8 @@
 """Manage agent skills, subagents, and config files.
 
 update  - fetch skills declared in skills.toml into ./skills, record commits in skills.lock.json
-install - symlink skills, subagents, and config files into locations Claude Code and Codex read
+install - symlink skills, subagents, rules, and config files into locations Claude Code,
+          Codex, and Continue read
 """
 
 from __future__ import annotations
@@ -36,8 +37,23 @@ def codex_home() -> Path:
     return Path(os.environ.get("CODEX_HOME") or Path.home() / ".codex")
 
 
+def continue_home() -> Path:
+    return Path(os.environ.get("CONTINUE_GLOBAL_DIR") or Path.home() / ".continue")
+
+
 def skill_dests() -> list[Path]:
     return [Path.home() / ".claude" / "skills", codex_home() / "skills"]
+
+
+def skill_tree_dests() -> list[Path]:
+    """Destinations that take the whole skills directory as a single symlink.
+
+    Continue walks its skills directory itself and treats a symlinked
+    subdirectory as a plain file, so linking each skill separately would hide
+    every SKILL.md from it. Linking the directory works because the walk starts
+    by listing that path, which resolves the link.
+    """
+    return [continue_home() / "skills"]
 
 
 def agent_roots() -> list[tuple[Path, Path, str]]:
@@ -51,6 +67,17 @@ def agent_roots() -> list[tuple[Path, Path, str]]:
             ROOT / "config" / "codex" / "agents",
             codex_home() / "agents",
             ".toml",
+        ),
+    ]
+
+
+def rule_roots() -> list[tuple[Path, Path, str]]:
+    """Continue has no global agent file; its global instructions are rules."""
+    return [
+        (
+            ROOT / "config" / "continue" / "rules",
+            continue_home() / "rules",
+            ".md",
         ),
     ]
 
@@ -237,6 +264,21 @@ def prune(dest_root: Path, source_root: Path) -> None:
             print(f"pruned   {entry}")
 
 
+def link_files(source_root: Path, dest_root: Path, suffix: str, force: bool) -> tuple[bool, int]:
+    """Symlink every `suffix` file in source_root into dest_root."""
+    dest_root.mkdir(parents=True, exist_ok=True)
+    prune(dest_root, source_root)
+    sources = (
+        sorted(p for p in source_root.iterdir() if p.is_file() and p.suffix == suffix)
+        if source_root.is_dir()
+        else []
+    )
+    ok = True
+    for src in sources:
+        ok &= link(src.resolve(), dest_root / src.name, force)
+    return ok, len(sources)
+
+
 def cmd_install(args: argparse.Namespace) -> int:
     ok = True
 
@@ -248,26 +290,27 @@ def cmd_install(args: argparse.Namespace) -> int:
         for src in sources:
             ok &= link(src.resolve(), dest_root / src.name, args.force)
 
-    agent_count = 0
-    agent_destinations: list[Path] = []
-    for source_root, dest_root, suffix in agent_roots():
-        dest_root.mkdir(parents=True, exist_ok=True)
-        prune(dest_root, source_root)
-        agent_sources = (
-            sorted(p for p in source_root.iterdir() if p.is_file() and p.suffix == suffix)
-            if source_root.is_dir()
-            else []
-        )
-        for src in agent_sources:
-            ok &= link(src.resolve(), dest_root / src.name, args.force)
-        agent_count += len(agent_sources)
-        agent_destinations.append(dest_root)
+    for dest in skill_tree_dests():
+        ok &= link(SKILLS_DIR.resolve(), dest, args.force)
+
+    counts: dict[str, tuple[int, list[Path]]] = {}
+    for label, roots in (("agents", agent_roots()), ("rules", rule_roots())):
+        count = 0
+        destinations: list[Path] = []
+        for source_root, dest_root, suffix in roots:
+            linked, found = link_files(source_root, dest_root, suffix, args.force)
+            ok &= linked
+            count += found
+            destinations.append(dest_root)
+        counts[label] = (count, destinations)
 
     for src, dst in config_links():
         ok &= link(src, dst, args.force)
 
-    print(f"\n{len(sources)} skills -> {', '.join(str(d) for d in skill_dests())}")
-    print(f"{agent_count} agents -> {', '.join(str(d) for d in agent_destinations)}")
+    skill_destinations = [*skill_dests(), *skill_tree_dests()]
+    print(f"\n{len(sources)} skills -> {', '.join(str(d) for d in skill_destinations)}")
+    for label, (count, destinations) in counts.items():
+        print(f"{count} {label} -> {', '.join(str(d) for d in destinations)}")
     return 0 if ok else 1
 
 
@@ -283,7 +326,7 @@ def main() -> int:
     )
 
     install = sub.add_parser(
-        "install", help="symlink skills, subagents, and config files into place"
+        "install", help="symlink skills, subagents, rules, and config files into place"
     )
     install.add_argument(
         "--force", action="store_true", help="replace existing files that are not symlinks"
