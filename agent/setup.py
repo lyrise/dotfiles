@@ -21,8 +21,10 @@ import shutil
 import subprocess
 import sys
 import tempfile
-import tomllib
+from collections.abc import Callable
 from pathlib import Path
+
+import tomllib
 
 ROOT = Path(__file__).resolve().parent
 SKILLS_DIR = ROOT / "skills"
@@ -84,15 +86,16 @@ def rule_roots() -> list[tuple[Path, Path, str]]:
 
 def config_links() -> list[tuple[Path, Path]]:
     return [
-        (ROOT / "config" / "claude" / "CLAUDE.md", Path.home() / ".claude" / "CLAUDE.md"),
+        (
+            ROOT / "config" / "claude" / "CLAUDE.md",
+            Path.home() / ".claude" / "CLAUDE.md",
+        ),
         (ROOT / "config" / "codex" / "AGENTS.md", codex_home() / "AGENTS.md"),
     ]
 
 
 def git(*args: str) -> str:
-    result = subprocess.run(
-        ["git", *args], capture_output=True, text=True, check=True
-    )
+    result = subprocess.run(["git", *args], capture_output=True, text=True, check=True)
     return result.stdout
 
 
@@ -131,7 +134,7 @@ def remote_commit(url: str, ref: str) -> str:
     return out.splitlines()[0].split("\t")[0]
 
 
-def ignore_for(src: Path, exclude: list[str]) -> callable:
+def ignore_for(src: Path, exclude: list[str]) -> Callable:
     """Ignore .git plus any path matching a glob, relative to the skill root.
 
     Excluding a directory drops its whole subtree, since copytree never
@@ -150,7 +153,9 @@ def ignore_for(src: Path, exclude: list[str]) -> callable:
     return ignore
 
 
-def fetch(url: str, ref: str, subpath: str | None, exclude: list[str], dest: Path) -> str:
+def fetch(
+    url: str, ref: str, subpath: str | None, exclude: list[str], dest: Path
+) -> str:
     with tempfile.TemporaryDirectory() as tmp:
         clone = Path(tmp) / "repo"
         git("clone", "--depth", "1", "--branch", ref, "--quiet", url, str(clone))
@@ -209,7 +214,9 @@ def cmd_update(_args: argparse.Namespace) -> int:
             lock[name] = entry
             print(f"updated  {name}  {commit[:8]}")
         except (KeyError, ValueError, RuntimeError, subprocess.CalledProcessError) as e:
-            detail = e.stderr.strip() if isinstance(e, subprocess.CalledProcessError) else e
+            detail = (
+                e.stderr.strip() if isinstance(e, subprocess.CalledProcessError) else e
+            )
             errors.append(f"{name}: {detail}")
 
     write_lock(lock)
@@ -233,7 +240,10 @@ def link(src: Path, dst: Path, force: bool) -> bool:
         dst.unlink()
     elif dst.exists():
         if not force:
-            print(f"skipped  {dst}  (not a symlink; use --force to replace)", file=sys.stderr)
+            print(
+                f"skipped  {dst}  (not a symlink; use --force to replace)",
+                file=sys.stderr,
+            )
             return False
         if dst.is_dir():
             shutil.rmtree(dst)
@@ -264,7 +274,9 @@ def prune(dest_root: Path, source_root: Path) -> None:
             print(f"pruned   {entry}")
 
 
-def link_files(source_root: Path, dest_root: Path, suffix: str, force: bool) -> tuple[bool, int]:
+def link_files(
+    source_root: Path, dest_root: Path, suffix: str, force: bool
+) -> tuple[bool, int]:
     """Symlink every `suffix` file in source_root into dest_root."""
     dest_root.mkdir(parents=True, exist_ok=True)
     prune(dest_root, source_root)
@@ -282,7 +294,11 @@ def link_files(source_root: Path, dest_root: Path, suffix: str, force: bool) -> 
 def cmd_install(args: argparse.Namespace) -> int:
     ok = True
 
-    sources = sorted(p for p in SKILLS_DIR.iterdir() if p.is_dir()) if SKILLS_DIR.is_dir() else []
+    sources = (
+        sorted(p for p in SKILLS_DIR.iterdir() if p.is_dir())
+        if SKILLS_DIR.is_dir()
+        else []
+    )
 
     for dest_root in skill_dests():
         dest_root.mkdir(parents=True, exist_ok=True)
@@ -329,7 +345,9 @@ def main() -> int:
         "install", help="symlink skills, subagents, rules, and config files into place"
     )
     install.add_argument(
-        "--force", action="store_true", help="replace existing files that are not symlinks"
+        "--force",
+        action="store_true",
+        help="replace existing files that are not symlinks",
     )
     install.set_defaults(func=cmd_install)
 
