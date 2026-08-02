@@ -17,6 +17,11 @@
 - 操作対象は snapshot の element ref で特定し、必要に応じて `eval`、`console`、`network` で状態を確認する
 - screenshot はレイアウトや表示崩れの確認など、視覚的な証拠が必要な場合に限定して使用する
 
+### xcode-tools (MCP)
+- iOS/macOS 開発のビルド・テスト・診断・プレビュー確認は、まず Xcode MCP (`xcode-tools`) を使う
+- 利用可否は `XcodeListWindows` で判定し、使えない場合に限り `xcodebuild` にフォールバックする
+- 使い分けの詳細は xcode-mcp スキルに従う
+
 ## Git
 
 ### コミット

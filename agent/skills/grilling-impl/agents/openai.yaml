@@ -1,4 +1,4 @@
 interface:
   display_name: "Grilling Impl"
-  short_description: "Grill, implement, and independently verify"
-  default_prompt: "Use $grilling-impl to resolve decisions, delegate implementation to the named implementer, then independently verify it with the named verifier."
+  short_description: "Grill, plan, implement, and independently verify"
+  default_prompt: "Use $grilling-impl to resolve decisions, write the plan to docs/plans/<slug>.md, delegate that plan to the named implementer, then independently verify it with the named verifier."
