@@ -43,6 +43,10 @@ def continue_home() -> Path:
     return Path(os.environ.get("CONTINUE_GLOBAL_DIR") or Path.home() / ".continue")
 
 
+def opencode_home() -> Path:
+    return Path.home() / ".config" / "opencode"
+
+
 def skill_dests() -> list[Path]:
     return [Path.home() / ".claude" / "skills", codex_home() / "skills"]
 
@@ -70,6 +74,11 @@ def agent_roots() -> list[tuple[Path, Path, str]]:
             codex_home() / "agents",
             ".toml",
         ),
+        (
+            ROOT / "config" / "opencode" / "agents",
+            opencode_home() / "agents",
+            ".md",
+        ),
     ]
 
 
@@ -91,6 +100,10 @@ def config_links() -> list[tuple[Path, Path]]:
             Path.home() / ".claude" / "CLAUDE.md",
         ),
         (ROOT / "config" / "codex" / "AGENTS.md", codex_home() / "AGENTS.md"),
+        (
+            ROOT / "config" / "opencode" / "AGENTS.md",
+            opencode_home() / "AGENTS.md",
+        ),
     ]
 
 
