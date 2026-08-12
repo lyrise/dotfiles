@@ -1,3 +1,6 @@
+# PATH と連動する path 配列を一意化し、zsh の再起動時に同じ要素を重ねない
+typeset -U path PATH
+
 # 実行環境を識別
 if [ "$(uname)" = 'Darwin' ]; then
     OS='Mac'
@@ -6,6 +9,8 @@ elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]; then
 fi
 
 if [ "${OS}" = 'Mac' ]; then
+    # /etc/zprofile の path_helper による PATH の再構成を停止する
+    unsetopt GLOBAL_RCS
     export PATH="/opt/homebrew/bin:$PATH"
 fi
 
