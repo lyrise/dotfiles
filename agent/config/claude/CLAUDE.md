@@ -26,3 +26,6 @@
 
 ### コミット
 - `Co-Authored-By:` トレーラーは付けない
+
+### PR作成
+- PR本文の末尾に `🤖 Generated with [Claude Code](https://claude.com/claude-code)` などの生成元表記は付けない
