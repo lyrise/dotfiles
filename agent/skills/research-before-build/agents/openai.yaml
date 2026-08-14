@@ -1,0 +1,4 @@
+interface:
+  display_name: "Research Before Build"
+  short_description: "GitHubの既存OSSを比較し、開発方針と最小MVPを提案"
+  default_prompt: "Use $research-before-build to investigate reusable GitHub projects before writing code and recommend the simplest MVP."
