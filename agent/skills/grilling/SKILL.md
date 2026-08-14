@@ -10,3 +10,5 @@ Ask the questions one at a time, waiting for feedback on each question before co
 If a *fact* can be found by exploring the environment (filesystem, tools, etc.), look it up rather than asking me. The *decisions*, though, are mine — put each one to me and wait for my answer.
 
 Do not act on it until I confirm we have reached a shared understanding.
+
+Ask through whichever picker tool the toolset offers — `AskUserQuestion` in Claude Code, `request_user_input` in Codex, Plan mode only — so answering costs me a keystroke. Without one, ask in prose rather than hand-rolling a menu.
