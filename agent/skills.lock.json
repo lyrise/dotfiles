@@ -17,24 +17,38 @@
     "url": "https://gist.github.com/k16shikano/eb2929f13ed19c97188393d297be8432.git"
   },
   "grilling": {
-    "commit": "082131022ca026f353ab74d9a6e1dcc11adbd954",
+    "commit": "b1db3b2ed64d5aad4d655f5a00f0dc8aa0e9d227",
     "exclude": [],
     "path": "skills/productivity/grilling",
     "ref": "main",
     "url": "https://github.com/mattpocock/skills.git"
   },
   "japanese-tech-writing": {
-    "commit": "209db7d6d19bc4727139844c0e8d786542e9ff68",
+    "commit": "c7189cdc9c2520be50418209834145bdf3a46e97",
     "exclude": [],
     "path": null,
     "ref": "main",
     "url": "https://gist.github.com/k16shikano/fd287c3133457c4fd8f5601d34aa817d.git"
   },
   "playwright-cli": {
-    "commit": "eee5a185c98e6b04d88f580d45a854e9692ab50b",
+    "commit": "4f9d85a9472fc6d0c9a91ac62f3f3ecc24c16de2",
     "exclude": [],
     "path": "skills/playwright-cli",
     "ref": "main",
     "url": "https://github.com/microsoft/playwright-cli.git"
+  },
+  "ponytail": {
+    "commit": "2ed6c52c9d7e5e56942508591085fd45dea277d3",
+    "exclude": [],
+    "path": "skills/ponytail",
+    "ref": "main",
+    "url": "https://github.com/DietrichGebert/ponytail.git"
+  },
+  "ponytail-review": {
+    "commit": "2ed6c52c9d7e5e56942508591085fd45dea277d3",
+    "exclude": [],
+    "path": "skills/ponytail-review",
+    "ref": "main",
+    "url": "https://github.com/DietrichGebert/ponytail.git"
   }
 }
