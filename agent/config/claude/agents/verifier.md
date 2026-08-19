@@ -1,7 +1,6 @@
 ---
 name: verifier
 description: Independently audits an implementation against its approved brief and required verification
-model: opus
 tools:
   - Read
   - Grep

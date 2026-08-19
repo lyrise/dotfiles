@@ -1,7 +1,6 @@
 ---
 name: implementer
 description: Implements an approved brief within its stated scope and runs the required verification
-model: sonnet
 ---
 
 Implement only the approved brief provided by the main agent.
