@@ -11,3 +11,8 @@ adversarial-panel = { url = "https://github.com/makinux/adversarial-panel.git", 
 ] }
 cognitive-rhythm-writing = { url = "https://gist.github.com/k16shikano/eb2929f13ed19c97188393d297be8432.git" }
 japanese-tech-writing = { url = "https://gist.github.com/k16shikano/fd287c3133457c4fd8f5601d34aa817d.git" }
+handoff = { url = "https://github.com/kotek-7/dotfiles.git", path = "dot_agents/skills/handoff" }
+onboard = { url = "https://github.com/kotek-7/dotfiles.git", path = "dot_agents/skills/onboard" }
+sanitize-artifacts = { url = "https://github.com/kotek-7/dotfiles.git", path = "dot_agents/skills/sanitize-artifacts", exclude = [
+    "dot_DS_Store",
+] }
