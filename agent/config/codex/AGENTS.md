@@ -23,11 +23,16 @@
 - screenshot はレイアウトや表示崩れの確認など、視覚的な証拠が必要な場合に限定して使用する
 
 ### codex_apps (MCP)
-- GitHub、Google Drive、Slack などの app/connector 上の情報が必要な場合は codex_apps を優先して参照する
-- PR、Issue、レビューコメント、外部サービス上のファイルなどは、ローカル checkout より connector 側を source of truth として扱う
+- Google Drive、Slack などの app/connector 上の情報が必要な場合は codex_apps を優先して参照する
+- 外部サービス上のファイルは、ローカル checkout より connector 側を source of truth として扱う
 - 作成・更新・削除などの変更系操作では、対象、変更内容、意図を明確にしてから実行する
 
 ## Git
+
+### GitHub
+- GitHub の PR、Issue、レビュー、Actions の操作と参照は `gh` CLI を第一選択とする
+- `gh` が sandbox やネットワーク制限で失敗した可能性がある場合は、認証切れと断定せず、同じコマンドを必要な権限付きで再実行する
+- PR、Issue、レビューの source of truth は、`gh` で取得した GitHub 上の状態とする
 
 ### コミット
 - `Co-Authored-By:` トレーラーは付けない
