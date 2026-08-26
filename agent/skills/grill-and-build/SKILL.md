@@ -6,7 +6,7 @@ argument-hint: The change we want to design and implement.
 
 The goal is **lead time**: the shortest wall-clock path from here to an implementation the user can review. The user's reading and deliberating time is the critical path — measured at 90% of a comparable interview session — so every rule below exists to take work off it, not to be thorough for its own sake.
 
-This is a sibling of `grill-me`. That workflow interviews the user about every decision; this one interviews them about the few decisions that are actually theirs, and implements the rest while they read.
+This is a sibling of `grill`. That workflow interviews the user about every decision; this one interviews them about the few decisions that are actually theirs, and implements the rest while they read.
 
 ## Phase 1 — explore before asking
 
