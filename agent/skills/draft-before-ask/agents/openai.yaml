@@ -1,0 +1,4 @@
+interface:
+  display_name: "Draft Before Ask"
+  short_description: "Disclose decisions before asking, then build"
+  default_prompt: "Use $draft-before-ask to disclose every open decision as a numbered draft before implementing the change."
