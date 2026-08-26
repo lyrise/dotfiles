@@ -1,5 +1,5 @@
 ---
-name: draft-before-ask
+name: grill-draft
 description: Disclose every open decision behind a change as a numbered draft — a recommendation plus its strongest alternative — before asking anything, then settle only what the user contests and implement. Use when the user wants a change designed and built without being interviewed about decisions they would have accepted anyway.
 ---
 
