@@ -1,6 +1,7 @@
 ---
 name: verifier
 description: Independently audits an implementation against its approved brief and required verification
+model: sonnet
 tools:
   - Read
   - Grep
