@@ -1,4 +1,4 @@
-for name in freetoken ollama openrouter; do
+for name in freetoken ollama openrouter zai; do
   dir="$HOME/.claude-$name"
 
   mkdir -p "$dir"
