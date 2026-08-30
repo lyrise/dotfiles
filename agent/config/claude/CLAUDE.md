@@ -22,6 +22,10 @@
 - project、scheme、destination を明示し、`xcodebuild`、`swift`、`simctl`、`devicectl`、`xcresulttool` を使う
 - 詳細は xcode-cli スキルに従う
 
+## Rust
+- サンドボックス内で Cargo が Rust コンパイラを起動し得るコマンド（`build`、`check`、`test`、`clippy`、`run`、`doc` など）を実行するときは、最初から `RUSTC_WRAPPER= cargo ...` として sccache を無効化する
+- `fmt`、`metadata`、`clean` など Rust コンパイラを起動しない Cargo コマンドは対象外とする
+
 ## Git
 
 ### コミット

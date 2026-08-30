@@ -21,6 +21,10 @@
 - 承認済みの作業単位を実装させる場合は `implementer` サブエージェントに委譲し、実装対象と検証コマンドを明示する
 - 実装結果の点検は `verifier` サブエージェントに任せ、`pass` / `changes-required` の判定を受け取る
 
+## Rust
+- サンドボックス内で Cargo が Rust コンパイラを起動し得るコマンド（`build`、`check`、`test`、`clippy`、`run`、`doc` など）を実行するときは、最初から `RUSTC_WRAPPER= cargo ...` として sccache を無効化する
+- `fmt`、`metadata`、`clean` など Rust コンパイラを起動しない Cargo コマンドは対象外とする
+
 ## Git
 
 ### コミット

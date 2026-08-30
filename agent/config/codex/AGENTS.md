@@ -27,6 +27,10 @@
 - 外部サービス上のファイルは、ローカル checkout より connector 側を source of truth として扱う
 - 作成・更新・削除などの変更系操作では、対象、変更内容、意図を明確にしてから実行する
 
+## Rust
+- サンドボックス内で Cargo が Rust コンパイラを起動し得るコマンド（`build`、`check`、`test`、`clippy`、`run`、`doc` など）を実行するときは、最初から `RUSTC_WRAPPER= cargo ...` として sccache を無効化する
+- `fmt`、`metadata`、`clean` など Rust コンパイラを起動しない Cargo コマンドは対象外とする
+
 ## Git
 
 ### GitHub
