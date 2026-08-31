@@ -15,7 +15,7 @@
 
 ## 検証する
 
-`../../design-docs-writing/SKILL.md` の検証手順に従い、`verifier` に差分と PR 本文を渡す。
+`verifier` に差分と PR 本文を渡して独立検証させる。
 `verifier` が利用できない場合は、数値を本文から外すかユーザーに判断を求める。
 数値を主張しない PR では `verifier` を必須としない。
 

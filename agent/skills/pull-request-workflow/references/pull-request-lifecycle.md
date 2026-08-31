@@ -9,7 +9,7 @@ gh pr create --draft --title '...' --body-file pr-body.md
 ```
 
 Draft 作成後に差分を通して自己レビューする。
-行指定コメントが必要な場合は `SKILL.md` から `github-review-comments.md` を読み、投稿前にユーザーの承認を得る。
+行指定コメントが必要な場合は `github-review-comments.md` を読み、投稿前にユーザーの承認を得る。
 
 ## CI を監視する
 
