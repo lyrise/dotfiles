@@ -52,5 +52,12 @@
     "path": "dot_agents/skills/sanitize-artifacts",
     "ref": "main",
     "url": "https://github.com/kotek-7/dotfiles.git"
+  },
+  "show-me": {
+    "commit": "3c2629142c5d437428269b1b722b08c0b87f574d",
+    "exclude": [],
+    "path": "plugins/show-me/skills/show-me",
+    "ref": "main",
+    "url": "https://github.com/humanlayer/skills.git"
   }
 }
