@@ -17,7 +17,7 @@
     "url": "https://gist.github.com/k16shikano/eb2929f13ed19c97188393d297be8432.git"
   },
   "handoff": {
-    "commit": "2261762b675904f636528634cc87d58379e53596",
+    "commit": "d80c707025bc138ce826917651c046fed232ee18",
     "exclude": [],
     "path": "dot_agents/skills/handoff",
     "ref": "main",
@@ -31,26 +31,33 @@
     "url": "https://gist.github.com/k16shikano/fd287c3133457c4fd8f5601d34aa817d.git"
   },
   "onboard": {
-    "commit": "2261762b675904f636528634cc87d58379e53596",
+    "commit": "d80c707025bc138ce826917651c046fed232ee18",
     "exclude": [],
     "path": "dot_agents/skills/onboard",
     "ref": "main",
     "url": "https://github.com/kotek-7/dotfiles.git"
   },
   "playwright-cli": {
-    "commit": "60cb176373cf4400405122703e6de26cd58c7a1c",
+    "commit": "655530f6d0dc71a0d6bf46ae165877d3c7311099",
     "exclude": [],
     "path": "skills/playwright-cli",
     "ref": "main",
     "url": "https://github.com/microsoft/playwright-cli.git"
   },
   "sanitize-artifacts": {
-    "commit": "2261762b675904f636528634cc87d58379e53596",
+    "commit": "d80c707025bc138ce826917651c046fed232ee18",
     "exclude": [
       "dot_DS_Store"
     ],
     "path": "dot_agents/skills/sanitize-artifacts",
     "ref": "main",
     "url": "https://github.com/kotek-7/dotfiles.git"
+  },
+  "show-me": {
+    "commit": "3c2629142c5d437428269b1b722b08c0b87f574d",
+    "exclude": [],
+    "path": "plugins/show-me/skills/show-me",
+    "ref": "main",
+    "url": "https://github.com/humanlayer/skills.git"
   }
 }

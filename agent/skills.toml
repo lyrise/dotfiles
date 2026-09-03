@@ -16,3 +16,4 @@ onboard = { url = "https://github.com/kotek-7/dotfiles.git", path = "dot_agents/
 sanitize-artifacts = { url = "https://github.com/kotek-7/dotfiles.git", path = "dot_agents/skills/sanitize-artifacts", exclude = [
     "dot_DS_Store",
 ] }
+show-me = { url = "https://github.com/humanlayer/skills.git", path = "plugins/show-me/skills/show-me" }
