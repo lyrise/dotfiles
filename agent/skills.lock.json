@@ -17,7 +17,7 @@
     "url": "https://gist.github.com/k16shikano/eb2929f13ed19c97188393d297be8432.git"
   },
   "handoff": {
-    "commit": "d80c707025bc138ce826917651c046fed232ee18",
+    "commit": "fc14ac781efdfecca84104410588a0e6c063c498",
     "exclude": [],
     "path": "dot_agents/skills/handoff",
     "ref": "main",
@@ -31,7 +31,7 @@
     "url": "https://gist.github.com/k16shikano/fd287c3133457c4fd8f5601d34aa817d.git"
   },
   "onboard": {
-    "commit": "d80c707025bc138ce826917651c046fed232ee18",
+    "commit": "fc14ac781efdfecca84104410588a0e6c063c498",
     "exclude": [],
     "path": "dot_agents/skills/onboard",
     "ref": "main",
@@ -44,8 +44,50 @@
     "ref": "main",
     "url": "https://github.com/microsoft/playwright-cli.git"
   },
+  "ponytail": {
+    "commit": "974d940a1c5344210874150b98ff0d2c861fab6a",
+    "exclude": [],
+    "path": "skills/ponytail",
+    "ref": "main",
+    "url": "https://github.com/DietrichGebert/ponytail.git"
+  },
+  "ponytail-audit": {
+    "commit": "974d940a1c5344210874150b98ff0d2c861fab6a",
+    "exclude": [],
+    "path": "skills/ponytail-audit",
+    "ref": "main",
+    "url": "https://github.com/DietrichGebert/ponytail.git"
+  },
+  "ponytail-debt": {
+    "commit": "974d940a1c5344210874150b98ff0d2c861fab6a",
+    "exclude": [],
+    "path": "skills/ponytail-debt",
+    "ref": "main",
+    "url": "https://github.com/DietrichGebert/ponytail.git"
+  },
+  "ponytail-gain": {
+    "commit": "974d940a1c5344210874150b98ff0d2c861fab6a",
+    "exclude": [],
+    "path": "skills/ponytail-gain",
+    "ref": "main",
+    "url": "https://github.com/DietrichGebert/ponytail.git"
+  },
+  "ponytail-help": {
+    "commit": "974d940a1c5344210874150b98ff0d2c861fab6a",
+    "exclude": [],
+    "path": "skills/ponytail-help",
+    "ref": "main",
+    "url": "https://github.com/DietrichGebert/ponytail.git"
+  },
+  "ponytail-review": {
+    "commit": "974d940a1c5344210874150b98ff0d2c861fab6a",
+    "exclude": [],
+    "path": "skills/ponytail-review",
+    "ref": "main",
+    "url": "https://github.com/DietrichGebert/ponytail.git"
+  },
   "sanitize-artifacts": {
-    "commit": "d80c707025bc138ce826917651c046fed232ee18",
+    "commit": "fc14ac781efdfecca84104410588a0e6c063c498",
     "exclude": [
       "dot_DS_Store"
     ],
