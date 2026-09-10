@@ -11,4 +11,6 @@ If a *fact* can be found by exploring the environment (filesystem, tools, etc.),
 
 Do not act on it until I confirm we have reached a shared understanding.
 
-When the answer narrows to four or fewer distinct options, use the toolset's picker (`AskUserQuestion` in Claude Code, `request_user_input` in Codex) so answering costs a keystroke. Otherwise ask in prose — never pad, merge, or drop candidates to force a menu, and don't hand-roll one when no picker is available.
+Keep asking until all material decisions are resolved; do not stop at an intermediate summary or an offer to continue. Ask only when a decision would materially change scope, safety, cost, or an external side effect. Reopen a decision only on request, contradictory evidence, or blocking ambiguity; explain why and reconsider only what is affected.
+
+When material questions are resolved, summarize the agreed plan and request whole-plan approval before acting. With four or fewer distinct options, use the native picker; otherwise ask in prose. Never distort candidates to force a menu or hand-roll one when no picker exists.
