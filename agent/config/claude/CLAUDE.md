@@ -2,6 +2,7 @@
 
 ## Overview
 - 日本語で簡潔かつ丁寧に回答してください
+- 不明点があり、作業の正確性に影響する場合は、必要に応じて質問してください
 
 ## Plugins
 
@@ -16,11 +17,6 @@
 - Web UI や localhost のブラウザ検証、DOM 操作、console/network 確認が必要な場合に使用する
 - 操作対象は snapshot の element ref で特定し、必要に応じて `eval`、`console`、`network` で状態を確認する
 - screenshot はレイアウトや表示崩れの確認など、視覚的な証拠が必要な場合に限定して使用する
-
-### xcode-cli (SKILL)
-- iOS/macOS 開発のビルド・テスト・診断・画面確認は CLI で行う
-- project、scheme、destination を明示し、`xcodebuild`、`swift`、`simctl`、`devicectl`、`xcresulttool` を使う
-- 詳細は xcode-cli スキルに従う
 
 ## Rust
 - サンドボックス内で Cargo が Rust コンパイラを起動し得るコマンド（`build`、`check`、`test`、`clippy`、`run`、`doc` など）を実行するときは、最初から `RUSTC_WRAPPER= cargo ...` として sccache を無効化する
