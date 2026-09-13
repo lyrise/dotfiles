@@ -1,6 +1,6 @@
 ---
 name: sanitize-artifacts
-description: Inspect and revise generated artifacts so they read as natural, standalone deliverables, without leaking prompt instructions, conversation history, implementation constraints, or production process artifacts into user-facing content.
+description: "Revise a user-facing artifact to remove process or prompt leakage when the user asks to sanitize or polish it."
 ---
 
 # sanitize-artifacts

@@ -1,19 +1,6 @@
 ---
 name: adversarial-panel
-description: >-
-  Run a multi-model adversarial mutual review with facilitator synthesis — the
-  "Fable 5-style" metacognition pattern, reproducible on Opus or any Claude
-  model: 2+ panelists (different model families where possible) independently
-  answer, adversarially critique each other across rounds, and the main
-  session acts as facilitator, synthesizing agreements, live disagreements,
-  and calibrated confidence into one answer. Use this whenever the user asks
-  to debate or adversarially review a claim, hypothesis, design, decision, or
-  answer with multiple models or perspectives; says things like "discuss with
-  Opus and Codex", "get a second opinion", "red-team this", "devil's
-  advocate", 敵対的レビュー, 相互レビュー, 多モデル討論, 合議, 議論させて;
-  or wants a high-stakes answer with explicit uncertainty instead of a
-  single-pass response. Also use proactively when the user challenges your
-  confidence ("are you sure?") on something consequential.
+description: "Run a multi-model adversarial review when the user explicitly requests competing perspectives, a red team, or calibrated uncertainty."
 ---
 
 # Adversarial Panel

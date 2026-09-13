@@ -1,6 +1,6 @@
 ---
 name: grill-draft
-description: Disclose every open decision behind a change as a numbered draft — a recommendation plus its strongest alternative — before asking anything, then settle only what the user contests and implement. Use when the user wants a change designed and built without being interviewed about decisions they would have accepted anyway.
+description: Draft material design decisions for user review when the user wants a change designed without a step-by-step interview.
 ---
 
 The goal is **full disclosure at the lowest reply cost**. Every decision still open gets put in front of the user as a draft they can accept, reject, or skim past — and answering costs them a number, not an essay.

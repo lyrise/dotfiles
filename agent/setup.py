@@ -30,6 +30,7 @@ ROOT = Path(__file__).resolve().parent
 SKILLS_DIR = ROOT / "skills"
 MANIFEST = ROOT / "skills.toml"
 LOCK = ROOT / "skills.lock.json"
+OVERLAYS = ROOT / "skill-overlays.toml"
 
 NAME_RE = re.compile(r"^[A-Za-z0-9._-]+$")
 DEFAULT_REF = "main"
@@ -136,8 +137,64 @@ def read_lock() -> dict[str, dict]:
     return json.loads(LOCK.read_text())
 
 
+def read_overlays() -> dict[str, dict]:
+    if not OVERLAYS.exists():
+        return {}
+    with OVERLAYS.open("rb") as f:
+        return tomllib.load(f).get("skills", {})
+
+
 def write_lock(lock: dict[str, dict]) -> None:
     LOCK.write_text(json.dumps(lock, indent=2, sort_keys=True) + "\n")
+
+
+def rendered_description(skill: Path, description: str) -> str:
+    """Render a frontmatter description replacement without changing the body."""
+    text = skill.read_text()
+    frontmatter = re.match(r"\A---\n(?P<body>.*?)^---\n", text, re.DOTALL | re.MULTILINE)
+    if frontmatter is None:
+        raise ValueError("missing YAML frontmatter")
+
+    body = frontmatter.group("body")
+    match = re.search(r"(?m)^description:(?P<value>[^\n]*)(?:\n|\Z)", body)
+    if match is None:
+        raise ValueError("missing frontmatter description")
+
+    end = match.end()
+    if match.group("value").strip() in {">", ">-", ">+", "|", "|-", "|+"}:
+        next_key = re.search(r"(?m)^(?=[^\s])", body[end:])
+        end += next_key.start() if next_key is not None else len(body[end:])
+
+    updated = (
+        body[: match.start()]
+        + f"description: {json.dumps(description, ensure_ascii=False)}\n"
+        + body[end:]
+    )
+    return "---\n" + updated + "---\n" + text[frontmatter.end() :]
+
+
+def apply_overlays(manifest: dict[str, dict], overlays: dict[str, dict]) -> int:
+    """Apply validated local frontmatter overrides to vendored skills."""
+    updates: list[tuple[str, Path, str]] = []
+    for name in sorted(overlays):
+        spec = overlays[name]
+        if name not in manifest:
+            raise ValueError(f"overlay target is not a vendored skill: {name}")
+        if (
+            not isinstance(spec, dict)
+            or set(spec) != {"description"}
+            or not isinstance(spec["description"], str)
+        ):
+            raise ValueError(f"overlay for {name} must contain only a string description")
+        path = skill_path(name) / "SKILL.md"
+        if not path.is_file():
+            raise ValueError(f"overlay target is missing: {path}")
+        updates.append((name, path, rendered_description(path, spec["description"])))
+
+    for name, path, text in updates:
+        path.write_text(text)
+        print(f"overlay  {name}")
+    return len(updates)
 
 
 def remote_commit(url: str, ref: str) -> str:
@@ -187,6 +244,7 @@ def fetch(
 def cmd_update(_args: argparse.Namespace) -> int:
     manifest = read_manifest()
     lock = read_lock()
+    overlays = read_overlays()
     errors: list[str] = []
 
     SKILLS_DIR.mkdir(parents=True, exist_ok=True)
@@ -231,6 +289,11 @@ def cmd_update(_args: argparse.Namespace) -> int:
                 e.stderr.strip() if isinstance(e, subprocess.CalledProcessError) else e
             )
             errors.append(f"{name}: {detail}")
+
+    try:
+        apply_overlays(manifest, overlays)
+    except (TypeError, ValueError) as e:
+        errors.append(f"overlays: {e}")
 
     write_lock(lock)
 
