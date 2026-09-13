@@ -18,8 +18,7 @@
 - screenshot はレイアウトや表示崩れの確認など、視覚的な証拠が必要な場合に限定して使用する
 
 ## Agents
-- 承認済みの作業単位を実装させる場合は `implementer` サブエージェントに委譲し、実装対象と検証コマンドを明示する
-- 実装結果の点検は `verifier` サブエージェントに任せ、`pass` / `changes-required` の判定を受け取る
+- チェックは `verifier` サブエージェントに任せ、`pass` / `changes-required` の判定を受け取る
 
 ## Rust
 - サンドボックス内で Cargo が Rust コンパイラを起動し得るコマンド（`build`、`check`、`test`、`clippy`、`run`、`doc` など）を実行するときは、最初から `RUSTC_WRAPPER= cargo ...` として sccache を無効化する
