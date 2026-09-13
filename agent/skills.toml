@@ -17,9 +17,3 @@ sanitize-artifacts = { url = "https://github.com/kotek-7/dotfiles.git", path = "
     "dot_DS_Store",
 ] }
 show-me = { url = "https://github.com/humanlayer/skills.git", path = "plugins/show-me/skills/show-me" }
-ponytail = { url = "https://github.com/DietrichGebert/ponytail.git", path = "skills/ponytail" }
-ponytail-audit = { url = "https://github.com/DietrichGebert/ponytail.git", path = "skills/ponytail-audit" }
-ponytail-debt = { url = "https://github.com/DietrichGebert/ponytail.git", path = "skills/ponytail-debt" }
-ponytail-gain = { url = "https://github.com/DietrichGebert/ponytail.git", path = "skills/ponytail-gain" }
-ponytail-help = { url = "https://github.com/DietrichGebert/ponytail.git", path = "skills/ponytail-help" }
-ponytail-review = { url = "https://github.com/DietrichGebert/ponytail.git", path = "skills/ponytail-review" }
