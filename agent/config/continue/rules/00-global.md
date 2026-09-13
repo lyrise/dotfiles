@@ -7,16 +7,17 @@ alwaysApply: true
 
 ## Overview
 - 日本語で簡潔かつ丁寧に回答してください
-- 不明点があり、作業の正確性に影響する場合は、必要に応じて質問してください
+- ユーザーの指示は skill の規範より優先する
+- task に必要な skill、資料、コード、ツールだけを読む
+- repo と会話から日常的な不足を補い、安全な局所作業は必要な検証まで完了する
+- 目的、scope、安全性、外部作用を変える判断だけをユーザーに確認する
+- 検証は変更リスクに比例させ、要求済みの確認、新しい失敗、未解決の懸念がなければ全量化や再実行をしない
 
 ## Skills
-- 利用可能な skill が作業内容に該当する場合は、着手前に `read_skill` でその内容を読み、記載された手順に従う
+- task に該当する skill だけを `read_skill` で読み、記載された手順に従う
 - skill は `~/.continue/skills`、`.continue/skills`、`.claude/skills` から読み込まれる
 
-### playwright-cli (SKILL)
-- Web UI や localhost のブラウザ検証、DOM 操作、console/network 確認が必要な場合に使用する
-- 操作対象は snapshot の element ref で特定し、必要に応じて `eval`、`console`、`network` で状態を確認する
-- screenshot はレイアウトや表示崩れの確認など、視覚的な証拠が必要な場合に限定して使用する
+利用可能な専用ツールは、task の正確性や効率を実際に高める場合だけ使う。利用できないツールを前提に停止しない。
 
 ## Rust
 - サンドボックス内で Cargo が Rust コンパイラを起動し得るコマンド（`build`、`check`、`test`、`clippy`、`run`、`doc` など）を実行するときは、最初から `RUSTC_WRAPPER= cargo ...` として sccache を無効化する

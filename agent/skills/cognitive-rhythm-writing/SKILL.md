@@ -1,6 +1,6 @@
 ---
 name: cognitive-rhythm-writing
-description: 説明的な文章に緩急を設計するための規範。緩急を装飾ではなく認知モードの切替（観察→逡巡→断定→再観察）と未回収の緊張の管理として扱い、文の拍、段落の密度波形、節の入り方、緩みと駄文の判別、執筆後の機械的な点検手順を定める。読み物として読ませたい章・記事・解説文を生成するとき、または「密度はあるが平坦でおもしろくない」文章を診断・修正するときに使用する。
+description: "Improve rhythm in explanatory Japanese prose when the user explicitly wants a more engaging, less flat reading experience."
 ---
 
 # 認知リズムを生むための日本語ライティング規範

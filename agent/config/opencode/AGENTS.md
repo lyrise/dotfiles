@@ -2,24 +2,13 @@
 
 ## Overview
 - 日本語で簡潔かつ丁寧に回答してください
+- ユーザーの指示は skill の規範より優先する
+- task に必要な skill、資料、コード、ツールだけを読む
+- repo と会話から日常的な不足を補い、安全な局所作業は必要な検証まで完了する
+- 目的、scope、安全性、外部作用を変える判断だけをユーザーに確認する
+- 検証は変更リスクに比例させ、要求済みの確認、新しい失敗、未解決の懸念がなければ全量化や再実行をしない
 
-## Plugins
-
-### context7 (MCP)
-- 外部ライブラリ・APIの情報取得は Context7 (MCP) で公式ドキュメントを参照し、最新の内容に基づいて対応する
-
-### serena (MCP)
-- 変数/シンボルの特定は `get_symbols_overview` や `find_symbol` を使い、参照先の確認は `find_referencing_symbols` を使う。名前が曖昧な場合は `search_for_pattern` を併用する
-- メモリの参照/更新は `list_memories`/`read_memory`/`write_memory`/`delete_memory` を使う。メモリは `.serena/memories/` に保存されるため、必要に応じて調整する
-
-### playwright-cli (SKILL)
-- Web UI や localhost のブラウザ検証、DOM 操作、console/network 確認が必要な場合に使用する
-- 操作対象は snapshot の element ref で特定し、必要に応じて `eval`、`console`、`network` で状態を確認する
-- screenshot はレイアウトや表示崩れの確認など、視覚的な証拠が必要な場合に限定して使用する
-
-## Agents
-- 承認済みの作業単位を実装させる場合は `implementer` サブエージェントに委譲し、実装対象と検証コマンドを明示する
-- 実装結果の点検は `verifier` サブエージェントに任せ、`pass` / `changes-required` の判定を受け取る
+利用可能な専用ツールは、task の正確性や効率を実際に高める場合だけ使う。利用できないツールを前提に停止しない。
 
 ## Rust
 - サンドボックス内で Cargo が Rust コンパイラを起動し得るコマンド（`build`、`check`、`test`、`clippy`、`run`、`doc` など）を実行するときは、最初から `RUSTC_WRAPPER= cargo ...` として sccache を無効化する

@@ -1,0 +1,25 @@
+# Local descriptions reapplied after `./setup.py update` replaces vendored skills.
+
+[skills.adversarial-panel]
+description = "Run a multi-model adversarial review when the user explicitly requests competing perspectives, a red team, or calibrated uncertainty."
+
+[skills.cognitive-rhythm-writing]
+description = "Improve rhythm in explanatory Japanese prose when the user explicitly wants a more engaging, less flat reading experience."
+
+[skills.handoff]
+description = "Create a context handoff prompt when the user asks to transfer work to another agent or chat."
+
+[skills.japanese-tech-writing]
+description = "Write or revise reader-facing Japanese technical prose when the user asks for a technical article, chapter, or explanation."
+
+[skills.onboard]
+description = "Inspect an unfamiliar repository when the user asks for orientation, a summary, or an onboarding pass."
+
+[skills.playwright-cli]
+description = "Use playwright-cli to automate browser UI or run and debug Playwright tests when the task requires browser interaction."
+
+[skills.sanitize-artifacts]
+description = "Revise a user-facing artifact to remove process or prompt leakage when the user asks to sanitize or polish it."
+
+[skills.show-me]
+description = "Explain a topic with a focused visual when the user explicitly asks to see or compare it visually."

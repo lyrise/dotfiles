@@ -1,6 +1,6 @@
 ---
 name: tor-fetch
-description: Fetch web pages through the local Tor SOCKS proxy instead of the built-in webfetch tool. Use when the user explicitly asks for Tor or anonymous access, or the target URL is a .onion domain.
+description: Torまたは匿名アクセスを明示されたとき、または .onion URL を取得するときに使う。
 ---
 
 Fetch URLs through the local Tor daemon instead of the built-in webfetch tool. Use this skill only when the user explicitly requests Tor (e.g. "Torで", "anonymously") or the URL is a .onion domain. Do not use it for ordinary fetches.

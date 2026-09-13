@@ -24,7 +24,7 @@
     "url": "https://github.com/kotek-7/dotfiles.git"
   },
   "japanese-tech-writing": {
-    "commit": "c7189cdc9c2520be50418209834145bdf3a46e97",
+    "commit": "8f2d57610a73efc97d743c9b0b0ecb1002e09fa4",
     "exclude": [],
     "path": null,
     "ref": "main",
@@ -43,48 +43,6 @@
     "path": "skills/playwright-cli",
     "ref": "main",
     "url": "https://github.com/microsoft/playwright-cli.git"
-  },
-  "ponytail": {
-    "commit": "974d940a1c5344210874150b98ff0d2c861fab6a",
-    "exclude": [],
-    "path": "skills/ponytail",
-    "ref": "main",
-    "url": "https://github.com/DietrichGebert/ponytail.git"
-  },
-  "ponytail-audit": {
-    "commit": "974d940a1c5344210874150b98ff0d2c861fab6a",
-    "exclude": [],
-    "path": "skills/ponytail-audit",
-    "ref": "main",
-    "url": "https://github.com/DietrichGebert/ponytail.git"
-  },
-  "ponytail-debt": {
-    "commit": "974d940a1c5344210874150b98ff0d2c861fab6a",
-    "exclude": [],
-    "path": "skills/ponytail-debt",
-    "ref": "main",
-    "url": "https://github.com/DietrichGebert/ponytail.git"
-  },
-  "ponytail-gain": {
-    "commit": "974d940a1c5344210874150b98ff0d2c861fab6a",
-    "exclude": [],
-    "path": "skills/ponytail-gain",
-    "ref": "main",
-    "url": "https://github.com/DietrichGebert/ponytail.git"
-  },
-  "ponytail-help": {
-    "commit": "974d940a1c5344210874150b98ff0d2c861fab6a",
-    "exclude": [],
-    "path": "skills/ponytail-help",
-    "ref": "main",
-    "url": "https://github.com/DietrichGebert/ponytail.git"
-  },
-  "ponytail-review": {
-    "commit": "974d940a1c5344210874150b98ff0d2c861fab6a",
-    "exclude": [],
-    "path": "skills/ponytail-review",
-    "ref": "main",
-    "url": "https://github.com/DietrichGebert/ponytail.git"
   },
   "sanitize-artifacts": {
     "commit": "fc14ac781efdfecca84104410588a0e6c063c498",
