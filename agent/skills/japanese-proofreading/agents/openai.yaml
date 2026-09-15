@@ -1,0 +1,4 @@
+interface:
+  display_name: "日本語校正"
+  short_description: "textlint の検知結果を根拠に日本語を校正"
+  default_prompt: "$japanese-proofreading を使って、この日本語を訂正してください。"
