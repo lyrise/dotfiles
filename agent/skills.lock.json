@@ -1,4 +1,14 @@
 {
+  "adversarial-panel": {
+    "commit": "6b1061b50dbe27613f0e0b2b90882d297ed46a29",
+    "exclude": [
+      "assets",
+      "README*.md"
+    ],
+    "path": null,
+    "ref": "main",
+    "url": "https://github.com/makinux/adversarial-panel.git"
+  },
   "cognitive-rhythm-writing": {
     "commit": "a3b1e26beced71d582e13314fb6f5b179b023c76",
     "exclude": [],
@@ -7,7 +17,7 @@
     "url": "https://gist.github.com/k16shikano/eb2929f13ed19c97188393d297be8432.git"
   },
   "handoff": {
-    "commit": "fc14ac781efdfecca84104410588a0e6c063c498",
+    "commit": "bdad3cefc3fb96842ecb4c6b4ae77d2f40ae1c0b",
     "exclude": [],
     "path": "dot_agents/skills/handoff",
     "ref": "main",
@@ -21,14 +31,14 @@
     "url": "https://gist.github.com/k16shikano/fd287c3133457c4fd8f5601d34aa817d.git"
   },
   "playwright-cli": {
-    "commit": "655530f6d0dc71a0d6bf46ae165877d3c7311099",
+    "commit": "12228454ed024c9ac89abd59df3b706ed9135fd9",
     "exclude": [],
     "path": "skills/playwright-cli",
     "ref": "main",
     "url": "https://github.com/microsoft/playwright-cli.git"
   },
   "sanitize-artifacts": {
-    "commit": "fc14ac781efdfecca84104410588a0e6c063c498",
+    "commit": "bdad3cefc3fb96842ecb4c6b4ae77d2f40ae1c0b",
     "exclude": [
       "dot_DS_Store"
     ],
