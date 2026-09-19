@@ -23,6 +23,13 @@
     "ref": "main",
     "url": "https://github.com/kotek-7/dotfiles.git"
   },
+  "i-have-adhd": {
+    "commit": "b15d0be58f55b33972ba3e39709e0e5208ef30cb",
+    "exclude": [],
+    "path": "skills/i-have-adhd",
+    "ref": "main",
+    "url": "https://github.com/ayghri/i-have-adhd.git"
+  },
   "japanese-tech-writing": {
     "commit": "8f2d57610a73efc97d743c9b0b0ecb1002e09fa4",
     "exclude": [],
@@ -31,7 +38,7 @@
     "url": "https://gist.github.com/k16shikano/fd287c3133457c4fd8f5601d34aa817d.git"
   },
   "playwright-cli": {
-    "commit": "12228454ed024c9ac89abd59df3b706ed9135fd9",
+    "commit": "74354ecc7a43da16d91a9bc54fa8db8283a3fcf5",
     "exclude": [],
     "path": "skills/playwright-cli",
     "ref": "main",
@@ -47,7 +54,7 @@
     "url": "https://github.com/kotek-7/dotfiles.git"
   },
   "show-me": {
-    "commit": "3c2629142c5d437428269b1b722b08c0b87f574d",
+    "commit": "ca7c8088db69e315a8b2deea43820270457f8f3c",
     "exclude": [],
     "path": "plugins/show-me/skills/show-me",
     "ref": "main",
