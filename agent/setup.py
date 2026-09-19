@@ -6,14 +6,15 @@
 """Manage agent skills, subagents, and config files.
 
 update  - fetch skills declared in skills.toml into ./skills, record commits in skills.lock.json
-install - symlink skills, subagents, rules, and config files into locations Claude Code,
-          Codex, and Continue read
+install - install skills, subagents, rules, and config files into locations Claude Code,
+          Codex, Continue, and OpenCode read
 """
 
 from __future__ import annotations
 
 import argparse
 import fnmatch
+import hashlib
 import json
 import os
 import re
@@ -30,6 +31,7 @@ ROOT = Path(__file__).resolve().parent
 SKILLS_DIR = ROOT / "skills"
 MANIFEST = ROOT / "skills.toml"
 LOCK = ROOT / "skills.lock.json"
+CODEX_AGENT_STATE_FILENAME = ".dotfiles-agent-state.json"
 
 NAME_RE = re.compile(r"^[A-Za-z0-9._-]+$")
 DEFAULT_REF = "main"
@@ -62,7 +64,7 @@ def skill_tree_dests() -> list[Path]:
     return [continue_home() / "skills"]
 
 
-def agent_roots() -> list[tuple[Path, Path, str]]:
+def linked_agent_roots() -> list[tuple[Path, Path, str]]:
     return [
         (
             ROOT / "config" / "claude" / "agents",
@@ -70,16 +72,23 @@ def agent_roots() -> list[tuple[Path, Path, str]]:
             ".md",
         ),
         (
-            ROOT / "config" / "codex" / "agents",
-            codex_home() / "agents",
-            ".toml",
-        ),
-        (
             ROOT / "config" / "opencode" / "agents",
             opencode_home() / "agents",
             ".md",
         ),
     ]
+
+
+def codex_agent_root() -> tuple[Path, Path, str]:
+    return (
+        ROOT / "config" / "codex" / "agents",
+        codex_home() / "agents",
+        ".toml",
+    )
+
+
+def codex_agent_state_path() -> Path:
+    return codex_home() / CODEX_AGENT_STATE_FILENAME
 
 
 def rule_roots() -> list[tuple[Path, Path, str]]:
@@ -304,6 +313,169 @@ def link_files(
     return ok, len(sources)
 
 
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def read_codex_agent_state(path: Path) -> dict[str, str]:
+    if not path.exists() and not path.is_symlink():
+        return {}
+    if path.is_symlink():
+        raise ValueError(f"state file must not be a symlink: {path}")
+
+    try:
+        state = json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError) as e:
+        raise ValueError(f"cannot read state file {path}: {e}") from e
+
+    version = state.get("version") if isinstance(state, dict) else None
+    agents = state.get("codex_agents") if isinstance(state, dict) else None
+    if version != 1 or not isinstance(agents, dict):
+        raise ValueError(f"unsupported state file format: {path}")
+    if not all(
+        isinstance(name, str)
+        and NAME_RE.match(name)
+        and Path(name).suffix == ".toml"
+        and isinstance(digest, str)
+        and re.fullmatch(r"[0-9a-f]{64}", digest)
+        for name, digest in agents.items()
+    ):
+        raise ValueError(f"invalid Codex agent state: {path}")
+    return agents.copy()
+
+
+def write_codex_agent_state(path: Path, agents: dict[str, str]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp_name = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
+    tmp = Path(tmp_name)
+    try:
+        with os.fdopen(fd, "w") as f:
+            json.dump(
+                {"version": 1, "codex_agents": agents},
+                f,
+                indent=2,
+                sort_keys=True,
+            )
+            f.write("\n")
+        os.replace(tmp, path)
+    finally:
+        tmp.unlink(missing_ok=True)
+
+
+def copy_atomic(src: Path, dst: Path) -> None:
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp_name = tempfile.mkstemp(prefix=f".{dst.name}.", dir=dst.parent)
+    os.close(fd)
+    tmp = Path(tmp_name)
+    try:
+        shutil.copy2(src, tmp)
+        os.replace(tmp, dst)
+    finally:
+        tmp.unlink(missing_ok=True)
+
+
+def remove_path(path: Path) -> None:
+    if path.is_symlink() or not path.is_dir():
+        path.unlink()
+    else:
+        shutil.rmtree(path)
+
+
+def copy_managed_files(
+    source_root: Path,
+    dest_root: Path,
+    suffix: str,
+    state_path: Path,
+    force: bool,
+) -> tuple[bool, int]:
+    """Copy files while protecting untracked and locally modified destinations."""
+    managed = read_codex_agent_state(state_path)
+    dest_root.mkdir(parents=True, exist_ok=True)
+    prune(dest_root, source_root)
+
+    original_state = managed.copy()
+    sources = (
+        {
+            src.name: src
+            for src in sorted(source_root.iterdir())
+            if src.is_file() and src.suffix == suffix
+        }
+        if source_root.is_dir()
+        else {}
+    )
+    ok = True
+
+    for name in sorted(set(managed) - set(sources)):
+        dst = dest_root / name
+        if not dst.exists() and not dst.is_symlink():
+            del managed[name]
+            continue
+        unchanged = (
+            dst.is_file()
+            and not dst.is_symlink()
+            and file_sha256(dst) == managed[name]
+        )
+        if not unchanged and not force:
+            print(
+                f"skipped  {dst}  (managed copy was modified; use --force to remove)",
+                file=sys.stderr,
+            )
+            ok = False
+            continue
+        remove_path(dst)
+        del managed[name]
+        print(f"pruned   {dst}")
+
+    for name, src in sources.items():
+        dst = dest_root / name
+        source_hash = file_sha256(src)
+
+        if dst.is_symlink():
+            dst.unlink()
+            copy_atomic(src, dst)
+            managed[name] = source_hash
+            print(f"copied   {dst}")
+            continue
+
+        if not dst.exists():
+            copy_atomic(src, dst)
+            managed[name] = source_hash
+            print(f"copied   {dst}")
+            continue
+
+        installed_hash = managed.get(name)
+        unchanged = (
+            installed_hash is not None
+            and dst.is_file()
+            and file_sha256(dst) == installed_hash
+        )
+        if not unchanged and not force:
+            reason = "managed copy was modified" if installed_hash else "not managed"
+            print(
+                f"skipped  {dst}  ({reason}; use --force to replace)",
+                file=sys.stderr,
+            )
+            ok = False
+            continue
+
+        if unchanged and installed_hash == source_hash:
+            continue
+        if not unchanged:
+            remove_path(dst)
+            print(f"replaced {dst}")
+        copy_atomic(src, dst)
+        managed[name] = source_hash
+        print(f"copied   {dst}")
+
+    if managed != original_state or (managed and not state_path.exists()):
+        write_codex_agent_state(state_path, managed)
+    return ok, len(sources)
+
+
 def cmd_install(args: argparse.Namespace) -> int:
     ok = True
 
@@ -322,24 +494,48 @@ def cmd_install(args: argparse.Namespace) -> int:
     for dest in skill_tree_dests():
         ok &= link(SKILLS_DIR.resolve(), dest, args.force)
 
-    counts: dict[str, tuple[int, list[Path]]] = {}
-    for label, roots in (("agents", agent_roots()), ("rules", rule_roots())):
-        count = 0
-        destinations: list[Path] = []
-        for source_root, dest_root, suffix in roots:
-            linked, found = link_files(source_root, dest_root, suffix, args.force)
-            ok &= linked
-            count += found
-            destinations.append(dest_root)
-        counts[label] = (count, destinations)
+    linked_agent_count = 0
+    linked_agent_destinations: list[Path] = []
+    for source_root, dest_root, suffix in linked_agent_roots():
+        linked, found = link_files(source_root, dest_root, suffix, args.force)
+        ok &= linked
+        linked_agent_count += found
+        linked_agent_destinations.append(dest_root)
+
+    codex_source, codex_dest, codex_suffix = codex_agent_root()
+    try:
+        copied, codex_agent_count = copy_managed_files(
+            codex_source,
+            codex_dest,
+            codex_suffix,
+            codex_agent_state_path(),
+            args.force,
+        )
+    except ValueError as e:
+        print(f"failed: {e}", file=sys.stderr)
+        copied = False
+        codex_agent_count = 0
+    ok &= copied
+
+    rule_count = 0
+    rule_destinations: list[Path] = []
+    for source_root, dest_root, suffix in rule_roots():
+        linked, found = link_files(source_root, dest_root, suffix, args.force)
+        ok &= linked
+        rule_count += found
+        rule_destinations.append(dest_root)
 
     for src, dst in config_links():
         ok &= link(src, dst, args.force)
 
     skill_destinations = [*skill_dests(), *skill_tree_dests()]
     print(f"\n{len(sources)} skills -> {', '.join(str(d) for d in skill_destinations)}")
-    for label, (count, destinations) in counts.items():
-        print(f"{count} {label} -> {', '.join(str(d) for d in destinations)}")
+    print(
+        f"{linked_agent_count} linked agents -> "
+        f"{', '.join(str(d) for d in linked_agent_destinations)}"
+    )
+    print(f"{codex_agent_count} copied Codex agents -> {codex_dest}")
+    print(f"{rule_count} rules -> {', '.join(str(d) for d in rule_destinations)}")
     return 0 if ok else 1
 
 
@@ -355,12 +551,12 @@ def main() -> int:
     )
 
     install = sub.add_parser(
-        "install", help="symlink skills, subagents, rules, and config files into place"
+        "install", help="install skills, subagents, rules, and config files into place"
     )
     install.add_argument(
         "--force",
         action="store_true",
-        help="replace existing files that are not symlinks",
+        help="replace conflicting or locally modified files",
     )
     install.set_defaults(func=cmd_install)
 
