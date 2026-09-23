@@ -10,6 +10,12 @@ for file in $(find $dotfiles_dir -maxdepth 1 -type f); do
     ln -snfv $file $HOME
 done
 
+mkdir -p "$HOME/.config/mise"
+ln -snfv "$dotfiles_dir/.config/mise/config.toml" "$HOME/.config/mise/config.toml"
+if [ -x "$HOME/.local/bin/mise" ]; then
+    "$HOME/.local/bin/mise" install
+fi
+
 # rm -rf ~/.config/nvim
 # git clone --depth 1 https://github.com/AstroNvim/template ~/.config/nvim
 cp -r ./linux/nvim/plugins/* "$HOME/.config/nvim/lua/plugins/"

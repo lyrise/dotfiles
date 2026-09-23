@@ -1,0 +1,9 @@
+[tools]
+node = "lts"
+npm = "latest"
+python = "3.13"
+go = "1.26"
+java = "temurin-25"
+sbt = "1.12"
+uv = "latest"
+"pipx:poetry" = "latest"

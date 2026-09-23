@@ -30,12 +30,6 @@ export PATH="$HOME/.fzf/bin:$PATH"
 # rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
-# goenv
-# export GOENV_ROOT="$HOME/.goenv"
-# export PATH="$GOENV_ROOT/bin:$PATH"
-# export GOENV_DISABLE_GOPATH=1
-# eval "$(goenv init -)"
-
 # dotnet
 export PATH="$HOME/.dotnet/tools:$PATH"
 
@@ -43,30 +37,22 @@ export PATH="$HOME/.dotnet/tools:$PATH"
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
 
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - --no-rehash)"
-
-# poetry
+# local bin
 export PATH="$HOME/.local/bin:$PATH"
 
 # vim
 export EDITOR=vim
 bindkey -v
 
-# sdkman
-source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-# java
-export JAVA_HOME=$HOME/.sdkman/candidates/java/current
-export PATH=$JAVA_HOME/bin:$PATH
-
 # snap
 export PATH=/snap/bin:$PATH
 
 # dotnet
 export PATH="$PATH:$HOME/.dotnet/tools"
+
+# mise
+# 非対話シェルでもランタイムを解決できるよう shims を PATH に追加し、対話シェルでは .zshrc の mise activate が上書きする
+eval "$(mise activate zsh --shims)"
 
 # 任意の設定を読み込む
 if [ -e ~/.zshenv.local ]; then

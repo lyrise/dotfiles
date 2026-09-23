@@ -3,11 +3,8 @@
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 export PATH="/opt/homebrew/bin:$PATH"
 
-# install pyenv
-brew install pyenv
-
-# install goenv
-brew install --HEAD goenv
+# install mise
+curl https://mise.run | sh
 
 # install zplug
 mkdir ~/.zinit

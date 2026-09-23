@@ -16,6 +16,9 @@ elif [ "$(expr substr $(uname -s) 1 5)" = 'Linux' ]; then
     OS='Linux'
 fi
 
+# mise
+eval "$(mise activate zsh)"
+
 # Google Cloud SDK.
 if [ -f ~/google-cloud-sdk/path.zsh.inc ]; then
     . ~/google-cloud-sdk/path.zsh.inc;
