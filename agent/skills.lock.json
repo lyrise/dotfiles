@@ -17,14 +17,14 @@
     "url": "https://gist.github.com/k16shikano/eb2929f13ed19c97188393d297be8432.git"
   },
   "handoff": {
-    "commit": "bdad3cefc3fb96842ecb4c6b4ae77d2f40ae1c0b",
+    "commit": "8a89e60d0fe7d2d4cea0e1b2330853a2d0edfed5",
     "exclude": [],
     "path": "dot_agents/skills/handoff",
     "ref": "main",
     "url": "https://github.com/kotek-7/dotfiles.git"
   },
   "i-have-adhd": {
-    "commit": "b15d0be58f55b33972ba3e39709e0e5208ef30cb",
+    "commit": "839872f9d1cd634fed642b4589ce7226199cc15f",
     "exclude": [],
     "path": "skills/i-have-adhd",
     "ref": "main",
@@ -37,6 +37,48 @@
     "ref": "main",
     "url": "https://gist.github.com/k16shikano/fd287c3133457c4fd8f5601d34aa817d.git"
   },
+  "paseo": {
+    "commit": "d6861f81e5e584aec9951dbcf7a37d9d2b7dfa9a",
+    "exclude": [],
+    "path": "skills/paseo",
+    "ref": "main",
+    "url": "https://github.com/getpaseo/paseo.git"
+  },
+  "paseo-advisor": {
+    "commit": "d6861f81e5e584aec9951dbcf7a37d9d2b7dfa9a",
+    "exclude": [],
+    "path": "skills/paseo-advisor",
+    "ref": "main",
+    "url": "https://github.com/getpaseo/paseo.git"
+  },
+  "paseo-committee": {
+    "commit": "d6861f81e5e584aec9951dbcf7a37d9d2b7dfa9a",
+    "exclude": [],
+    "path": "skills/paseo-committee",
+    "ref": "main",
+    "url": "https://github.com/getpaseo/paseo.git"
+  },
+  "paseo-handoff": {
+    "commit": "d6861f81e5e584aec9951dbcf7a37d9d2b7dfa9a",
+    "exclude": [],
+    "path": "skills/paseo-handoff",
+    "ref": "main",
+    "url": "https://github.com/getpaseo/paseo.git"
+  },
+  "paseo-help": {
+    "commit": "d6861f81e5e584aec9951dbcf7a37d9d2b7dfa9a",
+    "exclude": [],
+    "path": "skills/paseo-help",
+    "ref": "main",
+    "url": "https://github.com/getpaseo/paseo.git"
+  },
+  "paseo-plugin": {
+    "commit": "d6861f81e5e584aec9951dbcf7a37d9d2b7dfa9a",
+    "exclude": [],
+    "path": "skills/paseo-plugin",
+    "ref": "main",
+    "url": "https://github.com/getpaseo/paseo.git"
+  },
   "playwright-cli": {
     "commit": "74354ecc7a43da16d91a9bc54fa8db8283a3fcf5",
     "exclude": [],
@@ -45,7 +87,7 @@
     "url": "https://github.com/microsoft/playwright-cli.git"
   },
   "sanitize-artifacts": {
-    "commit": "bdad3cefc3fb96842ecb4c6b4ae77d2f40ae1c0b",
+    "commit": "8a89e60d0fe7d2d4cea0e1b2330853a2d0edfed5",
     "exclude": [
       "dot_DS_Store"
     ],

@@ -17,3 +17,9 @@ sanitize-artifacts = { url = "https://github.com/kotek-7/dotfiles.git", path = "
 ] }
 show-me = { url = "https://github.com/humanlayer/skills.git", path = "plugins/show-me/skills/show-me" }
 i-have-adhd = { url = "https://github.com/ayghri/i-have-adhd.git", path = "skills/i-have-adhd" }
+paseo = { url = "https://github.com/getpaseo/paseo.git", path = "skills/paseo" }
+paseo-advisor = { url = "https://github.com/getpaseo/paseo.git", path = "skills/paseo-advisor" }
+paseo-committee = { url = "https://github.com/getpaseo/paseo.git", path = "skills/paseo-committee" }
+paseo-handoff = { url = "https://github.com/getpaseo/paseo.git", path = "skills/paseo-handoff" }
+paseo-help = { url = "https://github.com/getpaseo/paseo.git", path = "skills/paseo-help" }
+paseo-plugin = { url = "https://github.com/getpaseo/paseo.git", path = "skills/paseo-plugin" }
