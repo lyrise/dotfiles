@@ -10,7 +10,11 @@
 
 ### serena (MCP)
 - 変数/シンボルの特定は `get_symbols_overview` や `find_symbol` を使い、参照先の確認は `find_referencing_symbols` を使う。名前が曖昧な場合は `search_for_pattern` を併用する
-- メモリの参照/更新は `list_memories`/`read_memory`/`write_memory`/`delete_memory` を使う。メモリは `.serena/memories/` に保存されるため、必要に応じて調整する
+
+### obsidian (MCP)
+- 関連する過去の調査・知識・個人文脈が必要なときは、Obsidian vault の `share/` を優先して参照し、`obsidian-knowledge` スキルに従う
+- Obsidian への保存は明示依頼時だけ行う。Codex・Claude・Serena の Memory は参照・保存に使わない
+- Obsidian MCP が使えない場合はその旨を報告し、別の Memory に切り替えない
 
 ### playwright-cli (SKILL)
 - Web UI や localhost のブラウザ検証、DOM 操作、console/network 確認が必要な場合に使用する

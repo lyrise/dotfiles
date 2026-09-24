@@ -13,6 +13,11 @@ alwaysApply: true
 - 利用可能な skill が作業内容に該当する場合は、着手前に `read_skill` でその内容を読み、記載された手順に従う
 - skill は `~/.continue/skills`、`.continue/skills`、`.claude/skills` から読み込まれる
 
+### obsidian (MCP)
+- 関連する過去の調査・知識・個人文脈が必要なときは、Obsidian vault の `share/` を優先して参照し、`obsidian-knowledge` スキルに従う
+- Obsidian への保存は明示依頼時だけ行う。Codex・Claude・Serena の Memory は参照・保存に使わない
+- Obsidian MCP が使えない場合はその旨を報告し、別の Memory に切り替えない
+
 ### playwright-cli (SKILL)
 - Web UI や localhost のブラウザ検証、DOM 操作、console/network 確認が必要な場合に使用する
 - 操作対象は snapshot の element ref で特定し、必要に応じて `eval`、`console`、`network` で状態を確認する

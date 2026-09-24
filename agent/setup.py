@@ -19,6 +19,7 @@ import json
 import os
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -378,6 +379,84 @@ def copy_atomic(src: Path, dst: Path) -> None:
         tmp.unlink(missing_ok=True)
 
 
+def write_text_atomic(path: Path, content: str) -> None:
+    """Replace a regular config file while preserving its permissions."""
+    if path.is_symlink() or (path.exists() and not path.is_file()):
+        raise ValueError(f"config file must be a regular file: {path}")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    mode = stat.S_IMODE(path.stat().st_mode) if path.exists() else 0o600
+    fd, tmp_name = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
+    tmp = Path(tmp_name)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write(content)
+        tmp.chmod(mode)
+        os.replace(tmp, path)
+    finally:
+        tmp.unlink(missing_ok=True)
+
+
+def codex_config_without_memories(content: str) -> str:
+    """Set only [features].memories, retaining other TOML text and comments."""
+    config = tomllib.loads(content)
+    features = config.get("features")
+    if features is not None and not isinstance(features, dict):
+        raise ValueError("Codex features must be a TOML table")
+    value = features.get("memories") if features else None
+    if value is False:
+        return content
+    if value is not None and value is not True:
+        raise ValueError("Codex features.memories must be a boolean")
+
+    lines = content.splitlines(keepends=True)
+    section = next((i for i, line in enumerate(lines) if line.strip() == "[features]"), None)
+    if section is None:
+        if features is not None:
+            raise ValueError("Codex features uses an unsupported TOML form")
+        separator = "" if not content or content.endswith("\n") else "\n"
+        return content + separator + "\n[features]\nmemories = false\n"
+
+    end = next(
+        (i for i in range(section + 1, len(lines)) if lines[i].lstrip().startswith("[")),
+        len(lines),
+    )
+    key_pattern = re.compile(r"^(\s*memories\s*=\s*)(?:true|false)(\s*(?:#.*)?)$")
+    for i in range(section + 1, end):
+        body = lines[i].rstrip("\r\n")
+        match = key_pattern.fullmatch(body)
+        if match:
+            newline = lines[i][len(body) :]
+            lines[i] = f"{match[1]}false{match[2]}{newline}"
+            return "".join(lines)
+    if value is not None:
+        raise ValueError("Codex features.memories uses an unsupported TOML form")
+    if not lines[section].endswith("\n"):
+        lines[section] += "\n"
+    lines.insert(section + 1, "memories = false\n")
+    return "".join(lines)
+
+
+def disable_codex_memories(path: Path) -> None:
+    content = path.read_text(encoding="utf-8") if path.exists() else ""
+    updated = codex_config_without_memories(content)
+    if updated != content:
+        write_text_atomic(path, updated)
+        print(f"updated  {path}  (Codex memories disabled)")
+
+
+def disable_claude_auto_memory(path: Path) -> None:
+    content = path.read_text(encoding="utf-8") if path.exists() else "{}\n"
+    settings = json.loads(content)
+    if not isinstance(settings, dict):
+        raise ValueError(f"Claude settings must be a JSON object: {path}")
+    if settings.get("autoMemoryEnabled") is False:
+        return
+    settings["autoMemoryEnabled"] = False
+    updated = json.dumps(settings, ensure_ascii=False, indent=2) + "\n"
+    write_text_atomic(path, updated)
+    print(f"updated  {path}  (Claude auto memory disabled)")
+
+
 def remove_path(path: Path) -> None:
     if path.is_symlink() or not path.is_dir():
         path.unlink()
@@ -527,6 +606,16 @@ def cmd_install(args: argparse.Namespace) -> int:
 
     for src, dst in config_links():
         ok &= link(src, dst, args.force)
+
+    for update, path in (
+        (disable_codex_memories, codex_home() / "config.toml"),
+        (disable_claude_auto_memory, Path.home() / ".claude" / "settings.json"),
+    ):
+        try:
+            update(path)
+        except (OSError, ValueError, tomllib.TOMLDecodeError, json.JSONDecodeError) as e:
+            print(f"failed: {e}", file=sys.stderr)
+            ok = False
 
     skill_destinations = [*skill_dests(), *skill_tree_dests()]
     print(f"\n{len(sources)} skills -> {', '.join(str(d) for d in skill_destinations)}")
