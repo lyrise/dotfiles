@@ -14,7 +14,7 @@ alwaysApply: true
 - skill は `~/.continue/skills`、`.continue/skills`、`.claude/skills` から読み込まれる
 
 ### obsidian (MCP)
-- 関連する過去の調査・知識・個人文脈が必要なときは、Obsidian vault の `share/` を優先して参照し、`obsidian-knowledge` スキルに従う
+- 関連する過去の調査・知識・個人文脈が必要なときは、Obsidian vault の `share/` を優先して参照し、`obsidian-memory` スキルに従う
 - Obsidian への保存は明示依頼時だけ行う。Codex・Claude・Serena の Memory は参照・保存に使わない
 - Obsidian MCP が使えない場合はその旨を報告し、別の Memory に切り替えない
 

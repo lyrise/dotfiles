@@ -100,9 +100,12 @@ class MemorySettingsTest(unittest.TestCase):
             self.assertEqual(features, {"memories": False, "goals": True})
             self.assertIs(settings["autoMemoryEnabled"], False)
             self.assertEqual(settings["permissions"], {"allow": ["Read"]})
-            self.assertTrue((codex / "skills/obsidian-knowledge/SKILL.md").exists())
-            self.assertTrue((claude / "skills/obsidian-knowledge/SKILL.md").exists())
-            self.assertTrue((home / ".continue/skills/obsidian-knowledge/SKILL.md").exists())
+            self.assertTrue((codex / "skills/obsidian-memory/SKILL.md").exists())
+            self.assertTrue((claude / "skills/obsidian-memory/SKILL.md").exists())
+            self.assertTrue((home / ".continue/skills/obsidian-memory/SKILL.md").exists())
+            self.assertFalse((codex / "skills/obsidian-knowledge").exists())
+            self.assertFalse((claude / "skills/obsidian-knowledge").exists())
+            self.assertFalse((home / ".continue/skills/obsidian-knowledge").exists())
 
 
 if __name__ == "__main__":
