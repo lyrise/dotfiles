@@ -30,4 +30,7 @@ alwaysApply: true
 ## Git
 
 ### コミット
-- `Co-Authored-By:` トレーラーは付けない
+- コミットメッセージの末尾に、コミットを作成したエージェント自身のモデルを示す `Co-Authored-By:` トレーラーを必ず 1 行付ける
+  - 形式: `Co-Authored-By: <モデル名> <noreply@<プロバイダーのドメイン>>`（例: `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`）
+  - ハーネスがトレーラーの値を指定している場合は、その値に従う
+  - モデル名やプロバイダーを確認できない場合は推測せず、分からない部分をツール名で補う（例: `Co-Authored-By: Continue <noreply@continue.dev>`）
