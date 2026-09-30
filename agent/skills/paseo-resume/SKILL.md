@@ -11,9 +11,14 @@ Paseo のエージェントがレート制限で停止したとき、リセッ�
 
 - `create_heartbeat` は使えない。heartbeat は呼び出し元自身を再 prompt する仕組みで、対象エージェントを指定する引数が存在しない。agent-scoped session が前提になる。
 - `create_schedule` は新しいエージェント(ヘルパー)を起動する。既存会話の継続は、ヘルパーが `paseo_send_agent_prompt` に対象の agent ID を送ることで実現する。`send_agent_prompt` は対象の既存 conversation を継続できる。
-- スケジュールは作成者(caller)の session mode を継承する。plan mode の caller から作るとヘルパーも plan mode になり、prompt 送信ができない。`featureValues.plan_mode=false`(または `modeId` を build に)を必ず明示する。実際に、plan mode の caller から作成したスケジュールが再開に失敗した事例がある。
+- スケジュールは作成者(caller)の session mode を継承する。plan mode の caller から作るとヘルパーも plan mode になり、prompt 送信ができない。ヘルパーの承認モードは必ず `auto` に設定し、plan mode も無効にする。実際に、plan mode の caller から作成したスケジュールが再開に失敗した事例がある。
 
 ## 手順
+
+### 0. Paseo MCP の確認
+
+- 最初に Paseo MCP のツールが見えることを確認する。見えない場合は、その旨をユーザーに報告して中断する。
+- MCP が見えない場合、CLI や他の操作手段への切り替えは行わない。
 
 ### 1. 対象の特定(要ユーザー確認)
 
@@ -43,7 +48,8 @@ Paseo のエージェントがレート制限で停止したとき、リセッ�
 - `timezone`: 手順 3 で確認したもの(例: `Asia/Tokyo`)
 - `maxRuns: 1`
 - `expiresIn`: 発火時刻まで持ち、かつ発火後 1 時間以上の余裕がある相対時間。単発cronは年 1 回発火するため、失効設定がないと無意味なスケジュールが残る。
-- ヘルパー設定: provider/model は caller を継承、`cwd` は対象エージェントの cwd、`isolation: local`、`plan_mode=false`(または `modeId` を build に)
+- ヘルパー設定: provider/model は caller を継承、`cwd` は対象エージェントの cwd、`isolation: local`、承認モードは `auto`、`featureValues.plan_mode=false` を明示して plan mode を無効にする。
+- `paseo_create_schedule` に `mode` 引数がある場合は `mode: "auto"` を明示する。モード指定の引数がない場合は、作成直後に `paseo_update_schedule` で `mode: "auto"` を設定する。caller の承認モードの継承だけで済ませない。
 - `name`: 例 `resume-<対象のshort-id>-agent`
 
 ヘルパーの prompt テンプレート(対象 ID・時刻を埋めて使う):
@@ -69,7 +75,7 @@ Paseo のエージェントがレート制限で停止したとき、リセッ�
 
 - cron と timezone が意図どおり
 - `nextRunAt` がリセット時刻と一致(UTC 表記に注意。23:10 JST = 14:10Z)
-- `maxRuns=1`、plan mode が無効になっていること
+- `maxRuns=1`、承認モードが `auto`、plan mode が無効になっていること
 
 発火後の再開確認はこの手順の範囲外とする。ユーザーが明示的に頼んだときのみ、対象の status/activity を確認して成否を報告する。
 
