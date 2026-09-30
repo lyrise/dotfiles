@@ -33,6 +33,7 @@ SKILLS_DIR = ROOT / "skills"
 MANIFEST = ROOT / "skills.toml"
 LOCK = ROOT / "skills.lock.json"
 CODEX_AGENT_STATE_FILENAME = ".dotfiles-agent-state.json"
+MEMORY_DIR_ENV = "AGENT_MEMORY_DIR"
 
 NAME_RE = re.compile(r"^[A-Za-z0-9._-]+$")
 DEFAULT_REF = "main"
@@ -457,6 +458,107 @@ def disable_claude_auto_memory(path: Path) -> None:
     print(f"updated  {path}  (Claude auto memory disabled)")
 
 
+def agent_memory_dir() -> Path | None:
+    """Return the directory the memory skills operate on, or None with a warning."""
+    value = os.environ.get(MEMORY_DIR_ENV)
+    if not value:
+        print(
+            f"skipped  {MEMORY_DIR_ENV}  (unset; memory directory access not granted)",
+            file=sys.stderr,
+        )
+        return None
+    path = Path(value).expanduser()
+    if not path.is_absolute() or not path.is_dir():
+        print(
+            f"skipped  {MEMORY_DIR_ENV}={value}  (not an existing absolute directory)",
+            file=sys.stderr,
+        )
+        return None
+    return path
+
+
+def toml_key(key: str) -> str:
+    return key if re.fullmatch(r"[A-Za-z0-9_-]+", key) else json.dumps(key)
+
+
+def codex_config_with_writable_dir(content: str, profile: str, directory: Path) -> str:
+    """Grant write access in [permissions.<profile>.filesystem], retaining other TOML text."""
+    config = tomllib.loads(content)
+    profiles = config.get("permissions")
+    if not isinstance(profiles, dict) or not isinstance(profiles.get(profile), dict):
+        raise ValueError(f"Codex permission profile {profile!r} is not defined")
+    filesystem = profiles[profile].get("filesystem")
+    if filesystem is not None and not isinstance(filesystem, dict):
+        raise ValueError(f"Codex permissions.{profile}.filesystem must be a TOML table")
+    key = str(directory)
+    value = filesystem.get(key) if filesystem else None
+    if value == "write":
+        return content
+    if value is not None:
+        raise ValueError(f"Codex permissions.{profile}.filesystem already sets {key} = {value!r}")
+
+    entry = f'{json.dumps(key)} = "write"\n'
+    header = f"[permissions.{toml_key(profile)}.filesystem]"
+    lines = content.splitlines(keepends=True)
+    section = next((i for i, line in enumerate(lines) if line.strip() == header), None)
+    if section is None:
+        if filesystem is not None:
+            raise ValueError(f"Codex permissions.{profile}.filesystem uses an unsupported TOML form")
+        separator = "" if not content or content.endswith("\n") else "\n"
+        updated = content + separator + f"\n{header}\n{entry}"
+    else:
+        end = next(
+            (i for i in range(section + 1, len(lines)) if lines[i].lstrip().startswith("[")),
+            len(lines),
+        )
+        last = max(
+            (i for i in range(section, end) if lines[i].strip()),
+            default=section,
+        )
+        if not lines[last].endswith("\n"):
+            lines[last] += "\n"
+        lines.insert(last + 1, entry)
+        updated = "".join(lines)
+
+    if tomllib.loads(updated)["permissions"][profile]["filesystem"].get(key) != "write":
+        raise ValueError(f"Codex permissions.{profile}.filesystem could not be updated")
+    return updated
+
+
+def allow_codex_directory(path: Path, directory: Path) -> None:
+    content = path.read_text(encoding="utf-8") if path.exists() else ""
+    profile = tomllib.loads(content).get("default_permissions")
+    if not isinstance(profile, str) or profile.startswith(":"):
+        print(
+            f"skipped  {path}  (no custom default_permissions profile; {directory} not granted)",
+            file=sys.stderr,
+        )
+        return
+    updated = codex_config_with_writable_dir(content, profile, directory)
+    if updated != content:
+        write_text_atomic(path, updated)
+        print(f"updated  {path}  (Codex write access to {directory})")
+
+
+def allow_claude_directory(path: Path, directory: Path) -> None:
+    content = path.read_text(encoding="utf-8") if path.exists() else "{}\n"
+    settings = json.loads(content)
+    if not isinstance(settings, dict):
+        raise ValueError(f"Claude settings must be a JSON object: {path}")
+    permissions = settings.setdefault("permissions", {})
+    if not isinstance(permissions, dict):
+        raise ValueError(f"Claude permissions must be a JSON object: {path}")
+    directories = permissions.setdefault("additionalDirectories", [])
+    if not isinstance(directories, list):
+        raise ValueError(f"Claude permissions.additionalDirectories must be a list: {path}")
+    if str(directory) in directories:
+        return
+    directories.append(str(directory))
+    updated = json.dumps(settings, ensure_ascii=False, indent=2) + "\n"
+    write_text_atomic(path, updated)
+    print(f"updated  {path}  (Claude access to {directory})")
+
+
 def remove_path(path: Path) -> None:
     if path.is_symlink() or not path.is_dir():
         path.unlink()
@@ -616,6 +718,18 @@ def cmd_install(args: argparse.Namespace) -> int:
         except (OSError, ValueError, tomllib.TOMLDecodeError, json.JSONDecodeError) as e:
             print(f"failed: {e}", file=sys.stderr)
             ok = False
+
+    memory_dir = agent_memory_dir()
+    if memory_dir is not None:
+        for allow, path in (
+            (allow_codex_directory, codex_home() / "config.toml"),
+            (allow_claude_directory, Path.home() / ".claude" / "settings.json"),
+        ):
+            try:
+                allow(path, memory_dir)
+            except (OSError, ValueError, tomllib.TOMLDecodeError, json.JSONDecodeError) as e:
+                print(f"failed: {e}", file=sys.stderr)
+                ok = False
 
     skill_destinations = [*skill_dests(), *skill_tree_dests()]
     print(f"\n{len(sources)} skills -> {', '.join(str(d) for d in skill_destinations)}")
