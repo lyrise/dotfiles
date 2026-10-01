@@ -1,9 +1,9 @@
 ---
-name: pull-request-workflow
-description: Pull Request の切り分け、依存順のコミット、本文、レビュー指摘、行指定コメント、依存 PR、根拠と数値、Draft、CI、ready 化を扱う規範。PR の構成を決めるとき、PR 本文やコミットメッセージを書くとき、コードレビューの指摘を書く・投稿するとき、PR を作成・点検・ready 化するときに使用する。
+name: git-change-workflow
+description: コミット・push・PR・レビューを通じた変更の提出を扱う規範。コミットの構成やメッセージを決めるとき、変更をpushするとき、PRの構成・本文・ライフサイクルを扱うとき、レビュー指摘を書く・投稿するときに使用する。
 ---
 
-# Pull Request のワークフロー
+# Git による変更の提出とレビュー
 
 依頼に必要な reference だけを読み、複数の作業を行う場合は該当する reference を組み合わせる。
 作業前に `../japanese-tech-writing/SKILL.md` と `../sanitize-artifacts/SKILL.md` を読む。
@@ -17,6 +17,7 @@ PR 本文、レビューコメント、タイトル、コミットメッセー�
 
 | 依頼 | 読む reference |
 | --- | --- |
+| コミットの構成やメッセージを決める、PR を作らずにコミット・push する | [PR とコミットの構造](references/pull-request-structure.md) の「コミットを構成する」 |
 | レビュー指摘、行指定コメントを書く・投稿する | [GitHub のレビューコメント](references/github-review-comments.md) |
 | PR の粒度、コミット順、依存関係を決める | [PR とコミットの構造](references/pull-request-structure.md) |
 | PR 本文を書く・点検する | [PR 本文](references/pull-request-description.md) |
@@ -24,6 +25,12 @@ PR 本文、レビューコメント、タイトル、コミットメッセー�
 | 性能、使用量などの数値を主張する | 上記に加えて [数値の主張](references/measured-claims.md) |
 
 Draft 作成後の自己レビューで行指定コメントが必要になった場合は、[GitHub のレビューコメント](references/github-review-comments.md) も読む。
+
+## コミットと push
+
+PR の作成は依頼に含まれる場合に行う。
+コミット前に差分とステージ対象を確認し、依頼に必要な変更だけを含める。
+push 前に送信先の remote・ブランチと送信するコミットを確認する。
 
 ## 文章の検証
 
@@ -43,10 +50,15 @@ Draft 作成後の自己レビューで行指定コメントが必要になっ�
 
 ## 共通の確認
 
-直近のコミットとマージ済み PR を読み、リポジトリの慣習に言語を合わせる。
+直近のコミットを読み、コミットメッセージの言語をリポジトリの慣習に合わせる。
 
 ```bash
 git log --oneline -20
+```
+
+PR やレビューを扱う場合は、マージ済み PR も読む。
+
+```bash
 gh pr list --state merged --limit 10
 ```
 
