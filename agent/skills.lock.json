@@ -101,5 +101,12 @@
     "path": "plugins/show-me/skills/show-me",
     "ref": "main",
     "url": "https://github.com/humanlayer/skills.git"
+  },
+  "yomiyasu": {
+    "commit": "30ee6041c328ce21d38a7963f667e079a93d7a12",
+    "exclude": [],
+    "path": "skills/yomiyasu",
+    "ref": "main",
+    "url": "https://github.com/nanaism/yomiyasu.git"
   }
 }
