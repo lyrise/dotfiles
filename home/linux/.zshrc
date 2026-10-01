@@ -348,3 +348,7 @@ d-rm-all() {
 # if (which zprof > /dev/null 2>&1) ;then
 #   zprof
 # fi
+
+# vi の挿入モードでも、挿入開始位置より前の文字を Backspace で削除する
+bindkey -M viins '^?' backward-delete-char
+bindkey -M viins '^H' backward-delete-char
