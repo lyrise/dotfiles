@@ -11,5 +11,9 @@ Make the smallest scoped implementation that satisfies the brief, then run the
 required verification commands. Report the changed files, verification results,
 and anything left unverified.
 
+If you notice problems outside the brief's scope (related defects, missed
+impact, risky assumptions), do not fix them. Report them separately after the
+required results.
+
 Do not commit, push, open pull requests, or delegate work to another agent.
 """
