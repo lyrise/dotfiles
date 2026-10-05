@@ -525,16 +525,83 @@ def codex_config_with_writable_dir(content: str, profile: str, directory: Path) 
     return updated
 
 
+def codex_config_with_writable_root(content: str, directory: Path) -> str:
+    """Add to [sandbox_workspace_write].writable_roots, retaining other TOML text.
+
+    Codex ignores permission profiles when sandbox_mode is set by config, --sandbox, or an
+    app-server client such as Paseo, and uses these roots in workspace-write mode instead.
+    """
+    config = tomllib.loads(content)
+    workspace_write = config.get("sandbox_workspace_write")
+    if workspace_write is not None and not isinstance(workspace_write, dict):
+        raise ValueError("Codex sandbox_workspace_write must be a TOML table")
+    roots = workspace_write.get("writable_roots") if workspace_write else None
+    if roots is not None and not (
+        isinstance(roots, list) and all(isinstance(root, str) for root in roots)
+    ):
+        raise ValueError("Codex sandbox_workspace_write.writable_roots must be a list of strings")
+    key = str(directory)
+    if roots and key in roots:
+        return content
+
+    expected = [*(roots or []), key]
+    entry = f"writable_roots = [{', '.join(json.dumps(root) for root in expected)}]"
+    header = "[sandbox_workspace_write]"
+    lines = content.splitlines(keepends=True)
+    section = next((i for i, line in enumerate(lines) if line.strip() == header), None)
+    if section is None:
+        if workspace_write is not None:
+            raise ValueError("Codex sandbox_workspace_write uses an unsupported TOML form")
+        separator = "" if not content or content.endswith("\n") else "\n"
+        updated = content + separator + f"\n{header}\n{entry}\n"
+    else:
+        end = next(
+            (i for i in range(section + 1, len(lines)) if lines[i].lstrip().startswith("[")),
+            len(lines),
+        )
+        if roots is None:
+            last = max(
+                (i for i in range(section, end) if lines[i].strip()),
+                default=section,
+            )
+            if not lines[last].endswith("\n"):
+                lines[last] += "\n"
+            lines.insert(last + 1, f"{entry}\n")
+        else:
+            string = r"""(?:"(?:[^"\\]|\\.)*"|'[^']*')"""
+            key_pattern = re.compile(
+                rf"^\s*writable_roots\s*=\s*\[\s*(?:{string}\s*,\s*)*(?:{string}\s*,?\s*)?\]"
+                r"(\s*(?:#.*)?)$"
+            )
+            for i in range(section + 1, end):
+                body = lines[i].rstrip("\r\n")
+                match = key_pattern.fullmatch(body)
+                if match:
+                    lines[i] = entry + match[1] + lines[i][len(body) :]
+                    break
+            else:
+                raise ValueError(
+                    "Codex sandbox_workspace_write.writable_roots uses an unsupported TOML form"
+                )
+        updated = "".join(lines)
+
+    if tomllib.loads(updated)["sandbox_workspace_write"].get("writable_roots") != expected:
+        raise ValueError("Codex sandbox_workspace_write.writable_roots could not be updated")
+    return updated
+
+
 def allow_codex_directory(path: Path, directory: Path) -> None:
     content = path.read_text(encoding="utf-8") if path.exists() else ""
+    updated = codex_config_with_writable_root(content, directory)
     profile = tomllib.loads(content).get("default_permissions")
-    if not isinstance(profile, str) or profile.startswith(":"):
+    if isinstance(profile, str) and not profile.startswith(":"):
+        updated = codex_config_with_writable_dir(updated, profile, directory)
+    else:
         print(
-            f"skipped  {path}  (no custom default_permissions profile; {directory} not granted)",
+            f"skipped  {path}  (no custom default_permissions profile; "
+            f"{directory} granted only for sandbox_mode)",
             file=sys.stderr,
         )
-        return
-    updated = codex_config_with_writable_dir(content, profile, directory)
     if updated != content:
         write_text_atomic(path, updated)
         print(f"updated  {path}  (Codex write access to {directory})")
