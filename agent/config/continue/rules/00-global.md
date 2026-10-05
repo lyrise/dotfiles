@@ -23,6 +23,10 @@ alwaysApply: true
 - 操作対象は snapshot の element ref で特定し、必要に応じて `eval`、`console`、`network` で状態を確認する
 - screenshot はレイアウトや表示崩れの確認など、視覚的な証拠が必要な場合に限定して使用する
 
+## 一時ディレクトリ
+- 自分で作る一時ファイル・一時ディレクトリ（mktemp、スクラッチ、検証の中間物など）は、環境変数 `AGENT_TEMP_DIR` が指すディレクトリの中に置く。ツールが内部で使うキャッシュ等は対象外
+- `AGENT_TEMP_DIR` が未設定のときはその旨を報告して通常どおり `/tmp` を使う。指すディレクトリが存在しないときは `mkdir -p` してから使う
+
 ## Rust
 - サンドボックス内で Cargo が Rust コンパイラを起動し得るコマンド（`build`、`check`、`test`、`clippy`、`run`、`doc` など）を実行するときは、最初から `RUSTC_WRAPPER= cargo ...` として sccache を無効化する
 - `fmt`、`metadata`、`clean` など Rust コンパイラを起動しない Cargo コマンドは対象外とする

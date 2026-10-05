@@ -34,6 +34,7 @@ MANIFEST = ROOT / "skills.toml"
 LOCK = ROOT / "skills.lock.json"
 CODEX_AGENT_STATE_FILENAME = ".dotfiles-agent-state.json"
 MEMORY_DIR_ENV = "AGENT_MEMORY_DIR"
+TEMP_DIR_ENV = "AGENT_TEMP_DIR"
 
 NAME_RE = re.compile(r"^[A-Za-z0-9._-]+$")
 DEFAULT_REF = "main"
@@ -477,6 +478,33 @@ def agent_memory_dir() -> Path | None:
     return path
 
 
+def agent_temp_dir() -> Path | None:
+    """Return the directory agents use for temporary files, or None with a warning."""
+    value = os.environ.get(TEMP_DIR_ENV)
+    if not value:
+        print(
+            f"skipped  {TEMP_DIR_ENV}  (unset; temporary directory access not granted)",
+            file=sys.stderr,
+        )
+        return None
+    path = Path(value).expanduser()
+    if not path.is_absolute():
+        print(
+            f"skipped  {TEMP_DIR_ENV}={value}  (not an absolute directory)",
+            file=sys.stderr,
+        )
+        return None
+    try:
+        path.mkdir(parents=True, exist_ok=True)
+    except OSError as e:
+        print(
+            f"skipped  {TEMP_DIR_ENV}={value}  (cannot create directory: {e})",
+            file=sys.stderr,
+        )
+        return None
+    return path
+
+
 def toml_key(key: str) -> str:
     return key if re.fullmatch(r"[A-Za-z0-9_-]+", key) else json.dumps(key)
 
@@ -786,14 +814,15 @@ def cmd_install(args: argparse.Namespace) -> int:
             print(f"failed: {e}", file=sys.stderr)
             ok = False
 
-    memory_dir = agent_memory_dir()
-    if memory_dir is not None:
+    for directory in (agent_memory_dir(), agent_temp_dir()):
+        if directory is None:
+            continue
         for allow, path in (
             (allow_codex_directory, codex_home() / "config.toml"),
             (allow_claude_directory, Path.home() / ".claude" / "settings.json"),
         ):
             try:
-                allow(path, memory_dir)
+                allow(path, directory)
             except (OSError, ValueError, tomllib.TOMLDecodeError, json.JSONDecodeError) as e:
                 print(f"failed: {e}", file=sys.stderr)
                 ok = False
