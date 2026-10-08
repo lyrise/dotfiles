@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+cd "$(dirname "$0")"
 
 sudo apt-get update
 
@@ -12,15 +14,13 @@ sudo apt-get install -y \
     libsqlite3-dev \
     postgresql-client libpq-dev \
     pkg-config \
-    direnv
+    direnv \
+    fd-find ripgrep lsd
 
 # set default shell
 sudo chsh -s $(which zsh)
 
-# create app dir
-mkdir ~/app
-
-# install zplug
+# install zinit
 mkdir ~/.zinit
 git clone --depth 1 https://github.com/zdharma-continuum/zinit.git ~/.zinit/bin
 
@@ -31,18 +31,8 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 # install mise
 curl https://mise.run | sh
 
+# install mise managed tools
+"$HOME/.local/bin/mise" install
+
 # install rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -q -y
-
-# install fd-find
-sudo apt-get install -y fd-find
-
-# install ripgrep
-sudo apt-get install -y ripgrep
-
-# install lsd
-sudo apt-get install -y lsd
-
-# install kustomize
-curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
-mv ./kustomize ~/bin
