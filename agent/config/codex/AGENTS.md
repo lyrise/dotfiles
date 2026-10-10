@@ -24,7 +24,9 @@
 - screenshot はレイアウトや表示崩れの確認など、視覚的な証拠が必要な場合に限定して使用する
 
 ## Agents
-- チェックは `verifier` サブエージェントに任せ、`pass` / `changes-required` の判定を受け取る
+- チェック検証は、Paseo MCP（`paseo_create_agent` など）が使える場合はそれを最優先で使う。`list_providers` / `list_models` で利用可能なモデルを確認し、本体と異なるモデルファミリーを provider/model に指定して verifier エージェントを作る。settings の modeId は read-only とし、`agents/verifier.toml` の規範を initialPrompt に転記して読み取り専用で判定させる。判定（`pass` / `changes-required`）を受け取るまで待ち、受け取ったら `paseo_archive_agent` で整理する。異なるモデルファミリーを用意できない場合は次の手段にフォールバックする
+- Paseo MCP が使えない場合は `verifier` サブエージェントに任せ、`pass` / `changes-required` の判定を受け取る
+- 上記以外のサブエージェント・paseo でのエージェント作成は極力行わない。探索・調査・実装も本体で直接ツールを実行して対応する。ユーザーが明示的に指定した場合はその限りではない
 
 ## 一時ディレクトリ
 - 自分で作る一時ファイル・一時ディレクトリ（mktemp、スクラッチ、検証の中間物など）は、環境変数 `AGENT_TEMP_DIR` が指すディレクトリの中に置く。ツールが内部で使うキャッシュ等は対象外
