@@ -22,9 +22,12 @@
 - screenshot はレイアウトや表示崩れの確認など、視覚的な証拠が必要な場合に限定して使用する
 
 ## Agents
-- チェック検証は、Paseo MCP（`paseo_create_agent` など）が使える場合はそれを最優先で使う。`list_providers` / `list_models` で利用可能なモデルを確認し、本体と異なるモデルファミリーを provider/model に指定して verifier エージェントを作る。settings の modeId は read-only とし、`agents/verifier.md` の規範を initialPrompt に転記して読み取り専用で判定させる。判定（`pass` / `changes-required`）を受け取るまで待ち、受け取ったら `paseo_archive_agent` で整理する。異なるモデルファミリーを用意できない場合は次の手段にフォールバックする
-- Paseo MCP が使えない場合、可能なら異なるモデルファミリーの外部 CLI で行う。codex・claude・opencode の各 CLI のうち使えるものを確認し、本体と異なるモデルファミリーのものを選んで読み取り専用でレビューし、`pass` / `changes-required` の判定を受け取る。判定基準は `agents/verifier.md` の規範に合わせる
-- 適切な外部 CLI も使えない場合は `verifier` サブエージェントにフォールバックし、本体と同系モデルでの検証になった旨を判定とともに報告する
+- チェック検証は、本体と異なるモデルファミリーの外部 CLI で行う。codex・claude・opencode の各 CLI のうち使えるものを確認し、本体と異なるファミリーのものを選んで読み取り専用でレビューし、`pass` / `changes-required` の判定を受け取るまで待つ。読み取り専用の指定は CLI ごとに次のとおり
+  - codex の場合: `codex exec -s read-only`
+  - claude の場合: `claude -p --permission-mode plan`
+  - opencode の場合: `opencode run --agent plan`
+  - モデルは明示指定せず、各 CLI のデフォルトに任せる。プロンプトには `agents/verifier.md` の規範本文を転記する
+- 外部 CLI が1つも使えない場合のみ `verifier` サブエージェントに任せ、本体と同系モデルでの検証になった旨を判定とともに報告する
 - 上記以外のサブエージェント・paseo でのエージェント作成は極力行わない。探索・調査・実装も本体で直接ツールを実行して対応する（サブエージェントはコンテキストを複製しトークン消費が大きいため）。ユーザーが明示的に指定した場合はその限りではない
 
 ## 一時ディレクトリ
