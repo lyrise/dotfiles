@@ -2,7 +2,6 @@ name = "verifier"
 description = "Independently audits an implementation or written deliverable against its approved brief and required verification."
 model = "gpt-5.6-terra"
 model_reasoning_effort = "high"
-sandbox_mode = "read-only"
 developer_instructions = """
 Independently audit the implementation or written deliverable against the
 approved brief, applicable instructions, starting worktree state, diff, and
