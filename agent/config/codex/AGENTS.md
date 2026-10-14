@@ -24,12 +24,16 @@
 - screenshot はレイアウトや表示崩れの確認など、視覚的な証拠が必要な場合に限定して使用する
 
 ## Agents
-- チェック検証は、本体と異なるモデルファミリーの外部 CLI で行う。codex・claude・opencode の各 CLI のうち使えるものを確認し、本体と異なるファミリーのものを選んで読み取り専用でレビューし、`pass` / `changes-required` の判定を受け取るまで待つ。読み取り専用の指定は CLI ごとに次のとおり
-  - codex の場合: `codex exec -s read-only`
-  - claude の場合: `claude -p --permission-mode plan`
-  - opencode の場合: `opencode run --agent plan`
-  - モデルは明示指定せず、各 CLI のデフォルトに任せる。プロンプトには `agents/verifier.toml` の規範本文を転記する
-- 外部 CLI が1つも使えない場合のみ `verifier` サブエージェントに任せ、本体と同系モデルでの検証になった旨を判定とともに報告する
+- チェック検証は、Paseo MCP が使える場合、本体と異なるモデルファミリーの検証役を Paseo で作って行う
+  - `list_profiles` で `verifier-` で始まるプロファイルを確認し、notes の family が本体のモデルと異なるものを priority の小さい順に選ぶ。ファミリーは CLI ではなくモデルで判定する
+  - プロファイルの provider/model と `modeId` を `create_agent` に写し、本体と同じワークスペースで作る。initialPrompt には `agents/verifier.toml` の規範本文と検証対象を転記し、ファイルを変更しないよう明示する
+  - `pass` / `changes-required` の判定を受け取るまで待つ。検証役からの権限要求はすべて拒否し、実行できなかった確認は未検証の領域として報告させる。判定を受け取ったら `archive_agent` で整理する
+  - 作成や実行に失敗した場合は次のプロファイルを試す
+- Paseo MCP が使えない場合、または使えるプロファイルがない場合は `verifier` サブエージェントに任せ、本体と同系モデルでの検証になった旨を判定とともに報告する
+- どちらの手段でも、検証役による作業ツリーの改変を検知する
+  - 検証の前後で、`AGENT_TEMP_DIR` 内の新しい一時インデックスを `GIT_INDEX_FILE` に指定して `git add -A` と `git write-tree` を実行し、得たツリーと `git rev-parse HEAD` を比べる
+  - 違いがあれば判定を採用せず、検証前後のツリーの差分（`git diff <前> <後>`）をユーザーに示して指示を待つ。自動では戻さない
+  - 検証対象が git 管理外の場合は、改変を検知できなかった旨を判定とともに報告する
 - 上記以外のサブエージェント・paseo でのエージェント作成は極力行わない。探索・調査・実装も本体で直接ツールを実行して対応する。ユーザーが明示的に指定した場合はその限りではない
 
 ## 一時ディレクトリ
