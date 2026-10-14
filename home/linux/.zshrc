@@ -158,9 +158,17 @@ zstyle ':zle:*' word-style unspecified
 # zplugのセットアップ
 source ~/.zinit/bin/zinit.zsh
 
-# cdの強化
-zinit ice pick'init.sh'
-zinit light 'b4b4r07/enhancd'
+# エージェント実行時は組み込みの cd を使う
+if [[ -n ${PASEO_AGENT_ID:-} ||
+      -n ${CODEX_THREAD_ID:-} ||
+      -n ${CLAUDECODE:-} ]]; then
+    if [[ ${aliases[cd]-} == __enhancd::cd ]]; then
+        unalias cd
+    fi
+else
+    zinit ice pick'init.sh'
+    zinit light 'b4b4r07/enhancd'
+fi
 # fzfのセットアップ
 zinit ice multisrc='shell/{completion,key-bindings}.zsh'
 zinit light 'junegunn/fzf'
