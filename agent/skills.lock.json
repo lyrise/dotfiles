@@ -17,14 +17,14 @@
     "url": "https://gist.github.com/k16shikano/eb2929f13ed19c97188393d297be8432.git"
   },
   "handoff": {
-    "commit": "8a89e60d0fe7d2d4cea0e1b2330853a2d0edfed5",
+    "commit": "14d1dbf15498e3988bd089e0d06381ae6f6019a1",
     "exclude": [],
     "path": "dot_agents/skills/handoff",
     "ref": "main",
     "url": "https://github.com/kotek-7/dotfiles.git"
   },
   "i-have-adhd": {
-    "commit": "839872f9d1cd634fed642b4589ce7226199cc15f",
+    "commit": "1ecea1993b7fce257ffbd686c070948b5e07eda6",
     "exclude": [],
     "path": "skills/i-have-adhd",
     "ref": "main",
@@ -37,48 +37,6 @@
     "ref": "main",
     "url": "https://gist.github.com/k16shikano/fd287c3133457c4fd8f5601d34aa817d.git"
   },
-  "paseo": {
-    "commit": "5599f9e567128a1240b3b15afab28bceef9d36a5",
-    "exclude": [],
-    "path": "skills/paseo",
-    "ref": "main",
-    "url": "https://github.com/getpaseo/paseo.git"
-  },
-  "paseo-advisor": {
-    "commit": "5599f9e567128a1240b3b15afab28bceef9d36a5",
-    "exclude": [],
-    "path": "skills/paseo-advisor",
-    "ref": "main",
-    "url": "https://github.com/getpaseo/paseo.git"
-  },
-  "paseo-committee": {
-    "commit": "5599f9e567128a1240b3b15afab28bceef9d36a5",
-    "exclude": [],
-    "path": "skills/paseo-committee",
-    "ref": "main",
-    "url": "https://github.com/getpaseo/paseo.git"
-  },
-  "paseo-handoff": {
-    "commit": "5599f9e567128a1240b3b15afab28bceef9d36a5",
-    "exclude": [],
-    "path": "skills/paseo-handoff",
-    "ref": "main",
-    "url": "https://github.com/getpaseo/paseo.git"
-  },
-  "paseo-help": {
-    "commit": "5599f9e567128a1240b3b15afab28bceef9d36a5",
-    "exclude": [],
-    "path": "skills/paseo-help",
-    "ref": "main",
-    "url": "https://github.com/getpaseo/paseo.git"
-  },
-  "paseo-plugin": {
-    "commit": "5599f9e567128a1240b3b15afab28bceef9d36a5",
-    "exclude": [],
-    "path": "skills/paseo-plugin",
-    "ref": "main",
-    "url": "https://github.com/getpaseo/paseo.git"
-  },
   "playwright-cli": {
     "commit": "b85c7a736bb473bf55b584e54a09ffa698d6d871",
     "exclude": [],
@@ -87,7 +45,7 @@
     "url": "https://github.com/microsoft/playwright-cli.git"
   },
   "sanitize-artifacts": {
-    "commit": "8a89e60d0fe7d2d4cea0e1b2330853a2d0edfed5",
+    "commit": "14d1dbf15498e3988bd089e0d06381ae6f6019a1",
     "exclude": [
       "dot_DS_Store"
     ],
@@ -96,14 +54,14 @@
     "url": "https://github.com/kotek-7/dotfiles.git"
   },
   "show-me": {
-    "commit": "ca7c8088db69e315a8b2deea43820270457f8f3c",
+    "commit": "653b6411c1f70c275a18e37673b042ff99f67ceb",
     "exclude": [],
     "path": "plugins/show-me/skills/show-me",
     "ref": "main",
     "url": "https://github.com/humanlayer/skills.git"
   },
   "yomiyasu": {
-    "commit": "30ee6041c328ce21d38a7963f667e079a93d7a12",
+    "commit": "60bf877acebc86651e0b67d70112a66245f87758",
     "exclude": [],
     "path": "skills/yomiyasu",
     "ref": "main",
