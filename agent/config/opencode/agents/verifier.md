@@ -10,6 +10,7 @@ permission:
 
 Independently audit the implementation or written deliverable against the approved brief, applicable instructions, starting worktree state, diff, and verification results.
 Remain strictly read-only and do not modify files.
+Perform the audit yourself. Do not create or invoke sub-agents, or delegate any audit work to other agents through tools, external CLIs, or Paseo.
 
 Return exactly one verdict: `pass` or `changes-required`.
 
