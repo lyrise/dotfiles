@@ -1,6 +1,6 @@
 ---
 name: memory-records
-description: 環境変数 AGENT_MEMORY_DIR が指すディレクトリの records を外部記憶として、過去の調査結果・作業の経緯・判断とその理由など時点の記録を参照し、明示された依頼に応じて保存する。旧記録の退避はユーザーが手動で行う。
+description: 環境変数 AGENT_MEMORY_DIR が指すディレクトリの records を外部記憶として、プロジェクトに属さない時点の記録 (周期的なレポート、単発の調査、判断とその理由など) を参照し、明示された依頼に応じて保存する。プロジェクト進行中の調査結果・経緯は memory-projects スキルに従って projects/ の dir 内に置く。旧記録の退避はユーザーが手動で行う。
 ---
 
 # 記録の運用
@@ -18,7 +18,8 @@ $AGENT_MEMORY_DIR/records/    # 不変。書いたら変えない時点の記録
             └── YYYY-MM-DD-<topic>.md
 ```
 
-- `records/` には調査結果、作業の経緯、判断とその理由など、その時点の事実を置く。種別は frontmatter の `tags` で表し、`date` を持たせる。
+- `records/` には、プロジェクトに属さない時点の事実を置く。周期的なレポート、単発の調査、判断とその理由など。種別は frontmatter の `tags` で表し、`date` を持たせる。
+- プロジェクト進行中の調査結果・作業の経緯は `memory-projects` スキルに従って `projects/` の dir 内に置き、ここには置かない。
 - 現在も有効な知識は `memory-knowledges` スキルに従って `$AGENT_MEMORY_DIR/knowledges/` に置く。
 - 特定リポジトリに固有の記録は `records/` に置かず、そのリポジトリ内の文書に置く。
 
