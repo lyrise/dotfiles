@@ -1,3 +1,5 @@
 !config/claude/CLAUDE.md
 !config/codex/AGENTS.md
 !config/opencode/AGENTS.md
+/skills.local.toml
+/.generated/

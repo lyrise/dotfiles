@@ -23,6 +23,7 @@ import stat
 import subprocess
 import sys
 import tempfile
+import uuid
 from collections.abc import Callable
 from pathlib import Path
 
@@ -32,6 +33,8 @@ ROOT = Path(__file__).resolve().parent
 SKILLS_DIR = ROOT / "skills"
 MANIFEST = ROOT / "skills.toml"
 LOCK = ROOT / "skills.lock.json"
+LOCAL_SKILLS = ROOT / "skills.local.toml"
+CONTINUE_SKILLS_DIR = ROOT / ".generated" / "continue-skills"
 CODEX_AGENT_STATE_FILENAME = ".dotfiles-agent-state.json"
 MEMORY_DIR_ENV = "AGENT_MEMORY_DIR"
 TEMP_DIR_ENV = "AGENT_TEMP_DIR"
@@ -255,6 +258,125 @@ def cmd_update(_args: argparse.Namespace) -> int:
 
 
 # --- install --------------------------------------------------------------
+
+
+def read_skill_exclusions(sources: list[Path]) -> set[str]:
+    """Read install-only exclusions before making any changes."""
+    if not LOCAL_SKILLS.exists() and not LOCAL_SKILLS.is_symlink():
+        return set()
+    with LOCAL_SKILLS.open("rb") as f:
+        config = tomllib.load(f)
+    unknown = config.keys() - {"skills"}
+    if unknown:
+        raise ValueError(f"unknown settings in {LOCAL_SKILLS}: {', '.join(sorted(unknown))}")
+    skills = config.get("skills", {})
+    if not isinstance(skills, dict):
+        raise ValueError(f"{LOCAL_SKILLS}: skills must be a TOML table")
+    unknown = skills.keys() - {"exclude"}
+    if unknown:
+        raise ValueError(f"{LOCAL_SKILLS}: unknown skills settings: {', '.join(sorted(unknown))}")
+    names = skills.get("exclude", [])
+    if not isinstance(names, list) or not all(isinstance(name, str) for name in names):
+        raise ValueError(f"{LOCAL_SKILLS}: skills.exclude must be a list of strings")
+    available = {src.name for src in sources}
+    for name in names:
+        skill_path(name)
+        if name not in available:
+            raise ValueError(f"{LOCAL_SKILLS}: unknown skill: {name!r}")
+    return set(names)
+
+
+def unlink_excluded_skills(dest_root: Path, excluded: set[str]) -> None:
+    """Remove only same-named links into this repository."""
+    for name in sorted(excluded):
+        dst = dest_root / name
+        if dst.is_symlink() and dst.resolve() == (SKILLS_DIR / name).resolve():
+            dst.unlink()
+            print(f"excluded {dst}")
+
+
+def skill_staging_dir() -> Path:
+    """Select temporary storage independently of agent permission grants."""
+    value = os.environ.get(TEMP_DIR_ENV)
+    if not value:
+        print(f"warning: {TEMP_DIR_ENV} is unset; using /tmp for skill staging", file=sys.stderr)
+    directory = Path(value or "/tmp").expanduser()
+    directory.mkdir(parents=True, exist_ok=True)
+    return directory
+
+
+def check_generated_skill_path(path: Path) -> None:
+    """Do not write or clean generated output through symlinked directories."""
+    for parent in (*reversed(path.parents), path):
+        if parent.is_symlink():
+            raise ValueError(f"generated skills path must not use a symlink: {parent}")
+
+
+def remove_skill_generation(path: Path) -> None:
+    check_generated_skill_path(path)
+    if path.exists():
+        shutil.rmtree(path)
+
+
+def generate_continue_skills(sources: list[Path]) -> Path:
+    """Publish a complete, unused generation without touching the active one."""
+    check_generated_skill_path(CONTINUE_SKILLS_DIR)
+    with tempfile.TemporaryDirectory(prefix="continue-skills-", dir=skill_staging_dir()) as tmp:
+        staging = Path(tmp) / "skills"
+        staging.mkdir()
+        for src in sources:
+            # Continue needs real subdirectories; copytree follows source links.
+            shutil.copytree(src, staging / src.name)
+        check_generated_skill_path(CONTINUE_SKILLS_DIR)
+        CONTINUE_SKILLS_DIR.mkdir(parents=True, exist_ok=True)
+        generation = CONTINUE_SKILLS_DIR / uuid.uuid4().hex
+        try:
+            shutil.copytree(staging, generation)
+            check_generated_skill_path(generation)
+        except (OSError, ValueError):
+            remove_skill_generation(generation)
+            raise
+    return generation
+
+
+def managed_skill_generation(dest: Path) -> Path | None:
+    if not dest.is_symlink():
+        return None
+    target = Path(os.readlink(dest))
+    if not target.is_absolute():
+        target = dest.parent / target
+    # Keep the lexical path so a symlinked generation cannot masquerade as ours.
+    target = Path(os.path.abspath(target))
+    if target.parent != CONTINUE_SKILLS_DIR or not re.fullmatch(r"[0-9a-f]{32}", target.name):
+        return None
+    check_generated_skill_path(target)
+    return target
+
+
+def install_skill_tree(
+    sources: list[Path], dest: Path, filtered: bool, force: bool
+) -> bool:
+    """Switch Continue's root link only after its new generation is complete."""
+    previous = managed_skill_generation(dest)
+    managed_link = dest.is_symlink() and (
+        previous is not None or dest.resolve() == SKILLS_DIR.resolve()
+    )
+    if (dest.exists() or dest.is_symlink()) and not managed_link and not force:
+        print(f"skipped  {dest}  (not managed; use --force to replace)", file=sys.stderr)
+        return False
+
+    generation = generate_continue_skills(sources) if filtered else None
+    installed = False
+    try:
+        if generation is not None:
+            check_generated_skill_path(generation)
+        installed = link(generation or SKILLS_DIR.resolve(), dest, force)
+        if installed and previous is not None:
+            remove_skill_generation(previous)
+        return installed
+    finally:
+        if generation is not None and not installed:
+            remove_skill_generation(generation)
 
 
 def link(src: Path, dst: Path, force: bool) -> bool:
@@ -755,20 +877,31 @@ def copy_managed_files(
 def cmd_install(args: argparse.Namespace) -> int:
     ok = True
 
-    sources = (
-        sorted(p for p in SKILLS_DIR.iterdir() if p.is_dir())
-        if SKILLS_DIR.is_dir()
-        else []
-    )
+    try:
+        sources = (
+            sorted(p for p in SKILLS_DIR.iterdir() if p.is_dir())
+            if SKILLS_DIR.is_dir()
+            else []
+        )
+        excluded = read_skill_exclusions(sources)
+    except (OSError, ValueError) as e:
+        print(f"failed: {e}", file=sys.stderr)
+        return 1
+    sources = [src for src in sources if src.name not in excluded]
 
     for dest_root in skill_dests():
         dest_root.mkdir(parents=True, exist_ok=True)
         prune(dest_root, SKILLS_DIR)
+        unlink_excluded_skills(dest_root, excluded)
         for src in sources:
             ok &= link(src.resolve(), dest_root / src.name, args.force)
 
     for dest in skill_tree_dests():
-        ok &= link(SKILLS_DIR.resolve(), dest, args.force)
+        try:
+            ok &= install_skill_tree(sources, dest, bool(excluded), args.force)
+        except (OSError, ValueError) as e:
+            print(f"failed: {dest}: {e}", file=sys.stderr)
+            ok = False
 
     linked_agent_count = 0
     linked_agent_destinations: list[Path] = []
@@ -828,7 +961,10 @@ def cmd_install(args: argparse.Namespace) -> int:
                 ok = False
 
     skill_destinations = [*skill_dests(), *skill_tree_dests()]
-    print(f"\n{len(sources)} skills -> {', '.join(str(d) for d in skill_destinations)}")
+    print(
+        f"\n{len(sources)} skills ({len(excluded)} excluded) -> "
+        f"{', '.join(str(d) for d in skill_destinations)}"
+    )
     print(
         f"{linked_agent_count} linked agents -> "
         f"{', '.join(str(d) for d in linked_agent_destinations)}"

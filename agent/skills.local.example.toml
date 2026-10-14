@@ -1,0 +1,13 @@
+# このファイルを skills.local.toml にコピーしてローカル設定を指定します。
+# skills.local.toml は Git 管理外です。初期状態ではすべてのスキルを設置します。
+# exclude には skills 直下のディレクトリ名を完全一致で指定してください。
+# 例: exclude = ["grill", "handoff"]
+# 存在しない名前や不正な設定は、連携先を変更する前にエラーになります。
+#
+# ./setup.py install で Claude Code・Codex・Continue への除外を反映します。
+# 既存の管理リンクも解除します。取得・更新する ./setup.py update には影響しません。
+# Continue は除外指定がある場合にコピーを使うため、スキル本文の編集・更新後も
+# install を再実行してください。プラグインやプロジェクト内の別配布には適用しません。
+
+[skills]
+exclude = []
