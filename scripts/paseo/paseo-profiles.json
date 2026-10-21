@@ -1,0 +1,59 @@
+{
+  "providers": {
+    "opencode-openrouter": {
+      "requires": "opencode",
+      "extends": "opencode",
+      "label": "OpenCode / OpenRouter",
+      "models": [
+        {
+          "id": "openrouter/z-ai/glm-5.3-flash",
+          "label": "GLM 5.3 Flash (OpenRouter)",
+          "isDefault": true
+        },
+        {
+          "id": "openrouter/deepseek/deepseek-v4.1-flash-1017",
+          "label": "DeepSeek V4.1 Flash 1017 (OpenRouter)"
+        }
+      ],
+      "enabled": true
+    }
+  },
+  "profiles": [
+    {
+      "requires": "codex",
+      "id": "verifier-gpt",
+      "name": "Verifier (GPT)",
+      "provider": "codex",
+      "model": "gpt-6.1-sol",
+      "modeId": "full-access",
+      "notes": "family: gpt / priority: 1 / チェック検証用。Codex のサンドボックスは環境によって動かないため full-access。読み取り専用は指示と呼び出し側の事後検知で担保する。"
+    },
+    {
+      "requires": "opencode",
+      "id": "verifier-glm",
+      "name": "Verifier (GLM)",
+      "provider": "opencode-openrouter",
+      "model": "openrouter/z-ai/glm-5.3-flash",
+      "modeId": "plan",
+      "notes": "family: glm / priority: 2 / チェック検証用。OpenCode の plan はグローバル権限で上書きされ書き込めるため、読み取り専用は指示と呼び出し側の事後検知で担保する。"
+    },
+    {
+      "requires": "opencode",
+      "id": "verifier-deepseek",
+      "name": "Verifier (DeepSeek)",
+      "provider": "opencode-openrouter",
+      "model": "openrouter/deepseek/deepseek-v4.1-flash-1017",
+      "modeId": "plan",
+      "notes": "family: deepseek / priority: 3 / チェック検証用。OpenCode の plan はグローバル権限で上書きされ書き込めるため、読み取り専用は指示と呼び出し側の事後検知で担保する。"
+    },
+    {
+      "requires": "claude",
+      "id": "verifier-claude",
+      "name": "Verifier (Claude)",
+      "provider": "claude",
+      "model": "claude-sonnet-5-5",
+      "modeId": "plan",
+      "notes": "family: claude / priority: 4 / チェック検証用。plan モードで書き込みを止める。"
+    }
+  ]
+}
