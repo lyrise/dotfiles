@@ -1,83 +1,83 @@
-# knowledges 運用ガイドライン
+# knowledges Guidelines
 
-`$AGENT_MEMORY_DIR/knowledges/` には、現在も有効で、繰り返し使える知識だけを置く。仕事と私生活を区別しない。
-その時点の調査結果・作業の経緯・判断の理由は `$AGENT_MEMORY_DIR/records/` に置く。
-特定のプロジェクトやリポジトリに固有の知識は `$AGENT_MEMORY_DIR` に置かず、その中の文書に置く。
+`$AGENT_MEMORY_DIR/knowledges/` holds only knowledge that is still valid and reusable. Work and personal life are not separated.
+Point-in-time research results, work history, and the reasons behind decisions go in `$AGENT_MEMORY_DIR/records/`.
+Knowledge specific to one project or repository does not go in `$AGENT_MEMORY_DIR`; it goes in the documents inside that project or repository.
 
-## フォルダ構成
+## Folder Layout
 
 ```
 $AGENT_MEMORY_DIR/knowledges/
 ├── GUIDELINES.md
-├── me/      # ユーザー本人の方針・好み・習慣
-├── people/  # 人物
-├── things/  # 固有名のある対象（サービス・製品・組織・場所）
-└── topics/  # 概念・手法・手続きなど、固有名のある対象に属さない知識
+├── me/      # The user's own policies, preferences, and habits
+├── people/  # People
+├── things/  # Named things (services, products, organizations, places)
+└── topics/  # Concepts, methods, procedures, and other knowledge that belongs to no named thing
 ```
 
-| カテゴリ  | 置くもの                                     | 置かないもの                    |
-| --------- | -------------------------------------------- | ------------------------------- |
-| `me/`     | 好み、物事の進め方、判断基準、生活の習慣     | 一時的な予定、その時点の気分    |
-| `people/` | 関係、所属、詳しいこと、好み、やり取りの傾向 | その時点の出来事（→ records）   |
-| `things/` | 使い方、手順、設定、制約、既知の落とし穴     | トラブル対応の経緯（→ records） |
-| `topics/` | 概念の要点、手法、手続き、比較、定石         | 特定の対象の手順（→ things）    |
+| Category  | Put here                                                     | Do not put here                          |
+| --------- | ------------------------------------------------------------ | ---------------------------------------- |
+| `me/`     | Preferences, ways of working, decision criteria, daily habits | Temporary plans, momentary moods         |
+| `people/` | Relationship, affiliation, expertise, preferences, interaction tendencies | Point-in-time events (→ records) |
+| `things/` | Usage, procedures, settings, constraints, known pitfalls     | Troubleshooting history (→ records)      |
+| `topics/` | Key points of concepts, methods, procedures, comparisons, established practices | Procedures for a specific thing (→ things) |
 
-迷ったら「その知識の主語は何か」で決める。主語が自分なら `me/`、他の人なら `people/`、固有名のある対象なら `things/`、どれでもなければ `topics/`。
+When in doubt, decide by "what is the subject of this knowledge". If the subject is the user, use `me/`; another person, `people/`; a named thing, `things/`; none of these, `topics/`.
 
-## ノートの単位
+## Note Granularity
 
-- 1 対象 1 ノートとし、カテゴリ直下に置く。
-- 本文がおよそ 300 行を超えたとき、または独立して参照される観点が 3 つ以上になったときは、対象名のサブフォルダに分割する。親ノートは `<slug>/<slug>.md`（例: `things/notion/notion.md`）とし、概要と子ノートへのリンクを持たせる。
+- One note per subject, placed directly under its category.
+- When the body exceeds roughly 300 lines, or has three or more aspects that are consulted independently, split it into a subfolder named after the subject. The parent note is `<slug>/<slug>.md` (e.g., `things/notion/notion.md`) and holds an overview and links to the child notes.
 
-## ファイル名
+## File Names
 
-- 英小文字・数字・ハイフンだけを使う（kebab-case）。
-- 人物は `姓-名` のローマ字にする（例: `yamada-taro.md`）。
-- 日本語名や別名は frontmatter の `title` と `aliases` に持たせる。
+- Use only lowercase ASCII letters, digits, and hyphens (kebab-case).
+- For people, use the romanized `family-given` name (e.g., `yamada-taro.md`).
+- Keep Japanese names and aliases in the frontmatter `title` and `aliases`.
 
 ## frontmatter
 
 ```yaml
 ---
-title: 電気ケトル # 必須。表示名
-aliases: [ケトル] # 任意。別名・略称・日本語表記。検索とリンク補完に使う
-tags: [thing, kitchen] # 必須。先頭はカテゴリ（me / person / thing / topic）。2 つ目以降は自由
-created: 2026-09-29 # 必須。作成日
-updated: 2026-09-29 # 必須。本文を最後に変更した日
-sources: # 任意。原典の URL やパス。me/ と people/ では省略してよい
+title: Electric kettle # Required. Display name
+aliases: [kettle, 電気ケトル] # Optional. Aliases, abbreviations, Japanese notation. Used for search and link completion
+tags: [thing, kitchen] # Required. The first is the category (me / person / thing / topic). The rest are free
+created: 2026-09-29 # Required. Creation date
+updated: 2026-09-29 # Required. Date the body was last changed
+sources: # Optional. URLs or paths of the original sources. May be omitted in me/ and people/
   - https://example.com/manual
 ---
 ```
 
-## 本文の章立て
+## Body Sections
 
-該当する内容がない章は省く。見出しの名前と順序は変えない。
+Omit sections that have no content. Do not change the heading names or their order.
 
-- `me/`：`## 方針・好み` `## 理由` `## 適用範囲`
-- `people/`：`## 概要`（関係・所属） `## 詳しいこと・関心` `## やり取りの注意` `## 関連`
-- `things/`：`## 概要` `## 使い方・手順` `## 注意点・既知の落とし穴` `## 関連`
-- `topics/`：`## 要点` `## 詳細` `## 関連`
+- `me/`: `## Policies and Preferences` `## Reasons` `## Scope`
+- `people/`: `## Overview` (relationship, affiliation) `## Expertise and Interests` `## Notes on Interaction` `## Related`
+- `things/`: `## Overview` `## Usage and Procedures` `## Cautions and Known Pitfalls` `## Related`
+- `topics/`: `## Key Points` `## Details` `## Related`
 
-## 確度
+## Confidence
 
-- 原典や現物で確認した内容には印を付けず、出典を `sources` か行末のリンクで示す。
-- 複数の情報から推測した内容には 🔶 を付け、根拠を併記する。
-- 確認できていない内容や、情報源どうしが矛盾している内容には ❓ を付ける。矛盾している場合は、どちらかに寄せず両方を書く。
+- Do not mark content confirmed against original sources or the real thing; cite the source in `sources` or with a link at the end of the line.
+- Mark content inferred from multiple pieces of information with 🔶 and state the basis alongside it.
+- Mark unconfirmed content, or content on which sources contradict each other, with ❓. When sources contradict, write both without leaning toward either.
 
-## リンク
+## Links
 
-- ノート間は `[[wikilink]]` でつなぐ。
-- 索引ノートは作らない。探すときは、カテゴリを決めてそのフォルダの一覧を見て、見当たらなければ `title` / `aliases` / `tags` で検索する。
+- Connect notes with `[[wikilink]]`.
+- Do not create index notes. To find a note, decide the category and look at that folder's listing; if it is not there, search by `title` / `aliases` / `tags`.
 
-## 更新・統合・削除
+## Updating, Merging, and Deleting
 
-- 本文は常に現在の状態だけを書く。古い記述は上書きし、取り消し線や変更履歴は残さない。
-- 変更の経緯を残す価値があるときは、`$AGENT_MEMORY_DIR/records/` に記録を書き、該当ノートの `## 関連` からリンクする。
-- 内容を変更したら `updated` を更新する。
-- 書き込む前に、同じ対象のノートがないかを `title` と `aliases` で検索する。見つかった場合は新しく作らずに追記する。
-- ノートの削除・統合・改名は、対象のパスと理由を示し、ユーザーの承認を得てから行う。統合したときは、統合先の `aliases` に旧名を加える。
+- The body always describes only the current state. Overwrite outdated text; do not keep strikethroughs or change history.
+- When the history of a change is worth keeping, write a record in `$AGENT_MEMORY_DIR/records/` and link to it from the note's `## Related`.
+- Update `updated` whenever the content changes.
+- Before writing, search `title` and `aliases` for an existing note on the same subject. If one is found, append to it instead of creating a new one.
+- Delete, merge, or rename a note only after showing the target path and the reason and getting the user's approval. When merging, add the old name to the merged note's `aliases`.
 
-## 書かないもの
+## Do Not Write
 
-- 認証情報 (トークン、パスワード、秘密鍵、暗証番号)
-- 他者から預かった機密情報の本文。要点と原典へのリンクにとどめる
+- Credentials (tokens, passwords, private keys, PINs)
+- The full text of confidential information entrusted by others. Keep to the key points and a link to the original source
