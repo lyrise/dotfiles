@@ -1,4 +1,4 @@
-# Implementation Plans
+# Implementation Plan
 
 When writing, revising, checking, or folding `docs/plans.md` and `docs/plans/<slug>.md`, follow this document.
 `<slug>` is a short kebab-case name for the work.
@@ -16,7 +16,7 @@ When a new design decision is made while drawing up the plan, write it first in 
 Cross-cutting decisions have `docs/design.md` as their authoritative source, and decisions confined to one concern have the existing detail document.
 If there is no corresponding detail document, `docs/design.md` is the authoritative source.
 When a new term is decided, write it in `docs/terms.md`.
-Do not split design documents on the back of creating or completing a plan; if a split is needed, handle it separately as an update under [Design Documents](design-document.md).
+Do not split design documents on the back of creating or completing a plan; if a split is needed, handle it separately as an update under the [Design Document](design-document.md) rules.
 
 ## Shape of the Parent Document
 
@@ -355,9 +355,9 @@ The plan's sentences were written in the context of steps, and cannot be read on
 
 In **confirm**, with the plan closed, read only the destinations and see whether the content makes sense.
 Moved decisions must not point to step numbers or the `<slug>`.
-Filed bugs must satisfy the five sections of §"Shape of Child Documents" in the [Bug List](issues-document.md).
-Filed external facts must satisfy the three sections and the source label of §"Shape of Child Documents" in [External Knowledge](knowledges-document.md).
-Moved terms must satisfy the six columns of the table and the conditions for entries in the [Terms Documents](terms-document.md).
+Filed bugs must satisfy the five sections of §"Shape of Child Documents" in the [Issues Document](issues-document.md).
+Filed external facts must satisfy the three sections and the source label of §"Shape of Child Documents" in the [Knowledges Document](knowledges-document.md).
+Moved terms must satisfy the six columns of the table and the conditions for entries in the [Terms Document](terms-document.md).
 No links to the plan may remain anywhere.
 Confirm the last one by `rg -n '<slug>' --glob '!docs/plans/**' .` being empty.
 

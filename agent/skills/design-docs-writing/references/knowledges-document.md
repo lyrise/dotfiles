@@ -1,4 +1,4 @@
-# External Knowledge
+# Knowledges Document
 
 When writing, revising, or checking `docs/knowledges.md` and `docs/knowledges/<slug>.md`, follow this document.
 For the family's responsibilities, parents and children, identifiers, style, diagrams, information density, handling of evidence, and link conventions, follow the [common rules](../SKILL.md); this document defines only what is specific to external knowledge.
@@ -150,7 +150,7 @@ For "it used to be like this up to 1.47", git history is authoritative.
 That the body speaks only of the current dependencies is what makes this family trustworthy.
 
 Things to move into this family arise when folding a plan and after publishing a review.
-Each reference defines how to move them ([Implementation Plans](implementation-plan.md), [Review Result Documents](review-document.md)).
+Each reference defines how to move them ([Implementation Plan](implementation-plan.md), [Review Document](review-document.md)).
 
 ## Detecting Staleness
 

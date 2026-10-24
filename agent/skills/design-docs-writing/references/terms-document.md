@@ -1,4 +1,4 @@
-# Terms Documents
+# Terms Document
 
 When writing, revising, or checking `docs/terms.md` and `docs/terms/<slug>.md`, follow this document.
 For the family's responsibilities, parents and children, identifiers, style, diagrams, information density, handling of evidence, and link conventions, follow the [common rules](../SKILL.md); this document defines only what is specific to terms documents.
@@ -230,9 +230,9 @@ Add the following to the blocking findings.
 - Create `docs/terms.md` together with `design.md`
 - When a new term appears in implementation, add a row to the table within that work
 - When a detail document for a concern is created and several terms with entries are confined to it, move them to `docs/terms/<slug>.md`
-- In work that adds or changes externally visible names, include updating this document in the completion criteria of the steps ([Implementation Plans](implementation-plan.md))
+- In work that adds or changes externally visible names, include updating this document in the completion criteria of the steps ([Implementation Plan](implementation-plan.md))
 - Move naming decisions made during the work to this document when folding the plan
-- When a review produces a finding of kind Terminology, transcribe it to this document ([Review Result Documents](review-document.md))
+- When a review produces a finding of kind Terminology, transcribe it to this document ([Review Document](review-document.md))
 - When a term is no longer used, delete its table row and entry
 
 Move a term that is no longer used into Avoided aliases only when that name can still appear in the code or external forms.
@@ -245,7 +245,7 @@ The external world is the authoritative source for explanations of `OAuth`, `gRP
 Write the meaning only when the project gives the term a project-specific meaning.
 
 If this project also uses a term defined externally, put a row in the table and record only the mapping of identifier and external form.
-How the mechanism the term refers to actually behaves is held by [External Knowledge](knowledges-document.md).
+How the mechanism the term refers to actually behaves is held by the knowledges documents ([Knowledges Document](knowledges-document.md)).
 
 **Design rationale** is held by design documents.
 What this document holds is only the reason for choosing a name, not the reason for choosing the mechanism.

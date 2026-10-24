@@ -1,4 +1,4 @@
-# Review Result Documents
+# Review Document
 
 When writing, checking, or transcribing findings from `docs/reviews.md` and `docs/reviews/<slug>.md`, follow this document.
 For the family's responsibilities, parents and children, identifiers, style, diagrams, information density, handling of evidence, and link conventions, follow the [common rules](../SKILL.md); this document defines only what is specific to review result documents.
@@ -323,7 +323,7 @@ Write "fixed within the same review" or "decided not to do it, because …".
 A finding with an empty disposition is one that disappears without anyone picking it up.
 
 Besides findings, there is one more thing to move.
-External behavior that appeared in the evidence of §4 and in §5, and that holds outside the context of this review, is moved to `docs/knowledges/<slug>.md` ([External Knowledge](knowledges-document.md)).
+External behavior that appeared in the evidence of §4 and in §5, and that holds outside the context of this review, is moved to `docs/knowledges/<slug>.md` ([Knowledges Document](knowledges-document.md)).
 This is not a finding, so it has no kind and does not appear in the list table.
 Record the move with a date in §6.
 

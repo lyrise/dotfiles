@@ -1,10 +1,10 @@
-# Design Documents
+# Design Document
 
 When writing, revising, splitting, or checking the design documents whose entry point is `docs/design.md`, follow this document.
 For the family's responsibilities, parents and children, identifiers, style, diagrams, information density, handling of evidence, and link conventions, follow the [common rules](../SKILL.md); this document defines only what is specific to design documents.
 
 Design documents do not define terms.
-The [terms documents](terms-document.md) are the authoritative source for term definitions, notation, aliases, and boundaries with adjacent terms, and design documents use that vocabulary as given.
+The terms documents ([Terms Document](terms-document.md)) are the authoritative source for term definitions, notation, aliases, and boundaries with adjacent terms, and design documents use that vocabulary as given.
 
 ## Shape of the Parent Document
 
@@ -117,7 +117,7 @@ However, always write an alternative that was once adopted and has left traces i
 If it is not written, the same alternative will be proposed again later.
 
 Do not write naming decisions here.
-`terms.md` holds the rejected names and their reasons ([Terms Documents](terms-document.md)).
+`terms.md` holds the rejected names and their reasons ([Terms Document](terms-document.md)).
 
 Write **Deferred** items one item per `####` heading, in the following form.
 
@@ -227,7 +227,7 @@ docs/
 └── issues.md
 ```
 
-After splitting out a concern into a detail document, check whether there are several terms with entries confined to that concern, and if so, create `docs/terms/<slug>.md` with the same `<slug>` ([Terms Documents](terms-document.md)).
+After splitting out a concern into a detail document, check whether there are several terms with entries confined to that concern, and if so, create `docs/terms/<slug>.md` with the same `<slug>` ([Terms Document](terms-document.md)).
 File names are aligned so that someone reading the design and someone looking up a term can name the destination by the same name.
 
 ### Responsibilities After Splitting

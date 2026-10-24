@@ -1,11 +1,11 @@
-# Bug List
+# Issues Document
 
 When writing, revising, or checking `docs/issues.md` and `docs/issues/<slug>.md`, follow this document.
 For the family's responsibilities, parents and children, identifiers, style, diagrams, information density, handling of evidence, and link conventions, follow the [common rules](../SKILL.md); this document defines only what is specific to the bug list.
 
 This document covers only clear bugs confirmed by reading the code.
 Something where what to choose is not yet decided is a design question and goes in the design decisions section of the design document responsible for that concern.
-How external things actually behave is held by [External Knowledge](knowledges-document.md).
+How external things actually behave is held by the knowledges documents ([Knowledges Document](knowledges-document.md)).
 
 ## Shape of the Parent Document
 

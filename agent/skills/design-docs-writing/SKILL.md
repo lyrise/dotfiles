@@ -33,12 +33,12 @@ Anchors in links follow the actual headings, so with Japanese headings, use anch
 
 | Request | Reference to read |
 | --- | --- |
-| Write, update, check, or split design documents | [Design Documents](references/design-document.md) |
-| Define or rename terms, or check the glossary | [Terms Documents](references/terms-document.md) |
-| Record a bug, or check the known-bug list | [Bug List](references/issues-document.md) |
-| Record external behavior, or check external knowledge | [External Knowledge](references/knowledges-document.md) |
-| Write, update, or fold an implementation plan | [Implementation Plans](references/implementation-plan.md) |
-| Record or check review results, or transcribe findings | [Review Result Documents](references/review-document.md) |
+| Write, update, check, or split design documents | [Design Document](references/design-document.md) |
+| Define or rename terms, or check the glossary | [Terms Document](references/terms-document.md) |
+| Record a bug, or check the known-bug list | [Issues Document](references/issues-document.md) |
+| Record external behavior, or check external knowledge | [Knowledges Document](references/knowledges-document.md) |
+| Write, update, or fold an implementation plan | [Implementation Plan](references/implementation-plan.md) |
+| Record or check review results, or transcribe findings | [Review Document](references/review-document.md) |
 
 When starting documents for a new project, create the design document and the terms document at the same time.
 The design document holds no term definitions, so without a terms document there is nowhere to put the vocabulary.
@@ -239,9 +239,9 @@ Writing unverified behavior in the present tense makes the document lie.
 
 There are two exceptions.
 
-Review result documents may write them with the confidence stated, because recording suspicions is itself their role ([Review Result Documents](references/review-document.md)).
+Review result documents may write them with the confidence stated, because recording suspicions is itself their role ([Review Document](references/review-document.md)).
 
-External knowledge may write facts based on primary sources with a source label ([External Knowledge](references/knowledges-document.md)).
+External knowledge may write facts based on primary sources with a source label ([Knowledges Document](references/knowledges-document.md)).
 Something not confirmed yourself is different from a groundless guess.
 Writing it without a label takes it outside this exception.
 
