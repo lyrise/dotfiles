@@ -1,19 +1,19 @@
 ---
 name: japanese-proofreading
-description: 日本語の文章を、textlint の機械検知を根拠に訂正・校正する。文体と意味を保った推敲を求められたときに使用する。
+description: Correct and proofread Japanese text, grounded in machine detection by textlint. Use when asked to polish Japanese text while preserving its style and meaning.
 ---
 
-# 日本語校正
+# Japanese Proofreading
 
-日本語の本文を訂正する前に、`textlint-rule-preset-ai-words-ja` を実行して、AI が多用しがちな単語・言い回しを機械検知する。検知は判断材料であり、語彙の一律置換ではない。
+Before correcting Japanese text, run `textlint-rule-preset-ai-words-ja` to machine-detect words and phrasings that AI tends to overuse. The detections are input for judgment, not a list of words to replace across the board.
 
-## 入力と実行
+## Input and Execution
 
-- ファイルが指定されている場合は、そのファイルを読み取り専用で検査する。対象ファイルを変更しない。
-- 会話に本文だけが渡された場合は、安全な一時ディレクトリに `.md` ファイルとして書き出す。成功・失敗を問わず、検査後に必ず削除する。
-- 対象リポジトリの `package.json`、lockfile、`.textlintrc` は変更しない。既存の textlint 設定も読まない。
+- When a file is specified, inspect that file read-only. Do not modify the target file.
+- When only the text is given in the conversation, write it out as a `.md` file in a safe temporary directory. Always delete it after the inspection, whether it succeeds or fails.
+- Do not modify the target repository's `package.json`, lockfile, or `.textlintrc`. Do not read existing textlint settings either.
 
-次のコマンドを実行する。`--fix` は使わない。
+Run the following command. Do not use `--fix`.
 
 ```sh
 npm exec --yes \
@@ -22,24 +22,24 @@ npm exec --yes \
   -- textlint --no-textlintrc --rule preset-ai-words-ja --format json "$input"
 ```
 
-標準出力を JSON として読み、各診断の `line`、`column`、`ruleId`、`message` を扱う。終了状態は次のように判定する。
+Read stdout as JSON and handle each diagnostic's `line`, `column`, `ruleId`, and `message`. Judge the exit status as follows.
 
-- `0`: 検知成功。診断なし。
-- `1`: 検知成功。JSON の診断を校正の確認材料にする。
-- `2`、npm の取得失敗、JSON の解析失敗、その他のコマンド失敗: 検知不能。失敗理由と再実行コマンドだけを示し、訂正文を返さない。
+- `0`: detection succeeded. No diagnostics.
+- `1`: detection succeeded. Use the diagnostics in the JSON as input for proofreading.
+- `2`, an npm fetch failure, a JSON parse failure, or any other command failure: detection failed. Show only the reason for the failure and the command to rerun, and do not return corrected text.
 
-## 訂正
+## Correction
 
-検知が成功した場合だけ訂正する。
+Correct only when detection succeeded.
 
-- 元の敬体・常体、専門性、親しさ、意味、事実主張、Markdown の構造を保つ。文体変更、要約、翻訳、事実確認、大幅な再構成は明示依頼がある場合だけ行う。
-- コード、コマンド、URL、識別子、製品名を含む固有名詞、明示引用は変更しない。
-- 誤字、文法、不自然な係り受け、冗長さを直す。textlint の指摘語は、直訳調・抽象性・文脈不適合を解消でき、意味を保てる場合だけ言い換える。
-- 指摘語が専門用語・固有の表現として必要なら残す。検知されたことだけを理由に置換しない。
+- Preserve the original politeness level (敬体 or 常体), technical depth, familiarity, meaning, factual claims, and Markdown structure. Change the style, summarize, translate, fact-check, or substantially restructure only on explicit request.
+- Do not change code, commands, URLs, identifiers, proper nouns including product names, or explicit quotations.
+- Fix typos, grammar, awkward modifier relationships, and redundancy. Rephrase a word flagged by textlint only when doing so resolves a translationese, abstract, or contextually unfit expression while preserving the meaning.
+- Keep a flagged word if it is needed as a technical term or a specific expression. Do not replace it merely because it was detected.
 
-返答は次の順にする。
+Respond in Japanese, in the following order.
 
-1. `訂正文` として、そのまま使える本文を示す。
-2. `検知と変更` として、実際に採用した textlint 診断（位置と理由）と、意味や表現に影響した変更だけを短く示す。
+1. Under `訂正文`, show the text ready to use as is.
+2. Under `検知と変更`, briefly show only the textlint diagnostics actually adopted (location and reason) and the changes that affected meaning or expression.
 
-プリセットの対象語とオプションは [textlint-rule-preset-ai-words-ja](https://github.com/p1ass/textlint-rule-preset-ai-words-ja) を参照する。
+See [textlint-rule-preset-ai-words-ja](https://github.com/p1ass/textlint-rule-preset-ai-words-ja) for the words targeted by the preset and its options.
