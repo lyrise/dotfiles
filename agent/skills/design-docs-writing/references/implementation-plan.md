@@ -88,7 +88,7 @@ Show the family map with a link to `[design.md](../design.md#11-document-respons
 
 Links to design documents include the anchor of the heading the plan assumes.
 For example, write `[design.md](../design.md#3-overall-structure)` for the overall structure, and `[storage.md](../design/storage.md#2-responsibilities-and-boundaries)` for the storage boundaries.
-For vocabulary, point to `[terms.md](../terms.md)`; for bugs, `[issues.md](../issues.md)`; for external behavior, `[knowledges.md](../knowledges.md)`.
+For vocabulary, point to `[terms.md](../terms.md)`; for bugs, `[issues.md](../issues.md)`; for external behavior, `[knowledge.md](../knowledge.md)`.
 
 **1.2 Creation Date and Target Commit** is required.
 The steps are written assuming the current code, and cannot be read without knowing the point in time.
@@ -291,7 +291,7 @@ Replace the blocking findings with the following.
 **The reasons for design decisions** are held by the design document responsible for that decision.
 **Term definitions and reasons for names** are held by `terms.md`; this document only uses the terms.
 **Details of confirmed bugs** are held by `issues.md`; refer to related ones by `<slug>`.
-**How external things actually behave** is held by `knowledges.md`.
+**How external things actually behave** is held by `knowledge.md`.
 **Setup steps and dependency packages** are held by `README.md`.
 
 Do not write **finished code**.
@@ -341,7 +341,7 @@ In **move**, go through the body one section at a time from the top, and move on
 | Invariants learned through implementation, and the conditions that break them | The relevant topic section of the design document responsible for that concern |
 | Terms that appeared in implementation and are not yet in the terms documents' table | The term list of the terms documents |
 | Naming decisions made during implementation (rejected names and reasons) | The term's entry in the terms documents |
-| External behavior confirmed during implementation | File it as `docs/knowledges/<slug>.md`, and add a row to the list table of `knowledges.md` |
+| External behavior confirmed during implementation | File it as `docs/knowledge/<slug>.md`, and add a row to the list table of `knowledge.md` |
 | Leftover bugs | File it as `docs/issues/<slug>.md`, and add a row to the list table of `issues.md` |
 | Non-goals that will eventually be needed | A deferred item in the relevant design document, or `docs/issues/<slug>.md` |
 | Non-goals decided never to be built | Out of scope in `design.md` |
@@ -355,8 +355,8 @@ The plan's sentences were written in the context of steps, and cannot be read on
 
 In **confirm**, with the plan closed, read only the destinations and see whether the content makes sense.
 Moved decisions must not point to step numbers or the `<slug>`.
-Filed bugs must satisfy the five sections of §"Shape of Child Documents" in the [Issues Document](issues-document.md).
-Filed external facts must satisfy the three sections and the source label of §"Shape of Child Documents" in the [Knowledges Document](knowledges-document.md).
+Filed bugs must satisfy the five sections of §"Shape of Child Documents" in the [Issue List](issue-list.md).
+Filed external facts must satisfy the three sections and the source label of §"Shape of Child Documents" in the [Knowledge Document](knowledge-document.md).
 Moved terms must satisfy the six columns of the table and the conditions for entries in the [Terms Document](terms-document.md).
 No links to the plan may remain anywhere.
 Confirm the last one by `rg -n '<slug>' --glob '!docs/plans/**' .` being empty.

@@ -1,6 +1,6 @@
-# Knowledges Document
+# Knowledge Document
 
-When writing, revising, or checking `docs/knowledges.md` and `docs/knowledges/<slug>.md`, follow this document.
+When writing, revising, or checking `docs/knowledge.md` and `docs/knowledge/<slug>.md`, follow this document.
 For the family's responsibilities, parents and children, identifiers, style, diagrams, information density, handling of evidence, and link conventions, follow the [common rules](../SKILL.md); this document defines only what is specific to external knowledge.
 
 This document covers how dependency libraries, the OS, protocols, external APIs, and runtime environments actually behave.
@@ -33,7 +33,7 @@ The four columns are Item, Target, Source, and Last checked.
 ```markdown
 | Item | Target | Source | Last checked |
 | --- | --- | --- | --- |
-| [LocalSet polls only inside run_until](./knowledges/tokio-localset.md) | tokio 1.47.1 | Verified | 2026-08-31 |
+| [LocalSet polls only inside run_until](./knowledge/tokio-localset.md) | tokio 1.47.1 | Verified | 2026-08-31 |
 ```
 
 The Target column is a machine-readable key for matching against the current dependencies during checks (§"Detecting Staleness").
@@ -44,7 +44,7 @@ Point out items about the same external component, and items where if one does n
 
 ## Shape of Child Documents
 
-Write `docs/knowledges/<slug>.md` in the following form.
+Write `docs/knowledge/<slug>.md` in the following form.
 `<slug>` is kebab-case that conveys the external component and the fact (`tokio-localset`, `launchd-termination`).
 
 ```markdown
@@ -52,7 +52,7 @@ Write `docs/knowledges/<slug>.md` in the following form.
 
 **Source: Verified** (tokio 1.47.1 / 2026-08-31)
 
-One item of [knowledges.md](../knowledges.md).
+One item of [knowledge.md](../knowledge.md).
 
 ## Fact
 What behaves how.
@@ -195,10 +195,10 @@ In addition to §"Common Post-Writing Check" in the common rules, confirm the fo
 1. Does every item have a source label, and is it either `Verified` or `Literature only`?
 2. Do `Verified` items have reproduction steps, and do references to verification code in the repository have line numbers?
 3. Do `Literature only` items have a reference to a primary source and a reference date? Is the reference a primary source?
-4. Does the target pin down a version or edition? Are `latest` and `current` (`最新` and `現行` in Japanese) not mixed in? `rg -n -i '\b(latest|current)\b|最新|現行' docs/knowledges.md docs/knowledges/` must not hit the Target column or a source label
+4. Does the target pin down a version or edition? Are `latest` and `current` (`最新` and `現行` in Japanese) not mixed in? `rg -n -i '\b(latest|current)\b|最新|現行' docs/knowledge.md docs/knowledge/` must not hit the Target column or a source label
 5. Are the conditions under which each fact holds written?
 6. Does every item have implications, with a relative link to the subsection of the design document that depends on it?
-7. Do the rows of the list table correspond one-to-one with `docs/knowledges/*.md`?
+7. Do the rows of the list table correspond one-to-one with `docs/knowledge/*.md`?
 8. Is there a paragraph on relationships between items below the list table?
 9. Are no descriptions of past versions left?
 10. Are general technical knowledge, matters of our own code, design decisions, operating procedures, and term definitions not mixed in?
@@ -213,7 +213,7 @@ When writing in Japanese, use the following headings, labels, column names, and 
 | Columns `Item` / `Target` / `Source` / `Last checked` | `項目` / `検証対象` / `出所` / `最終確認日` |
 | Source `Verified` / `Literature only` | `検証済み` / `文献のみ` |
 | `**Source: Verified**` / `**Source: Literature only**` | `**出所: 検証済み**` / `**出所: 文献のみ**` |
-| `One item of [knowledges.md](../knowledges.md).` | `[knowledges.md](../knowledges.md) の 1 項目。` |
+| `One item of [knowledge.md](../knowledge.md).` | `[knowledge.md](../knowledge.md) の 1 項目。` |
 | `## Fact` | `## 事実` |
 | `## Evidence` | `## 根拠` |
 | `## Implications` | `## 含意` |

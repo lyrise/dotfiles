@@ -96,7 +96,7 @@ State in one or two sentences what the review is of.
 Write **1.1 Document Responsibilities** as a table.
 List here only what this document holds, what it does not, and the documents that are transcription destinations.
 Show the family map with a link to `[design.md](../design.md#11-document-responsibilities)`.
-Transcription destinations point to `[terms.md](../terms.md)`, `[issues.md](../issues.md)`, `[knowledges.md](../knowledges.md)`, and the relevant design documents.
+Transcription destinations point to `[terms.md](../terms.md)`, `[issues.md](../issues.md)`, `[knowledge.md](../knowledge.md)`, and the relevant design documents.
 
 **1.2 Review Date and Target** is required and contains the following four.
 
@@ -232,7 +232,7 @@ At publication, only the heading is placed; this is the only section that may be
 ```markdown
 - 2026-08-12: Filed R-1 as issues/timer-leak.md
 - 2026-08-15: R-2 was wrong. `flush` is guaranteed by the caller, and it does not happen on this path
-- 2026-08-18: Moved the launchd termination behavior checked in §5 to knowledges/launchd-termination.md
+- 2026-08-18: Moved the launchd termination behavior checked in §5 to knowledge/launchd-termination.md
 - 2026-08-20: Fixed R-3. issues/stale-cache.md has been deleted
 ```
 
@@ -323,7 +323,7 @@ Write "fixed within the same review" or "decided not to do it, because …".
 A finding with an empty disposition is one that disappears without anyone picking it up.
 
 Besides findings, there is one more thing to move.
-External behavior that appeared in the evidence of §4 and in §5, and that holds outside the context of this review, is moved to `docs/knowledges/<slug>.md` ([Knowledges Document](knowledges-document.md)).
+External behavior that appeared in the evidence of §4 and in §5, and that holds outside the context of this review, is moved to `docs/knowledge/<slug>.md` ([Knowledge Document](knowledge-document.md)).
 This is not a finding, so it has no kind and does not appear in the list table.
 Record the move with a date in §6.
 

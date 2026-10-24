@@ -245,7 +245,7 @@ The external world is the authoritative source for explanations of `OAuth`, `gRP
 Write the meaning only when the project gives the term a project-specific meaning.
 
 If this project also uses a term defined externally, put a row in the table and record only the mapping of identifier and external form.
-How the mechanism the term refers to actually behaves is held by the knowledges documents ([Knowledges Document](knowledges-document.md)).
+How the mechanism the term refers to actually behaves is held by the knowledge documents ([Knowledge Document](knowledge-document.md)).
 
 **Design rationale** is held by design documents.
 What this document holds is only the reason for choosing a name, not the reason for choosing the mechanism.

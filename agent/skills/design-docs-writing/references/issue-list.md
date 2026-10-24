@@ -1,17 +1,17 @@
-# Issues Document
+# Issue List
 
 When writing, revising, or checking `docs/issues.md` and `docs/issues/<slug>.md`, follow this document.
 For the family's responsibilities, parents and children, identifiers, style, diagrams, information density, handling of evidence, and link conventions, follow the [common rules](../SKILL.md); this document defines only what is specific to the bug list.
 
 This document covers only clear bugs confirmed by reading the code.
 Something where what to choose is not yet decided is a design question and goes in the design decisions section of the design document responsible for that concern.
-How external things actually behave is held by the knowledges documents ([Knowledges Document](knowledges-document.md)).
+How external things actually behave is held by the knowledge documents ([Knowledge Document](knowledge-document.md)).
 
 ## Shape of the Parent Document
 
 Put the following at the top.
 
-1. What this document covers (only clear, confirmed bugs) and what it does not (design questions go in the design decisions section of the relevant design document; external behavior goes in `knowledges.md`)
+1. What this document covers (only clear, confirmed bugs) and what it does not (design questions go in the design decisions section of the relevant design document; external behavior goes in `knowledge.md`)
 2. How to use it (add the Issue number once filed; delete the child file when fixed; line numbers drift, so recheck them when fixing)
 
 Do not give the parent an investigation date and target commit.
@@ -136,7 +136,7 @@ Do not link to the transcription source.
 To trace the origin, searching `docs/reviews/` for the `<slug>` is enough.
 
 Even when the cause is a bug in an external component, if a workaround must go into our own code, create an item in this document.
-How the external thing actually behaves also gets an item in `knowledges.md`.
+How the external thing actually behaves also gets an item in `knowledge.md`.
 It is normal to appear in both; do not consolidate into one.
 
 ## What Not to Write
@@ -144,7 +144,7 @@ It is normal to appear in both; do not consolidate into one.
 **Design questions** are held by the design decisions section of the relevant design document.
 Do not file something as a bug when what to choose has not been decided.
 
-**External behavior itself** is held by `knowledges.md`.
+**External behavior itself** is held by `knowledge.md`.
 What this document holds is that our own code is broken, not how the external thing behaves.
 
 **Term definitions** are held by the terms documents.

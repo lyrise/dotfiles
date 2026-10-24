@@ -1,6 +1,6 @@
 ---
 name: design-docs-writing
-description: Writing rules for a software project's document family (design.md, design/*.md, terms.md, terms/*.md, issues.md, issues/*.md, knowledges.md, knowledges/*.md, plans.md, plans/*.md, reviews.md, reviews/*.md). Defines the division of roles between parents and children, the division of responsibilities and lifetimes between documents, fixed section structures, the contract for terms and naming, the forms for design decisions, bugs, external knowledge, and findings, observable completion criteria, evidence and confidence, style, diagrams, information compression that preserves meaning and readability, and verification procedures including a strict read-only verifier. Use when writing, updating, splitting, checking, or folding design documents, glossaries, known-bug lists, external knowledge, implementation plans, or review result documents, or when transcribing findings.
+description: Writing rules for a software project's document family (design.md, design/*.md, terms.md, terms/*.md, issues.md, issues/*.md, knowledge.md, knowledge/*.md, plans.md, plans/*.md, reviews.md, reviews/*.md). Defines the division of roles between parents and children, the division of responsibilities and lifetimes between documents, fixed section structures, the contract for terms and naming, the forms for design decisions, bugs, external knowledge, and findings, observable completion criteria, evidence and confidence, style, diagrams, information compression that preserves meaning and readability, and verification procedures including a strict read-only verifier. Use when writing, updating, splitting, checking, or folding design documents, glossaries, known-bug lists, external knowledge, implementation plans, or review result documents, or when transcribing findings.
 ---
 
 # Writing Rules for Project Documents
@@ -35,8 +35,8 @@ Anchors in links follow the actual headings, so with Japanese headings, use anch
 | --- | --- |
 | Write, update, check, or split design documents | [Design Document](references/design-document.md) |
 | Define or rename terms, or check the glossary | [Terms Document](references/terms-document.md) |
-| Record a bug, or check the known-bug list | [Issues Document](references/issues-document.md) |
-| Record external behavior, or check external knowledge | [Knowledges Document](references/knowledges-document.md) |
+| Record a bug, or check the known-bug list | [Issue List](references/issue-list.md) |
+| Record external behavior, or check external knowledge | [Knowledge Document](references/knowledge-document.md) |
 | Write, update, or fold an implementation plan | [Implementation Plan](references/implementation-plan.md) |
 | Record or check review results, or transcribe findings | [Review Document](references/review-document.md) |
 
@@ -53,8 +53,8 @@ The design document holds no term definitions, so without a terms document there
 | `docs/terms/<slug>.md` | Definitions, notation, avoided aliases, and rejected names of terms confined to one concern | Same as the project |
 | `docs/issues.md` | The bug list, relationships between items, investigation dates and target commits | Same as the project |
 | `docs/issues/<slug>.md` | One bug's symptom, location, cause, impact, and remedy | Until fixed |
-| `docs/knowledges.md` | The list of external knowledge, verification targets, relationships between items | Same as the project |
-| `docs/knowledges/<slug>.md` | One fact confirmed about the outside world, and its source | Until the outside changes |
+| `docs/knowledge.md` | The list of external knowledge, verification targets, relationships between items | Same as the project |
+| `docs/knowledge/<slug>.md` | One fact confirmed about the outside world, and its source | Until the outside changes |
 | `docs/plans.md` | The list of work in progress, and the dependencies between pieces of work | Same as the project |
 | `docs/plans/<slug>.md` | What this work builds, in what order, and when it is finished | Until the work ends |
 | `docs/reviews.md` | The review history, and the transcription status of findings | Permanent |
@@ -67,7 +67,7 @@ Term definitions, notation, aliases, boundaries with adjacent terms, and the rea
 Design documents, the bug list, and plans do not define terms; they use the vocabulary of the terms documents as given.
 
 **Is it about our own code, or about something external?**
-How dependency libraries, the OS, protocols, and external APIs actually behave belongs to `knowledges`.
+How dependency libraries, the OS, protocols, and external APIs actually behave belongs to `knowledge`.
 What was chosen on the basis of that behavior is a design decision and belongs to the design document responsible for that concern.
 Even when external behavior is the trigger, if the fix is in our own code, it is a bug and goes in `issues.md`.
 
@@ -106,7 +106,7 @@ When to create children differs by family.
 
 | Family | When to create children |
 | --- | --- |
-| `issues`, `knowledges` | From the first item. Items are independent of each other and there is no reason to read them together |
+| `issues`, `knowledge` | From the first item. Items are independent of each other and there is no reason to read them together |
 | `plans`, `reviews` | Always. One piece of work and one review are one document from the moment they are born |
 | `design`, `terms` | When a concern is judged to have independent responsibilities and boundaries and need not always be read with the others. Do not split by line count |
 
@@ -123,8 +123,8 @@ docs/
 ├── issues.md
 ├── issues/
 │   └── timer-leak.md
-├── knowledges.md
-├── knowledges/
+├── knowledge.md
+├── knowledge/
 │   └── tokio-localset.md
 ├── plans.md
 ├── plans/
@@ -162,14 +162,14 @@ Only documents read on their own hold the division of responsibilities between d
 These are the six parents and `design/*.md`, `plans/*.md`, and `reviews/*.md`.
 They may be handed over without going through the parent's list, and need to show by themselves what they are and are not the authoritative source for.
 
-`terms/*.md`, `issues/*.md`, and `knowledges/*.md` do not have §1.1.
+`terms/*.md`, `issues/*.md`, and `knowledge/*.md` do not have §1.1.
 They are always entered from the parent's list, so one line at the top with a relative link to the parent is enough.
 This avoids copying the responsibilities table every time a single bug is written.
 
 The map has two tiers.
 The upper tier is held by §1.1 of `docs/design.md`, which lists what is the authoritative source in which document, covering the six parents, the `docs/design/*.md` children, API definition files, and `README.md`.
 The lower tier is held by each parent.
-`terms.md` holds the list of all terms; `issues.md`, `knowledges.md`, `plans.md`, and `reviews.md` hold the list of children.
+`terms.md` holds the list of all terms; `issues.md`, `knowledge.md`, `plans.md`, and `reviews.md` hold the list of children.
 
 Do not fold the lower tier into the upper tier.
 If the top of `docs/design.md` changed every time a bug was filed, design diffs and document-management diffs would mix.
@@ -241,7 +241,7 @@ There are two exceptions.
 
 Review result documents may write them with the confidence stated, because recording suspicions is itself their role ([Review Document](references/review-document.md)).
 
-External knowledge may write facts based on primary sources with a source label ([Knowledges Document](references/knowledges-document.md)).
+External knowledge may write facts based on primary sources with a source label ([Knowledge Document](references/knowledge-document.md)).
 Something not confirmed yourself is different from a groundless guess.
 Writing it without a label takes it outside this exception.
 
@@ -322,7 +322,7 @@ How to refer to code is determined by the document's lifetime.
 | Document | References to code | Reason |
 | --- | --- | --- |
 | `design.md`, `design/*.md`, `terms.md`, `terms/*.md` | By file or directory. Do not write line numbers (`#L42`) | It does not pay for a document about semantics to go stale through line numbers. Point to locations by type or function names |
-| `issues.md`, `issues/*.md`, `knowledges.md`, `knowledges/*.md`, `plans.md`, `plans/*.md`, `reviews.md`, `reviews/*.md` | Links with line numbers are required | These are snapshots that state the investigation date, verification date, and target commit, and are expected to go stale |
+| `issues.md`, `issues/*.md`, `knowledge.md`, `knowledge/*.md`, `plans.md`, `plans/*.md`, `reviews.md`, `reviews/*.md` | Links with line numbers are required | These are snapshots that state the investigation date, verification date, and target commit, and are expected to go stale |
 
 When a document refers to itself, write only `this document` (`本書` in Japanese).
 Do not add the file name or a self-link.
@@ -349,7 +349,7 @@ Check items that can be automated with commands.
 8. Does every diagram have a sentence of implication right before or after it?
 9. Have term definitions not leaked outside the terms documents?
 10. Does the term list in `terms.md` contain every term, and do only terms with an entry point to the anchor in the parent or child matching their scope?
-11. Do the rows of the parent lists in `issues.md`, `knowledges.md`, `plans.md`, and `reviews.md` correspond one-to-one with the child files? Is there no item that exists in only one of them?
+11. Do the rows of the parent lists in `issues.md`, `knowledge.md`, `plans.md`, and `reviews.md` correspond one-to-one with the child files? Is there no item that exists in only one of them?
 12. Are items of the same family not split between parent and child? In families that hold a list of children, are there no items still holding their body in the parent despite having children?
 13. Are item identifiers `<slug>`, not sequential numbers? `rg -n '^#+ [A-Z]-[0-9]+\.' docs/` must pick up only findings in `reviews/` and steps in `plans/`
 14. Does §1.1 of `docs/design.md` list the parents and `design/*.md`, and not list the children of other families?
