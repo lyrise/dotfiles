@@ -1,38 +1,38 @@
-# PR のライフサイクル
+# PR Lifecycle
 
-## Draft を作成する
+## Creating a Draft
 
-既定ブランチで作業せず、PR は Draft で作る。
+Do not work on the default branch, and create PRs as drafts.
 
 ```bash
 gh pr create --draft --title '...' --body-file pr-body.md
 ```
 
-Draft 作成後に差分を通して自己レビューする。
-行指定コメントが必要な場合は `github-review-comments.md` を読み、投稿前にユーザーの承認を得る。
+After creating the draft, self-review it by going through the diff.
+If line comments are needed, read `github-review-comments.md` and get the user's approval before posting.
 
-## CI を監視する
+## Monitoring CI
 
-push 直後は check が未登録の場合があるため、登録を待ってから監視する。
+Right after a push, checks may not be registered yet, so wait for registration before monitoring.
 
 ```bash
 until ! gh pr checks <number> 2>&1 | grep -q 'no checks reported'; do sleep 10; done
 gh pr checks <number> --watch --interval 30
 ```
 
-foreground で待機できない環境では、同じ登録条件と終了条件を持つ監視機能へ置き換える。
-失敗した場合は、ジョブの URL と失敗ログを確認して報告する。
+In an environment that cannot wait in the foreground, replace this with a monitoring facility that has the same registration and termination conditions.
+On failure, check the job URL and the failure log, and report them.
 
-## ready 化する
+## Marking Ready
 
-ready 化はユーザーの明示指示がある場合だけ行う。
-ready 化の前に次を確認する。
+Mark a PR ready only on the user's explicit instruction.
+Before marking it ready, confirm the following.
 
-1. `pull-request-description.md` の本文要件を満たしている
-2. 数値の主張がある場合は `measured-claims.md` の測定と検証の要件を満たしている
-3. CI が成功している
-4. `verifier` が成果物の独立検証を `pass` とし、自己レビューを完了し、必要な行指定コメントを承認後に投稿している
-5. 依存先がマージ済みなら base を既定ブランチへ戻している
-6. スコープ外の問題を記録している
+1. The description meets the requirements in `pull-request-description.md`
+2. If there are numerical claims, they meet the measurement and verification requirements in `measured-claims.md`
+3. CI has passed
+4. The `verifier` has given `pass` on the independent verification of the artifacts, the self-review is complete, and the necessary line comments have been posted after approval
+5. If the dependency has been merged, the base has been changed back to the default branch
+6. Out-of-scope problems have been recorded
 
-満たしていない項目があれば ready 化せず、残っている項目を報告する。
+If any item is not met, do not mark it ready; report the remaining items.

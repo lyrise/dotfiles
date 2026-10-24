@@ -1,57 +1,66 @@
-# GitHub のレビューコメント
+# GitHub Review Comments
 
-## レビュー指摘を書く
+## Writing Review Findings
 
-1 つの指摘には 1 つの問題だけを書く。
-題は症状または破られる契約が分かる短い文にし、コードの内容を言い直さない。
+Write only one problem per finding.
+Make the title a short sentence that shows the symptom or the contract being broken; do not restate what the code does.
 
-行指定コメントは次の固定形式で書く。
+Write line comments in the following fixed format.
 
 ```markdown
-**症状が分かる短い題**
+**Short title that shows the symptom**
 
-**問題**
-[このコードが何を誤っているか。]
+**Problem**
+[What this code gets wrong.]
 
-**根拠**
-[コード、仕様、テスト結果から、なぜそう言えるか。確かめていないことも区別する。]
+**Evidence**
+[Why this can be said, from the code, the specification, or test results. Distinguish what was not verified.]
 
-**影響**
-[どの入力、利用者、契約、運用がどう壊れるか。]
+**Impact**
+[Which inputs, users, contracts, or operations break, and how.]
 
-**必要な修正**
-[満たすべき状態。実装方法を一意に決める必要がない場合は結果だけを書く。]
+**Required fix**
+[The state that must hold. If the implementation need not be pinned down, write only the outcome.]
 ```
 
-問題、根拠、影響を混ぜず、必要な修正は指摘から導ける範囲に留める。
-修正コードを丸ごと書かず、実装の選択肢が複数ある場合は特定の方法を強制しない。
+When writing in Japanese, use these labels.
 
-## コメントを置く
+| English | Japanese |
+| --- | --- |
+| `**Problem**` | `**問題**` |
+| `**Evidence**` | `**根拠**` |
+| `**Impact**` | `**影響**` |
+| `**Required fix**` | `**必要な修正**` |
 
-問題を示す変更行のうち、最小の行または行範囲に付ける。
-投稿の直前に、対象ファイルの最新の内容で行番号を数え直す。
-コミットを積み直すと行がずれ、隣の行や無関係な行に付く。
-複数行が揃わないと問題を示せない場合だけ範囲コメントにする。
-変更行に付けられない問題や複数ファイルにまたがる問題は、行指定コメントを無関係な行へ付けず、PR 全体のレビューに行番号付きリンクとともに書く。
-同じ原因から生じる複数箇所は代表箇所へまとめ、同じ説明を繰り返さない。
+Do not mix the problem, evidence, and impact, and keep the required fix within what can be derived from the finding.
+Do not write out the entire fixed code, and when there are several implementation options, do not force a particular one.
 
-## 投稿者が補足する
+## Placing Comments
 
-Draft の自己レビューでは、次の箇所に投稿者として行指定コメントを検討する。
+Attach the comment to the smallest line or line range among the changed lines that shows the problem.
+Right before posting, recount the line numbers against the latest content of the file.
+Restacking commits shifts lines, and the comment lands on a neighboring or unrelated line.
+Use a range comment only when the problem cannot be shown without several lines together.
+For a problem that cannot be attached to a changed line, or one that spans several files, do not attach a line comment to an unrelated line; write it in the overall PR review with links that include line numbers.
+Collect multiple locations arising from the same cause at a representative location, and do not repeat the same explanation.
 
-- その行だけでは理由が分からない
-- 一見すると不要に見える
-- 既存の書き方から意図的に外している
+## Annotations by the Author
 
-補足コメントはレビュー指摘ではないため固定形式を使わず、その実装を選んだ理由だけを短く書く。
-コード内コメントと同じ寿命を持つ説明は GitHub に閉じず、コード側へ置く。
-逆に、ライブラリの仕様や、採らなかった実装を試した結果はコード側へ置かず、ここへ書く。
+In the self-review of a draft, consider adding line comments as the author at locations that:
 
-採らなかった実装を根拠にする場合は、実際にその実装を当てて失敗を再現し、観測した結果を書く。
-再現していない場合は、推測であることを明示する。
+- Do not explain their reason on their own
+- Look unnecessary at first glance
+- Deliberately depart from the existing style
 
-## 投稿する
+An annotation is not a review finding, so do not use the fixed format; briefly write only why that implementation was chosen.
+An explanation with the same lifetime as an in-code comment belongs in the code, not only on GitHub.
+Conversely, library specifications and the results of trying implementations that were not adopted go here, not in the code.
 
-コメント案は投稿前にまとめてユーザーへ提示する。
-承認後、複数のコメントは 1 回のレビュー API 呼び出しで投稿する。
-投稿を依頼されていない場合は、コメント案の作成までに留める。
+When citing an implementation that was not adopted as evidence, actually apply that implementation, reproduce the failure, and write the observed result.
+If it was not reproduced, state explicitly that it is a guess.
+
+## Posting
+
+Present all comment drafts to the user together before posting.
+After approval, post multiple comments in a single review API call.
+If posting was not requested, stop at drafting the comments.

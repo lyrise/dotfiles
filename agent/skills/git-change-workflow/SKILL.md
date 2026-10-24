@@ -1,66 +1,68 @@
 ---
 name: git-change-workflow
-description: コミット・push・PR・レビューを通じた変更の提出を扱う規範。コミットの構成やメッセージを決めるとき、変更をpushするとき、PRの構成・本文・ライフサイクルを扱うとき、レビュー指摘を書く・投稿するときに使用する。
+description: Rules for submitting changes through commits, pushes, PRs, and reviews. Use when deciding how to structure commits or write their messages, pushing changes, handling a PR's structure, description, or lifecycle, or writing or posting review findings.
 ---
 
-# Git による変更の提出とレビュー
+# Submitting and Reviewing Changes with Git
 
-依頼に必要な reference だけを読み、複数の作業を行う場合は該当する reference を組み合わせる。
-作業前に `../japanese-tech-writing/SKILL.md` と `../sanitize-artifacts/SKILL.md` を読む。
+Read only the references the request needs, and combine the relevant references when doing several tasks.
+Before starting, read `../sanitize-artifacts/SKILL.md`. If any artifact will be written in Japanese, also read `../japanese-tech-writing/SKILL.md`.
 
-成果物固有の構造、根拠、制約、リポジトリの慣習を両スキルより優先する。
-PR 本文、レビューコメント、タイトル、コミットメッセージの日本語部分は、`japanese-tech-writing` に従って初稿から組み立てる。
-英語部分には `japanese-tech-writing` を適用しない。
-完成前にすべての成果物を `sanitize-artifacts` でも点検し、意味を変えずに冗長さ、不自然な日本語、制作過程の残滓を除く。
+The artifact's own structure, evidence, and constraints, and the repository's conventions, take precedence over both skills.
+Build the Japanese parts of PR descriptions, review comments, titles, and commit messages according to `japanese-tech-writing` from the first draft.
+Do not apply `japanese-tech-writing` to English parts.
+Before finishing, also check every artifact with `sanitize-artifacts`, and remove redundancy, unnatural phrasing, and leftovers of the production process without changing the meaning.
 
-## Reference の選択
+## Choosing a Reference
 
-| 依頼 | 読む reference |
+| Request | Reference to read |
 | --- | --- |
-| コミットの構成やメッセージを決める、PR を作らずにコミット・push する | [PR とコミットの構造](references/pull-request-structure.md) の「コミットを構成する」 |
-| レビュー指摘、行指定コメントを書く・投稿する | [GitHub のレビューコメント](references/github-review-comments.md) |
-| PR の粒度、コミット順、依存関係を決める | [PR とコミットの構造](references/pull-request-structure.md) |
-| PR 本文を書く・点検する | [PR 本文](references/pull-request-description.md) |
-| PR を作成・監視・ready 化する | [PR とコミットの構造](references/pull-request-structure.md)、[PR 本文](references/pull-request-description.md)、[PR のライフサイクル](references/pull-request-lifecycle.md) |
-| 性能、使用量などの数値を主張する | 上記に加えて [数値の主張](references/measured-claims.md) |
+| Decide how to structure commits or write their messages; commit and push without creating a PR | "Structuring Commits" in [PR and Commit Structure](references/pull-request-structure.md) |
+| Write or post review findings or line comments | [GitHub Review Comments](references/github-review-comments.md) |
+| Decide PR granularity, commit order, or dependencies | [PR and Commit Structure](references/pull-request-structure.md) |
+| Write or check a PR description | [PR Description](references/pull-request-description.md) |
+| Create, monitor, or mark a PR ready | [PR and Commit Structure](references/pull-request-structure.md), [PR Description](references/pull-request-description.md), [PR Lifecycle](references/pull-request-lifecycle.md) |
+| Claim numbers such as performance or resource usage | The above plus [Measured Claims](references/measured-claims.md) |
 
-Draft 作成後の自己レビューで行指定コメントが必要になった場合は、[GitHub のレビューコメント](references/github-review-comments.md) も読む。
+If the self-review after creating the draft calls for line comments, also read [GitHub Review Comments](references/github-review-comments.md).
 
-## コミットと push
+## Committing and Pushing
 
-PR の作成は依頼に含まれる場合に行う。
-コミット前に差分とステージ対象を確認し、依頼に必要な変更だけを含める。
-push 前に送信先の remote・ブランチと送信するコミットを確認する。
+Create a PR only when the request includes it.
+Before committing, check the diff and what is staged, and include only the changes the request needs.
+Before pushing, check the destination remote and branch and the commits to be sent.
 
-## 文章の検証
+## Verifying the Text
 
-成果物を完成稿として返す、コミットする、投稿する前に、同じ操作で扱う PR 本文、タイトル、コミットメッセージ、行指定コメントをまとめて named strict read-only `verifier` に独立検証させる。
-途中案や選択肢は対象外とする。
+Before returning an artifact as final, committing it, or posting it, have the named strict read-only `verifier` independently verify, all together, the PR description, title, commit messages, and line comments handled in the same operation.
+Intermediate drafts and options are out of scope.
 
-`verifier` には、対象の完成稿、根拠となる差分と事実、リポジトリの慣習、該当する reference、数値を主張する場合は測定結果と再現手順を渡す。
-成果物の構成、論理、根拠の配置、重複、事実と数値の整合、`sanitize-artifacts` を確認する。
-日本語は `japanese-tech-writing`、英語はリポジトリの慣習と自然な技術英語に照らし、文体上の指摘も blocking とする。
-判定は `pass` または `changes-required` とする。
-`changes-required` では、成果物内の箇所、根拠、必要な修正を示す。
+Give the `verifier` the final drafts, the diff and facts they rest on, the repository's conventions, the relevant references, and, when numbers are claimed, the measurement results and reproduction steps.
+It checks the artifact's structure, logic, placement of evidence, duplication, consistency of facts and numbers, and `sanitize-artifacts`.
+Japanese is judged against `japanese-tech-writing`, English against the repository's conventions and natural technical English, and style findings are also blocking.
+The verdict is `pass` or `changes-required`.
+With `changes-required`, it points to the location in the artifact, the evidence, and the required fix.
 
-`changes-required` の場合は修正して再検証する。
-修正と再検証は最大 2 回までとし、通らなければ未解決の指摘を報告し、成果物の確定、コミット、投稿を行わない。
-`verifier` を利用できない場合も、成果物の確定、コミット、投稿を行わない。
-`pass` の後、実際に使う成果物をメインエージェントが再確認する。
+On `changes-required`, fix and verify again.
+Fixing and re-verifying is limited to two rounds; if it still does not pass, report the unresolved findings and do not finalize, commit, or post the artifacts.
+If the `verifier` is unavailable, also do not finalize, commit, or post the artifacts.
+After `pass`, the main agent rechecks the artifacts that will actually be used.
 
-## 共通の確認
+## Common Checks
 
-直近のコミットを読み、コミットメッセージの言語をリポジトリの慣習に合わせる。
+Read the recent commits and match the language of commit messages to the repository's conventions.
 
 ```bash
 git log --oneline -20
 ```
 
-PR やレビューを扱う場合は、マージ済み PR も読む。
+When handling PRs or reviews, also read merged PRs.
 
 ```bash
 gh pr list --state merged --limit 10
 ```
 
-判定できない場合はタイトルとコミットメッセージを英語、PR 本文と行指定コメントを日本語にする。
-1 つの PR 本文の中で言語を混ぜない。
+Match the language of PR descriptions and line comments to the merged PRs as well.
+If the convention cannot be determined, write titles, commit messages, PR descriptions, and line comments in English.
+Do not mix languages within one PR description.
+When writing in Japanese, use the Japanese headings given in each reference.

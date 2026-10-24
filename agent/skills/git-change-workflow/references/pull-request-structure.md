@@ -1,45 +1,45 @@
-# PR とコミットの構造
+# PR and Commit Structure
 
-1 つの PR で 1 つの判断だけを求める。
-ファイル数ではなく目的で切り分ける。
+Ask for only one decision per PR.
+Split by purpose, not by number of files.
 
-## PR を切り分ける
+## Splitting PRs
 
-次のいずれかに当たる変更は、別の PR に分ける。
+Split a change into a separate PR if any of the following applies.
 
-1. 片方だけ差し戻す可能性がある
-2. レビューに必要な観点が異なる
-3. 既存不具合の修正と新しい変更が混在する
+1. Only one part might be sent back
+2. The aspects needed for review differ
+3. A fix for an existing bug is mixed with a new change
 
-片方だけをマージすると壊れる場合に限り、複数の目的を同じ PR に含める。
-実装前と PR 作成前に判定し、分割が必要なら履歴を組み替える前に切り方、順序、依存関係を提示して確認を得る。
+Include several purposes in the same PR only when merging just one of them would break things.
+Decide this before implementing and before creating the PR, and if a split is needed, present how to split, the order, and the dependencies and get confirmation before restructuring the history.
 
-作業中に見つけた別目的の問題は同じ PR で直さない。
-`docs/issues.md` があれば同文書の規範に従って記録する。
-記録先がなければ、扱わない理由と発見箇所を PR 本文の `背景` に書く。
+Do not fix problems with a different purpose found during the work in the same PR.
+If `docs/issues.md` exists, record them according to that document's rules.
+If there is nowhere to record them, write why they are not handled and where they were found in the `Background` section of the PR description.
 
-## コミットを構成する
+## Structuring Commits
 
-コミットは依存順に並べ、各コミット単体でビルドとテストが通る状態にする。
-テスト、ベンチマーク、計測コード、CI 設定など検証の土台を変えるコミットは、それを使う変更より先に置く。
-コミットメッセージには変更理由を書く。
-数値を主張する場合は、そのコミット単体の実測値も書く。
+Order commits by dependency, and make each commit build and pass tests on its own.
+Put commits that change the verification foundation, such as tests, benchmarks, measurement code, and CI settings, before the changes that use them.
+Write the reason for the change in the commit message.
+When claiming numbers, also write the measured values for that commit alone.
 
-## 依存 PR を構成する
+## Structuring Dependent PRs
 
-依存される PR を先に作る。
-依存する PR は依存先のブランチを base にし、Draft で作る。
+Create the PR that others depend on first.
+Base a dependent PR on the branch of its dependency, and create it as a draft.
 
 ```bash
 gh pr create --draft --base feat/dependency --title '...' --body-file pr-body.md
 ```
 
-依存先がマージされたら、依存する PR の base を既定ブランチへ戻す。
+When the dependency is merged, change the dependent PR's base back to the default branch.
 
 ```bash
 gh pr edit <number> --base main
 ```
 
-base の組み替えは Draft の間に行う。
-ready の PR で組み替えが必要になった場合は、先に Draft へ戻す。
-PR 本文の `関連` には依存方向と理由を書き、実際の base と一致させる。
+Change the base while the PR is still a draft.
+If a ready PR needs its base changed, turn it back into a draft first.
+In the `Related` section of the PR description, write the direction of the dependency and the reason, and keep it consistent with the actual base.

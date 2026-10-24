@@ -1,27 +1,27 @@
-# 数値の主張
+# Measured Claims
 
-性能、使用量、サイズなどの数値を主張する場合は、結果を PR 本文の `検証` に置く。
+When claiming numbers such as performance, resource usage, or size, put the results in the `Verification` section of the PR description.
 
-## 測定する
+## Measuring
 
-次をすべて満たす。
+Satisfy all of the following.
 
-- 測定器が対象を正しく測ることを既知の入力などで確認する
-- 変更前後を同じマシン、負荷、データ、順序、タイミングで測る
-- 比較結果を条件別の表にし、対象コミット、試行回数、中央値やばらつきを示す
-- 本文の手順から結果を再現できる実行可能なコマンドを書く
-- PR の採否が数値に依存する場合は、独立した 2 手段で同じ傾向を確認する
-- PR 本文とコミットメッセージの数値を一致させる
+- Confirm that the measuring tool measures the target correctly, for example with known inputs
+- Measure before and after the change on the same machine, under the same load, with the same data, order, and timing
+- Present the comparison as a table by condition, showing the target commits, the number of trials, and the median and variance
+- Write executable commands that reproduce the results from the steps in the description
+- When accepting the PR depends on the numbers, confirm the same trend with two independent methods
+- Make the numbers in the PR description and the commit messages match
 
-## 検証する
+## Verifying
 
-`verifier` に差分、PR 本文、測定結果、再現手順を渡して独立検証させる。
-`verifier` を利用できず独立検証できない場合は、数値の主張を確定しない。
+Have the `verifier` independently verify, given the diff, the PR description, the measurement results, and the reproduction steps.
+If the `verifier` is unavailable and independent verification cannot be done, do not finalize the numerical claims.
 
-次の指摘は blocking とする。
+The following findings are blocking.
 
-- 比較条件、対象コミット、試行回数、ばらつき、再現コマンドのいずれかがない
-- 測定器の妥当性を確認していない
-- 変更前後の測定条件またはタイミングが異なる
-- 採否が数値に依存するのに独立した裏取りがない
-- PR 本文とコミットメッセージの数値が異なる
+- Any of the comparison conditions, target commits, number of trials, variance, or reproduction commands is missing
+- The validity of the measuring tool was not confirmed
+- The measurement conditions or timing differ between before and after the change
+- Acceptance depends on the numbers but there is no independent corroboration
+- The numbers in the PR description and the commit messages differ

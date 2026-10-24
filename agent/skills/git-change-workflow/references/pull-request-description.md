@@ -1,108 +1,122 @@
-# PR 本文
+# PR Description
 
-根拠を判断に必要な場所へ置き、PR 本文だけで変更の判断と検証を再構成できるようにする。
+Put the evidence where it is needed for the decision, so that the PR description alone is enough to reconstruct the decision and verification of the change.
 
-## 根拠を置く場所
+## Where Evidence Goes
 
-| 場所 | 書く内容 |
+| Location | What to write |
 | --- | --- |
-| コード内コメント | コードと同じ寿命を持つ実装意図。ライブラリの仕様や、採らなかった実装の説明は置かない |
-| PR の行指定コメント | そのPRと行でしか意味を持たない根拠 |
-| PR 本文 | 背景、変更の構造と判断、影響、検証、レビュー観点 |
-| コミットメッセージ | そのコミットをその順序で入れる理由 |
+| In-code comments | Implementation intent with the same lifetime as the code. Do not put library specifications or explanations of implementations not adopted here |
+| PR line comments | Evidence that is meaningful only for that PR and line |
+| PR description | Background, the structure of and decisions behind the change, impact, verification, review points |
+| Commit messages | Why that commit goes in, in that order |
 
-同じ根拠を複数の場所に書かない。
+Do not write the same evidence in more than one place.
 
-## 章立て
+## Sections
 
-`背景`、`概要`、`検証` は必ず置く。
-`変更内容`、`影響範囲`、`レビュー観点`、`関連` は、書くべき内容がなければ章ごと省く。
-置く場合の順序は次のとおりとし、入れ替えない。
+Always include `Background`, `Summary`, and `Verification`.
+Omit `Changes`, `Impact`, `Review Points`, and `Related` entirely when there is nothing to write.
+When included, use the following order and do not rearrange it.
 
 ```markdown
-## 背景
+## Background
 
-[必要な経緯、目的、目的としないこと、未対応事項を書く。]
+[Write the necessary history, the purpose, non-goals, and open items.]
 
-## 概要
+## Summary
 
-[採用した手段を 1 文から 3 文で書く。]
+[Write the adopted approach in one to three sentences.]
 
-## 変更内容
+## Changes
 
-[差分からは読み取れない判断だけを関心事ごとに書く。必要なら h3 を使う。]
+[Write, per concern, only the decisions that cannot be read from the diff. Use h3 if needed.]
 
-## 影響範囲
+## Impact
 
-[影響を受ける利用者、契約、運用を書く。]
+[Write the affected users, contracts, and operations.]
 
-## 検証
+## Verification
 
-- [x] `[実行したコマンド]`
-- [x] [合否だけでは表せない確認]：下記のとおり
-- [ ] 未検証：[対象と理由または残作業]
+- [x] `[command that was run]`
+- [x] [check that cannot be expressed by pass/fail alone]: see below
+- [ ] Not verified: [target and reason, or remaining work]
 
-### [確認名]
+### [Check name]
 
 <details>
-<summary>詳細</summary>
+<summary>Details</summary>
 
-[条件、手順、結果の表]
+[Table of conditions, steps, and results]
 
 </details>
 
-## レビュー観点
+## Review Points
 
-- [確認してほしい場所と判断内容]
+- [Location to check and the decision involved]
 
-## 関連
+## Related
 
-- [依存 PR または Issue と、この PR との関係]
+- [Dependent PR or Issue, and its relationship to this PR]
 ```
 
-## 各章を書く
+When writing in Japanese, use these headings.
 
-- `背景`：リンクを開かなくても必要性が分かるようにし、目的としないことや未対応事項も判断に必要なら書く。
-- `概要`：背景を繰り返さず、採用した手段だけを 1 文から 3 文で書く。
-- `変更内容`：差分を読めば分かることは書かず、差分からは読み取れない判断だけを関心事ごとに書く。重要な却下案は理由とともに書き、複数の関心事を分ける必要がある場合だけ h3 を使う。ファイル一覧にはしない。行指定コメントで足りる根拠はそちらへ置き、残りが無ければ章ごと省く。
-  - 変更前と変更後を対比するときは、結論だけを一行ずつ並べる。型宣言の内部や導出の途中は書かない。
-  - 並べた二つを見比べれば読み手が補える推論は書かず、そこから導かれる結論だけを書く。
-  - 却下案は、何を採らなかったかと理由を一文で書く。確かめた手順や細部は `検証` へ置くか落とす。
-- `影響範囲`：利用者、後方互換性、API、設定、保存形式、CLI 引数、運用への影響を書く。影響なしとする場合も確認範囲と根拠を書く。調査の過程で判明しただけの周辺事実は、マージの判断を変えないかぎり書かない。
-- `検証`：実施済みは `- [x]` とコマンドまたは再現手順と結果、未検証は `- [ ]` と対象および理由または残作業を書く。自動テスト、手動確認、測定結果をこの章に置き、手動確認は再現できる手順にする。確認していないことを保証しない。
-  - 合否だけで表せる確認は `- [x]` とコマンドに留め、何を確かめたかの内訳を本文へ展開しない。
-  - 表や長い出力を伴う確認は、チェックリストから指す h3 の節に置き、`<details><summary>詳細</summary>` で畳む。チェックリストの一覧性を保ったまま根拠を残す。
-  - 1 つの表の中で確認の強度を混ぜない。実際に読んだ値と、発生だけを確認した事実を同じ列に並べない。強度が揃わない行は、確かめ直してから書くか落とす。
-  - 変更前の挙動を根拠にする場合は、仕様や記憶からではなく変更前のコミットを実際に動かして確かめ、変更前と変更後を同じ表に並べる。
-- `レビュー観点`：場所と判断内容を具体化し、実際に判断を仰ぎたい点だけを書く。答えが自明な確認や、定型の妥当性確認は書かない。3 件までとし、4 件以上なら PR の分割を再検討する。仰ぐ点が無ければ章ごと省く。
-- `関連`：依存 PR、依存される PR、Issue の番号または URL と、依存方向または関係する理由を書く。該当しなければ見出しを置かない。
+| English | Japanese |
+| --- | --- |
+| `## Background` | `## 背景` |
+| `## Summary` | `## 概要` |
+| `## Changes` | `## 変更内容` |
+| `## Impact` | `## 影響範囲` |
+| `## Verification` | `## 検証` |
+| `## Review Points` | `## レビュー観点` |
+| `## Related` | `## 関連` |
+| `Not verified` | `未検証` |
+| `<summary>Details</summary>` | `<summary>詳細</summary>` |
 
-外部ドキュメントを根拠にする場合は、該当箇所へ直接届く URL と必要な短い引用を添える。
-CI の失敗を根拠にする場合は、ジョブの URL と失敗を示すログを添える。
-推測は推測と明示し、確かめなかった理由を書く。
-指示や仕様にない判断を補った場合は、その箇所と根拠を明示する。
+## Writing Each Section
 
-## 整形
+- `Background`: make the need understandable without opening links, and also write non-goals and open items when they are needed for the decision.
+- `Summary`: do not repeat the background; write only the adopted approach in one to three sentences.
+- `Changes`: do not write what the diff makes obvious; write, per concern, only the decisions that cannot be read from the diff. Write important rejected alternatives with their reasons, and use h3 only when several concerns need to be separated. Do not make it a file list. Put evidence that a line comment covers there, and omit the section entirely if nothing remains.
+  - When contrasting before and after, list only the conclusions, one per line. Do not write the internals of type declarations or intermediate steps of a derivation.
+  - Do not write inferences the reader can fill in by comparing the two items side by side; write only the conclusion drawn from them.
+  - Write a rejected alternative in one sentence: what was not adopted and why. Move the steps used to check it and the details to `Verification`, or drop them.
+- `Impact`: write the impact on users, backward compatibility, APIs, settings, storage formats, CLI arguments, and operations. Even when there is no impact, write the scope checked and the basis. Do not write peripheral facts that merely came up during investigation unless they change the merge decision.
+- `Verification`: for what was done, write `- [x]` with the command or reproduction steps and the result; for what was not verified, write `- [ ]` with the target and the reason or remaining work. Put automated tests, manual checks, and measurement results in this section, and make manual checks reproducible steps. Do not vouch for what was not checked.
+  - For a check that can be expressed by pass/fail alone, stop at `- [x]` and the command; do not expand a breakdown of what was checked into the body.
+  - Put a check that involves a table or long output in an h3 section referenced from the checklist, collapsed with `<details><summary>Details</summary>`. This keeps the checklist scannable while preserving the evidence.
+  - Do not mix strengths of verification within one table. Do not put values actually read and facts whose occurrence was merely confirmed in the same column. Recheck rows whose strength does not match before writing them, or drop them.
+  - When the behavior before the change is cited as evidence, confirm it by actually running the commit before the change, not from the specification or memory, and put before and after in the same table.
+- `Review Points`: make the location and the decision concrete, and write only the points where you actually want a judgment. Do not write checks with obvious answers or routine validity checks. Limit it to three; with four or more, reconsider splitting the PR. If there is nothing to ask, omit the section entirely.
+- `Related`: write the number or URL of PRs this depends on, PRs that depend on this, and Issues, with the direction of the dependency or the reason they are related. If none apply, do not include the heading.
 
-- 一文ごとに改行する。段落の区切りは空行で示す。
-- 論証の段が変わるところで空行を入れる。前提の提示、事実の対比、結論をひと続きに書かない。
-- 本筋から外れる補足は、段落を増やさず `※` で一行添える。
-- PR や Issue は番号だけで指す。番号から辿れる内容を言い換えて添えない。
-- 箇条書きの1項目を複数文で補足するときは、インデントだけの継続行にせず、ネストした `- ` の子箇条書きにする。
+When citing external documentation as evidence, attach a URL that goes directly to the relevant part and a short quote if needed.
+When citing a CI failure as evidence, attach the job URL and the log that shows the failure.
+State guesses as guesses, and write why they were not confirmed.
+When you filled in a decision not covered by the instructions or the specification, state the location and the basis explicitly.
 
-## 書かないこと
+## Formatting
 
-調べたことではなく、読み手が判断と再現に使うものだけを残す。
+- Break the line after each sentence. Mark paragraph breaks with a blank line.
+- Insert a blank line where the stage of the argument changes. Do not write the premise, the contrast of facts, and the conclusion as one continuous block.
+- For a side note off the main thread, add one line starting with `※` instead of adding a paragraph.
+- Refer to PRs and Issues by number only. Do not add a paraphrase of content reachable from the number.
+- When supplementing one bullet item with several sentences, use nested `- ` child bullets, not continuation lines that are only indented.
 
-- ファイルごとに差分を転記した一覧
-- GitHub の差分で読めるコードの貼り付け
-- 差分を読めば分かる変更の説明
-- 並べた事実から読み手が補える中間の推論
-- 却下案を確かめた手順や、そこで判明した細部
-- 調査の過程で判明しただけで、マージの判断を変えない周辺事実
-- 答えが自明な確認を並べたレビュー観点
-- 測定条件を満たさない性能や使用量の主張
-- 何を実行したか分からないチェックボックス
-- 通過した確認の内訳を本文へ書き出したチェックボックス
-- 行ごとに確認の強度が揃っていない比較表
-- 謝辞、自己弁護、レビュー判断に不要な経緯
+## Do Not Write
+
+Keep only what the reader uses for the decision and reproduction, not what you investigated.
+
+- A per-file list transcribing the diff
+- Pasted code that can be read in the GitHub diff
+- Explanations of changes that are obvious from the diff
+- Intermediate inferences the reader can fill in from the facts presented
+- The steps used to check rejected alternatives, or details found there
+- Peripheral facts that merely came up during investigation and do not change the merge decision
+- Review points that list checks with obvious answers
+- Performance or resource usage claims that do not meet the measurement conditions
+- Checkboxes that do not show what was run
+- Checkboxes that spell out in the body the breakdown of checks that passed
+- Comparison tables whose rows do not share the same strength of verification
+- Thanks, self-justification, or history not needed for the review decision
