@@ -14,7 +14,7 @@
 - 変数/シンボルの特定は `get_symbols_overview` や `find_symbol` を使い、参照先の確認は `find_referencing_symbols` を使う。名前が曖昧な場合は `search_for_pattern` を併用する
 
 ### memory (SKILL)
-- 関連する知識・個人文脈が必要なときは `memory-knowledges` スキル、過去の調査記録が必要なときは `memory-records` スキルに従い、環境変数 `AGENT_MEMORY_DIR` が指すディレクトリを優先して参照する
+- 関連する知識・個人文脈が必要なときは `memory-knowledge` スキル、過去の調査記録が必要なときは `memory-records` スキルに従い、環境変数 `AGENT_MEMORY_DIR` が指すディレクトリを優先して参照する
 - `AGENT_MEMORY_DIR` への保存は明示依頼時だけ行う。Codex・Claude・Serena の Memory は参照・保存に使わない
 - `AGENT_MEMORY_DIR` が未設定、または指すディレクトリが存在しない場合はその旨を報告し、別の Memory に切り替えない
 

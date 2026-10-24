@@ -35,7 +35,7 @@ updated: 2026-10-13 # Required. Date the body was last changed
 ---
 ```
 
-The body sections are `## Purpose` `## Current State` `## Next Step` `## Related`. Omit sections that do not apply. Put `[[wikilink]]`s to related records, knowledges, and todo.md under `## Related`.
+The body sections are `## Purpose` `## Current State` `## Next Step` `## Related`. Omit sections that do not apply. Put `[[wikilink]]`s to related records, knowledge notes, and todo.md under `## Related`.
 
 When the vault's existing notes use Japanese headings, use the Japanese equivalents instead and keep the language of the existing notes:
 
@@ -55,7 +55,7 @@ When the vault's existing notes use Japanese headings, use the Japanese equivale
 
 - Create a project dir only when the user explicitly asks. Before creating one, check `projects/` and `projects/archived/` for a dir with the same purpose.
 - Put research results and work history from an ongoing project inside the project dir, not in `records/`. `records/` is only for records outside projects (the `memory-records` skill).
-- Put reusable knowledge and the user's own policies in `knowledges/`, following the `memory-knowledges` skill.
+- Put reusable knowledge and the user's own policies in `knowledge/`, following the `memory-knowledge` skill.
 - Move a completed or suspended project to `projects/archived/YYYY/MM/` only after showing the path and destination and getting the user's approval. Use the date in the dir name for `YYYY/MM`.
 - Ask the user before adding raw data that would bloat the repository (audio, video, large CSVs, etc.).
 - Move a script reusable across projects to `scripts/` at the vault root only after showing the path and reason and getting the user's approval.

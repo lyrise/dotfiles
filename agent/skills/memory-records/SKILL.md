@@ -20,7 +20,7 @@ $AGENT_MEMORY_DIR/records/    # Immutable. Point-in-time records that are never 
 
 - `records/` holds point-in-time facts that belong to no project: periodic reports, one-off research, decisions and their reasons, and so on. Express the kind with the frontmatter `tags`, and give each note a `date`.
 - Put research results and work history from an ongoing project in its dir under `projects/`, following the `memory-projects` skill, not here.
-- Put knowledge that is still valid in `$AGENT_MEMORY_DIR/knowledges/`, following the `memory-knowledges` skill.
+- Put knowledge that is still valid in `$AGENT_MEMORY_DIR/knowledge/`, following the `memory-knowledge` skill.
 - Do not put records specific to one repository in `records/`; put them in documents inside that repository.
 
 ## Reading

@@ -11,7 +11,7 @@ description: Update todo.md directly under the directory pointed to by the AGENT
 
 - `$AGENT_MEMORY_DIR/todo.md`: the file to update. Read it first and check the policies and priorities written in it.
 - The index notes in `$AGENT_MEMORY_DIR/projects/`: the current state and next step of each project.
-- Policy notes in `knowledges/me/`: input for judging priorities (e.g., career-strategy).
+- Policy notes in `knowledge/me/`: input for judging priorities (e.g., career-strategy).
 - Calendar and schedule information: read it only when a means of obtaining it is available. The means is not yet decided. If there is none, ask the user when the schedule matters, or update without it.
 
 ## Updating
@@ -25,7 +25,7 @@ description: Update todo.md directly under the directory pointed to by the AGENT
 ## Constraints
 
 - Update only when the user explicitly asks.
-- Write only to todo.md. Only read `projects/` and `knowledges/`; do not change them.
+- Write only to todo.md. Only read `projects/` and `knowledge/`; do not change them.
 - Do not consult `work/`.
 - When `AGENT_MEMORY_DIR` is unset, or the directory it points to does not exist, report that the update could not be done and stop. Do not guess a path, do not create the directory, and do not switch to the Codex, Claude, or Serena Memory.
 - Do not use the Obsidian MCP.

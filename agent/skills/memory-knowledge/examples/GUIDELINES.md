@@ -1,13 +1,13 @@
-# knowledges Guidelines
+# Knowledge Guidelines
 
-`$AGENT_MEMORY_DIR/knowledges/` holds only knowledge that is still valid and reusable. Work and personal life are not separated.
+`$AGENT_MEMORY_DIR/knowledge/` holds only knowledge that is still valid and reusable. Work and personal life are not separated.
 Point-in-time research results, work history, and the reasons behind decisions go in `$AGENT_MEMORY_DIR/records/`.
 Knowledge specific to one project or repository does not go in `$AGENT_MEMORY_DIR`; it goes in the documents inside that project or repository.
 
 ## Folder Layout
 
 ```
-$AGENT_MEMORY_DIR/knowledges/
+$AGENT_MEMORY_DIR/knowledge/
 ├── GUIDELINES.md
 ├── me/      # The user's own policies, preferences, and habits
 ├── people/  # People
