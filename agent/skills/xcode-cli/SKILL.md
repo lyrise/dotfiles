@@ -1,20 +1,21 @@
 ---
 name: xcode-cli
-description: iOS/macOS 開発を Xcode の起動やプロジェクトの事前オープンに依存せず、xcodebuild、swift、simctl、devicectl、xcresulttool で進めるための規範。プロジェクト・scheme・destination の検出、ビルド、テスト、診断、Simulator/実機での実行、スクリーンショット、XcodeGen と .xcodeproj へのファイル追加を扱う。Swift/SwiftUI のビルド、テスト、エラー調査、画面確認、シミュレータ実行を頼まれたとき、または .xcodeproj/.xcworkspace/Package.swift/project.yml を含むプロジェクトで作業するときに使用する。
+description: Rules for iOS/macOS development with xcodebuild, swift, simctl, devicectl, and xcresulttool, without depending on launching Xcode or opening the project beforehand. Covers detecting the project, scheme, and destination; building, testing, and diagnosing; running on Simulator and physical devices; screenshots; and adding files with XcodeGen and to .xcodeproj. Use when asked to build, test, investigate errors in, check the screens of, or run in the simulator Swift/SwiftUI code, or when working in a project that contains .xcodeproj/.xcworkspace/Package.swift/project.yml.
 ---
 
-# Xcode CLI を用いた Apple プラットフォーム開発
+# Apple Platform Development with the Xcode CLI
 
-Xcode アプリの起動状態や、そこで選択されている scheme に依存しない。
-リポジトリの設定を source of truth とし、`xcodebuild`、`swift`、`xcrun simctl`、
-`xcrun devicectl`、`xcrun xcresulttool` を使う。
+Do not depend on whether the Xcode app is running or which scheme is selected in it.
+Treat the repository's configuration as the source of truth, and use `xcodebuild`, `swift`,
+`xcrun simctl`, `xcrun devicectl`, and `xcrun xcresulttool`.
 
-ビルド成功、テスト成功、Simulator での動作、実機での動作は別々の証拠として扱う。
-実行していない段階を成功したように報告しない。
+Treat a successful build, passing tests, behavior on Simulator, and behavior on a physical
+device as separate pieces of evidence.
+Do not report a stage that was not run as if it succeeded.
 
-## 最初に確認すること
+## Check First
 
-作業開始時に、選択中の toolchain と必要な CLI を確認する。
+At the start of work, check the selected toolchain and the required CLIs.
 
 ```bash
 xcode-select -p
@@ -23,36 +24,35 @@ xcrun --find simctl
 xcrun --find xcresulttool
 ```
 
-複数の Xcode がある場合は、必要なコマンドだけに `DEVELOPER_DIR` を指定する。
-システム全体の `xcode-select --switch` は、明示的な依頼がない限り行わない。
+When several Xcode installations exist, set `DEVELOPER_DIR` only for the commands that need it.
+Do not run a system-wide `xcode-select --switch` unless explicitly asked.
 
-リポジトリ内の `Package.swift`、ルートレベルの `.xcworkspace`、`.xcodeproj`、
-`project.yml` を調べる。`.xcodeproj/project.xcworkspace` は独立した workspace として
-数えない。
+Look for `Package.swift`, root-level `.xcworkspace`, `.xcodeproj`, and `project.yml` in the
+repository. Do not count `.xcodeproj/project.xcworkspace` as a separate workspace.
 
-選択規則は次のとおりとする。
+Choose as follows.
 
-- Apple アプリの workspace があれば `.xcworkspace` を使う
-- workspace がなければ `.xcodeproj` を使う
-- Swift package 単体の作業なら `Package.swift` と `swift` を使う
-- 候補が複数あり、対象をリポジトリから特定できなければユーザーに確認する
+- If there is a workspace for an Apple app, use the `.xcworkspace`
+- If there is no workspace, use the `.xcodeproj`
+- For work on a standalone Swift package, use `Package.swift` and `swift`
+- If there are several candidates and the target cannot be identified from the repository, ask the user
 
-scheme と destination を推測しない。先に列挙する。
+Do not guess the scheme or destination. List them first.
 
 ```bash
 xcodebuild -list -json -workspace App.xcworkspace
 xcodebuild -workspace App.xcworkspace -scheme App -showdestinations
 ```
 
-`.xcodeproj` を使う場合は、`-workspace App.xcworkspace` を
-`-project App.xcodeproj` に置き換える。
-ビルドだけで実行環境を必要としない場合は
-`-destination 'generic/platform=iOS Simulator'` のような generic destination を使う。
-テストや起動では `-showdestinations` または `simctl list` で得た利用可能な ID を使う。
+When using an `.xcodeproj`, replace `-workspace App.xcworkspace` with
+`-project App.xcodeproj`.
+For a build that needs no runtime environment, use a generic destination such as
+`-destination 'generic/platform=iOS Simulator'`.
+For tests and launches, use an available ID obtained from `-showdestinations` or `simctl list`.
 
-## Swift package
+## Swift Package
 
-Swift package 単体で足りる場合は Xcode project を経由しない。
+When a standalone Swift package is enough, do not go through an Xcode project.
 
 ```bash
 swift build
@@ -61,13 +61,13 @@ swift test list
 swift test --filter 'TargetName.TestType/testName'
 ```
 
-`Package.resolved` を固定する必要がある作業では、存在と更新意図を確認してから
-`--only-use-versions-from-resolved-file` を使う。依存更新やネットワークアクセスを
-暗黙に混ぜない。
+For work that must pin `Package.resolved`, confirm that it exists and whether it is meant to be
+updated, then use `--only-use-versions-from-resolved-file`. Do not implicitly mix in dependency
+updates or network access.
 
-## ビルドとテスト
+## Building and Testing
 
-workspace または project、scheme、configuration、destination をコマンドに明示する。
+State the workspace or project, scheme, configuration, and destination explicitly in the command.
 
 ```bash
 xcodebuild \
@@ -78,8 +78,8 @@ xcodebuild \
   build
 ```
 
-テストでは結果 bundle とログを一時ディレクトリへ保存する。固定パスを使い回さず、
-先に `mktemp -d /tmp/xcode-cli.XXXXXX` でディレクトリを作る。
+For tests, save the result bundle and the log to a temporary directory. Do not reuse a fixed path;
+create the directory first with `mktemp -d /tmp/xcode-cli.XXXXXX`.
 
 ```bash
 xcodebuild \
@@ -90,7 +90,7 @@ xcodebuild \
   test >"$task_tmp_dir/xcodebuild.log" 2>&1
 ```
 
-全テストを繰り返すと高コストな場合は、テストを列挙して対象だけ実行する。
+When rerunning all tests is expensive, enumerate the tests and run only the relevant ones.
 
 ```bash
 xcodebuild \
@@ -109,19 +109,20 @@ xcodebuild \
   test
 ```
 
-ビルドとテストを分ける場合は `build-for-testing` の後に `test-without-building` を使う。
-両方で同じ container、scheme、destination、configuration、`-derivedDataPath` を使う。
+To separate building from testing, use `build-for-testing` followed by `test-without-building`.
+Use the same container, scheme, destination, configuration, and `-derivedDataPath` for both.
 
-`Package.resolved` が正で依存更新を認めない場合だけ、
-`-onlyUsePackageVersionsFromResolvedFile` を付ける。`-skipMacroValidation`、
-`-skipPackagePluginValidation`、署名検証を弱める option は既定で付けない。
+Add `-onlyUsePackageVersionsFromResolvedFile` only when `Package.resolved` is authoritative and
+dependency updates are not allowed. Do not add `-skipMacroValidation`,
+`-skipPackagePluginValidation`, or options that weaken signature verification by default.
 
-## 診断
+## Diagnosis
 
-最初にコマンドの exit status と、`** BUILD SUCCEEDED **` / `** TEST SUCCEEDED **` などの
-本体結果を確認する。`DVTFilePathFSEvents` や cache 関連の警告だけで失敗と断定しない。
+First check the command's exit status and the main result, such as `** BUILD SUCCEEDED **` /
+`** TEST SUCCEEDED **`. Do not conclude failure from `DVTFilePathFSEvents` or cache-related
+warnings alone.
 
-結果 bundle がある場合は構造化された結果を優先する。
+When a result bundle exists, prefer the structured results.
 
 ```bash
 xcrun xcresulttool get build-results \
@@ -131,18 +132,19 @@ xcrun xcresulttool get test-results summary \
   --path "$task_tmp_dir/Test.xcresult"
 ```
 
-補助的にログを絞る。
+Narrow down the log as a supplement.
 
 ```bash
 rg -n 'error:|warning:|failed|FAIL' "$task_tmp_dir/xcodebuild.log" | head -50
 ```
 
-全文ログを会話へ貼らない。最初の実エラー、該当ファイルと位置、exit status、
-成功・未実行の段階を報告する。compile が通っても UI や実機の挙動は保証しない。
+Do not paste the full log into the conversation. Report the first real error, the affected file and
+location, the exit status, and which stages succeeded or were not run. Passing compilation does not
+guarantee UI or on-device behavior.
 
-## Simulator での実行と画面確認
+## Running on Simulator and Checking Screens
 
-利用可能な Simulator を JSON で列挙し、端末名ではなく ID を保持する。
+List the available Simulators as JSON and keep the ID, not the device name.
 
 ```bash
 xcrun simctl list devices available --json
@@ -150,12 +152,13 @@ xcrun simctl boot SIMULATOR_ID
 xcrun simctl bootstatus SIMULATOR_ID -b
 ```
 
-既に boot 済みなら再度 `boot` せず、その ID を使う。Simulator service が接続不能なら、
-権限だけを原因と決めつけず、表示された service・runtime・disk image のエラーを保つ。
+If a device is already booted, do not `boot` it again; use its ID. If the Simulator service cannot
+be reached, do not assume permissions are the only cause; preserve the reported service, runtime,
+or disk image error.
 
-アプリ bundle の場所と bundle identifier は、同じ container、scheme、destination で
-`xcodebuild -showBuildSettings -json` を実行し、`TARGET_BUILD_DIR`、`WRAPPER_NAME`、
-`PRODUCT_BUNDLE_IDENTIFIER` から得る。
+Get the app bundle location and bundle identifier by running `xcodebuild -showBuildSettings -json`
+with the same container, scheme, and destination, and reading `TARGET_BUILD_DIR`, `WRAPPER_NAME`,
+and `PRODUCT_BUNDLE_IDENTIFIER`.
 
 ```bash
 xcrun simctl install SIMULATOR_ID /path/to/App.app
@@ -163,14 +166,14 @@ xcrun simctl launch SIMULATOR_ID com.example.app
 xcrun simctl io SIMULATOR_ID screenshot "$task_tmp_dir/screenshot.png"
 ```
 
-SwiftUI の外観は、実アプリまたは専用の snapshot/UI test で対象状態を作り、
-`simctl io ... screenshot` の画像を確認する。
-起動できなければ画面確認は未実施と報告する。
+For SwiftUI appearance, put the real app or a dedicated snapshot/UI test into the target state and
+check the image from `simctl io ... screenshot`.
+If the app cannot be launched, report the screen check as not done.
 
-## 実機での実行
+## Running on a Physical Device
 
-実機が必要な場合は `devicectl` を使う。自動処理で読む結果は stdout ではなく
-`--json-output` のファイルを使う。
+When a physical device is needed, use `devicectl`. For results read by automation, use the
+`--json-output` file, not stdout.
 
 ```bash
 xcrun devicectl list devices --json-output "$task_tmp_dir/devices.json"
@@ -179,49 +182,51 @@ xcrun devicectl device process launch \
   --device DEVICE_ID --terminate-existing com.example.app
 ```
 
-実機登録、署名資産の変更、アプリ削除は勝手に行わない。`-allowProvisioningUpdates` は
-Developer Portal に変更を加え得るため、必要性と対象を確認してから使う。
+Do not register devices, change signing assets, or delete apps on your own. `-allowProvisioningUpdates`
+can make changes to the Developer Portal, so confirm the need and the target before using it.
 
-## Swift コード片の確認
+## Checking Swift Snippets
 
-プロジェクトに依存しない短いコードは `swift -e` で確認する。
+Check short code that does not depend on the project with `swift -e`.
 
 ```bash
 swift -e 'import Foundation; print(ProcessInfo.processInfo.operatingSystemVersion)'
 ```
 
-アプリの型、resource、build setting に依存するコードは、既存または追加する対象テストで
-確認する。Git 管理対象の一時ファイルや検証専用 target を無断で残さない。
+Check code that depends on the app's types, resources, or build settings with an existing or newly
+added targeted test. Do not leave Git-tracked temporary files or verification-only targets behind
+without permission.
 
-GUI 上の現在のファイルや選択範囲は参照せず、リポジトリと依頼内容から対象を特定する。
-特定できなければファイルパスまたはシンボル名を確認する。
+Do not refer to the file or selection currently open in the GUI; identify the target from the
+repository and the request. If it cannot be identified, ask for the file path or symbol name.
 
-## ファイルの追加
+## Adding Files
 
-新規ファイルが target に入る仕組みを確認してから追加する。
+Check how new files get into a target before adding them.
 
-**`project.yml` がある場合**
+**When `project.yml` exists**
 
-`.xcodeproj` は生成物として扱う。`project.yml` の `sources` と `excludes` を確認し、
-対象ディレクトリへファイルを追加して `xcodegen generate` を実行する。
-生成された `.pbxproj` だけを直接直さない。
+Treat the `.xcodeproj` as a generated artifact. Check `sources` and `excludes` in `project.yml`,
+add the file to the relevant directory, and run `xcodegen generate`.
+Do not edit only the generated `.pbxproj` directly.
 
-**`project.yml` がない場合**
+**When there is no `project.yml`**
 
-`.pbxproj` に `PBXFileSystemSynchronizedRootGroup` があり、対象ディレクトリが同期対象なら、
-その配下へファイルを追加してビルドで inclusion を確認する。
+If the `.pbxproj` has a `PBXFileSystemSynchronizedRootGroup` and the target directory is
+synchronized, add the file under it and confirm inclusion with a build.
 
-classic group の project では、リポジトリが既に使う generator や `xcodeproj` などの
-管理手段があればそれを使う。なければ周辺の `PBXFileReference`、`PBXBuildFile`、group、
-build phase の形式に合わせて `.pbxproj` を更新する。変更後は `plutil -lint`、
-`xcodebuild -list`、対象 build で構造と target membership を確認する。
+For a project with classic groups, use the generator or management tool the repository already uses,
+such as `xcodeproj`, if there is one. Otherwise, update the `.pbxproj` to match the format of the
+surrounding `PBXFileReference`, `PBXBuildFile`, group, and build phase entries. After the change,
+confirm the structure and target membership with `plutil -lint`, `xcodebuild -list`, and a build of
+the target.
 
-既存ファイルはファイルシステム上で通常どおり編集する。
+Edit existing files on the file system as usual.
 
-## やらないこと
+## Do Not
 
-- scheme、destination、Simulator 名を根拠なく決めない
-- security validation を弱める option を高速化目的で既定にしない
-- 既存の Simulator、実機、インストール済みアプリを自動削除しない
-- build、test、runtime、実機確認を一つの「動作確認済み」にまとめない
-- ビルドログ全文を会話へ持ち込まない
+- Decide the scheme, destination, or Simulator name without a basis
+- Make options that weaken security validation the default for the sake of speed
+- Automatically delete existing Simulators, devices, or installed apps
+- Lump build, test, runtime, and on-device checks into a single "verified working"
+- Bring the full build log into the conversation
