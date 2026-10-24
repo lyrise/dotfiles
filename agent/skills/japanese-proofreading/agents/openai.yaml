@@ -1,4 +1,0 @@
-interface:
-  display_name: "Japanese Proofreading"
-  short_description: "Proofread Japanese text based on textlint detections"
-  default_prompt: "Use $japanese-proofreading to correct this Japanese text."

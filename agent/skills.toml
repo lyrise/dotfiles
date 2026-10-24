@@ -4,17 +4,5 @@
 # relative to the skill root; excluding a directory drops its subtree.
 
 [skills]
-adversarial-panel = { url = "https://github.com/makinux/adversarial-panel.git", exclude = [
-    "assets",
-    "README*.md",
-] }
 playwright-cli = { url = "https://github.com/microsoft/playwright-cli.git", path = "skills/playwright-cli" }
-cognitive-rhythm-writing = { url = "https://gist.github.com/k16shikano/eb2929f13ed19c97188393d297be8432.git" }
-japanese-tech-writing = { url = "https://gist.github.com/k16shikano/fd287c3133457c4fd8f5601d34aa817d.git" }
-yomiyasu = { url = "https://github.com/nanaism/yomiyasu.git", path = "skills/yomiyasu" }
 handoff = { url = "https://github.com/kotek-7/dotfiles.git", path = "dot_agents/skills/handoff" }
-sanitize-artifacts = { url = "https://github.com/kotek-7/dotfiles.git", path = "dot_agents/skills/sanitize-artifacts", exclude = [
-    "dot_DS_Store",
-] }
-show-me = { url = "https://github.com/humanlayer/skills.git", path = "plugins/show-me/skills/show-me" }
-i-have-adhd = { url = "https://github.com/ayghri/i-have-adhd.git", path = "skills/i-have-adhd" }

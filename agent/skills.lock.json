@@ -1,21 +1,4 @@
 {
-  "adversarial-panel": {
-    "commit": "6b1061b50dbe27613f0e0b2b90882d297ed46a29",
-    "exclude": [
-      "assets",
-      "README*.md"
-    ],
-    "path": null,
-    "ref": "main",
-    "url": "https://github.com/makinux/adversarial-panel.git"
-  },
-  "cognitive-rhythm-writing": {
-    "commit": "a3b1e26beced71d582e13314fb6f5b179b023c76",
-    "exclude": [],
-    "path": null,
-    "ref": "main",
-    "url": "https://gist.github.com/k16shikano/eb2929f13ed19c97188393d297be8432.git"
-  },
   "handoff": {
     "commit": "14d1dbf15498e3988bd089e0d06381ae6f6019a1",
     "exclude": [],
@@ -23,48 +6,11 @@
     "ref": "main",
     "url": "https://github.com/kotek-7/dotfiles.git"
   },
-  "i-have-adhd": {
-    "commit": "1ecea1993b7fce257ffbd686c070948b5e07eda6",
-    "exclude": [],
-    "path": "skills/i-have-adhd",
-    "ref": "main",
-    "url": "https://github.com/ayghri/i-have-adhd.git"
-  },
-  "japanese-tech-writing": {
-    "commit": "8f2d57610a73efc97d743c9b0b0ecb1002e09fa4",
-    "exclude": [],
-    "path": null,
-    "ref": "main",
-    "url": "https://gist.github.com/k16shikano/fd287c3133457c4fd8f5601d34aa817d.git"
-  },
   "playwright-cli": {
     "commit": "b85c7a736bb473bf55b584e54a09ffa698d6d871",
     "exclude": [],
     "path": "skills/playwright-cli",
     "ref": "main",
     "url": "https://github.com/microsoft/playwright-cli.git"
-  },
-  "sanitize-artifacts": {
-    "commit": "14d1dbf15498e3988bd089e0d06381ae6f6019a1",
-    "exclude": [
-      "dot_DS_Store"
-    ],
-    "path": "dot_agents/skills/sanitize-artifacts",
-    "ref": "main",
-    "url": "https://github.com/kotek-7/dotfiles.git"
-  },
-  "show-me": {
-    "commit": "653b6411c1f70c275a18e37673b042ff99f67ceb",
-    "exclude": [],
-    "path": "plugins/show-me/skills/show-me",
-    "ref": "main",
-    "url": "https://github.com/humanlayer/skills.git"
-  },
-  "yomiyasu": {
-    "commit": "60bf877acebc86651e0b67d70112a66245f87758",
-    "exclude": [],
-    "path": "skills/yomiyasu",
-    "ref": "main",
-    "url": "https://github.com/nanaism/yomiyasu.git"
   }
 }
