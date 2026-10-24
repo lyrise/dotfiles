@@ -1,43 +1,43 @@
 ---
 name: memory-records
-description: 環境変数 AGENT_MEMORY_DIR が指すディレクトリの records を外部記憶として、プロジェクトに属さない時点の記録 (周期的なレポート、単発の調査、判断とその理由など) を参照し、明示された依頼に応じて保存する。プロジェクト進行中の調査結果・経緯は memory-projects スキルに従って projects/ の dir 内に置く。旧記録の退避はユーザーが手動で行う。
+description: Use the records area of the directory pointed to by the AGENT_MEMORY_DIR environment variable as external memory, consulting point-in-time records that belong to no project (periodic reports, one-off research, decisions and their reasons, etc.) and saving them on explicit request. Research results and history from an ongoing project go in its dir under projects/, following the memory-projects skill. The user archives old records by hand.
 ---
 
-# 記録の運用
+# Working with Records
 
-`AGENT_MEMORY_DIR` は Obsidian vault 内のディレクトリを指し、ノートはファイル操作で直接読み書きする。
+`AGENT_MEMORY_DIR` points to a directory inside an Obsidian vault. Read and write notes directly through file operations.
 
-## 構成
+## Layout
 
 ```
-$AGENT_MEMORY_DIR/records/    # 不変。書いたら変えない時点の記録
+$AGENT_MEMORY_DIR/records/    # Immutable. Point-in-time records that are never changed once written
 ├── YYYY-MM-DD-<topic>.md
-└── archived/                 # 同じトピックの新しい記録に置き換えられた旧記録
+└── archived/                 # Old records replaced by a newer record on the same topic
     └── YYYY/
         └── MM/
             └── YYYY-MM-DD-<topic>.md
 ```
 
-- `records/` には、プロジェクトに属さない時点の事実を置く。周期的なレポート、単発の調査、判断とその理由など。種別は frontmatter の `tags` で表し、`date` を持たせる。
-- プロジェクト進行中の調査結果・作業の経緯は `memory-projects` スキルに従って `projects/` の dir 内に置き、ここには置かない。
-- 現在も有効な知識は `memory-knowledges` スキルに従って `$AGENT_MEMORY_DIR/knowledges/` に置く。
-- 特定リポジトリに固有の記録は `records/` に置かず、そのリポジトリ内の文書に置く。
+- `records/` holds point-in-time facts that belong to no project: periodic reports, one-off research, decisions and their reasons, and so on. Express the kind with the frontmatter `tags`, and give each note a `date`.
+- Put research results and work history from an ongoing project in its dir under `projects/`, following the `memory-projects` skill, not here.
+- Put knowledge that is still valid in `$AGENT_MEMORY_DIR/knowledges/`, following the `memory-knowledges` skill.
+- Do not put records specific to one repository in `records/`; put them in documents inside that repository.
 
-## 参照
+## Reading
 
-- 話題に関係する過去の記録が必要なときだけ `records/` を検索し、必要なノートだけ読む。
-- `records/` は記録時点の内容として扱い、現在の事実は必要に応じて原典や現行コードで確認する。
-- `records/archived/YYYY/MM/` は、経緯や過去との比較が必要なときだけ開く。
+- Search `records/` only when past records related to the topic are needed, and read only the notes you need.
+- Treat `records/` as the content at the time of recording. Check current facts against the original sources or the current code as needed.
+- Open `records/archived/YYYY/MM/` only when history or comparison with the past is needed.
 
-## 保存
+## Saving
 
-- 書き込みはユーザーが明示的に依頼したときだけ行う。
-- `records/` のノートは作成後に書き換えない。訂正や続報は新しい日付のノートとして書く。
-- `records/` に保存する前に同じトピックの既存記録を検索する。
-- ニュースの定期レポートのように同じトピックを新しい記録で置き換える場合も、旧記録の移動・複製・削除はしない。退避はユーザーが手動で行う。新しい記録を保存して内容を確認したら、退避すべき旧記録のパスと退避先 `records/archived/YYYY/MM/` を回答に示す。`YYYY/MM` には旧記録のファイル名の日付を使う。
+- Write only when the user explicitly asks.
+- Do not rewrite a note in `records/` after it is created. Write corrections and follow-ups as a new note with a new date.
+- Before saving to `records/`, search for existing records on the same topic.
+- Even when a new record replaces an old one on the same topic, such as a periodic news report, do not move, copy, or delete the old record. The user archives it by hand. After saving the new record and checking its content, include in the answer the path of the old record to archive and its destination `records/archived/YYYY/MM/`. Use the date in the old record's file name for `YYYY/MM`.
 
-## 制約
+## Constraints
 
-- `AGENT_MEMORY_DIR` が未設定のとき、または指すディレクトリが存在しないときは、参照・保存できなかったことを伝えて中止する。パスを推測せず、ディレクトリを作らず、Codex・Claude・Serena の Memory へ切り替えない。
-- 読み書きは `$AGENT_MEMORY_DIR/records/` の中だけで行う。`.obsidian/` など vault の他の場所には触れない。
-- Obsidian MCP は使わない。
+- When `AGENT_MEMORY_DIR` is unset, or the directory it points to does not exist, report that reading or saving could not be done and stop. Do not guess a path, do not create the directory, and do not switch to the Codex, Claude, or Serena Memory.
+- Read and write only inside `$AGENT_MEMORY_DIR/records/`. Do not touch other parts of the vault, such as `.obsidian/`.
+- Do not use the Obsidian MCP.
