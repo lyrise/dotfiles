@@ -1,168 +1,187 @@
-# 不具合一覧
+# Bug List
 
-`docs/issues.md` と `docs/issues/<slug>.md` を書くとき、直すとき、点検するときは、本書に従う。
-文書族の責務、親と子、識別子、文体、図、情報密度、根拠の扱い、リンク規約は [共通規範](../SKILL.md) に従い、本書では不具合一覧に固有の点だけを定める。
+When writing, revising, or checking `docs/issues.md` and `docs/issues/<slug>.md`, follow this document.
+For the family's responsibilities, parents and children, identifiers, style, diagrams, information density, handling of evidence, and link conventions, follow the [common rules](../SKILL.md); this document defines only what is specific to the bug list.
 
-本書が扱うのは、コードを読んで確認した明確な不具合だけである。
-何を選ぶかがまだ決まっていないものは設計論点であり、その関心事を受け持つ設計文書の設計判断章に書く。
-外部が実際にどう振る舞うかは [外部知識](knowledges-document.md) が持つ。
+This document covers only clear bugs confirmed by reading the code.
+Something where what to choose is not yet decided is a design question and goes in the design decisions section of the design document responsible for that concern.
+How external things actually behave is held by [External Knowledge](knowledges-document.md).
 
-## 親文書の形
+## Shape of the Parent Document
 
-冒頭に次を置く。
+Put the following at the top.
 
-1. この文書が扱うもの（確認した明確な不具合のみ）と、扱わないもの（設計論点は該当する設計文書の設計判断章、外部の振る舞いは `knowledges.md`）
-2. 使い方（起票したら Issue 番号を追記、修正されたら子ファイルごと削除、行番号はずれるので修正時に再確認）
+1. What this document covers (only clear, confirmed bugs) and what it does not (design questions go in the design decisions section of the relevant design document; external behavior goes in `knowledges.md`)
+2. How to use it (add the Issue number once filed; delete the child file when fixed; line numbers drift, so recheck them when fixing)
 
-調査日と対象コミットは親に持たせない。
-項目は別々の日に起票されるので、族全体を 1 つの日付で代表できない。
-各項目が自分の調査日と対象コミットを持つ（§「子文書の形」）。
+Do not give the parent an investigation date and target commit.
+Items are filed on different days, so no single date can represent the whole family.
+Each item holds its own investigation date and target commit (§"Shape of Child Documents").
 
-§1.1 には本書が受け持つものと置かないものを書き、族の地図は `[design.md](./design.md#11-文書間の責務分担)` へリンクする。
+In §1.1, write what this document holds and what it does not, and link the family map to `[design.md](./design.md#11-document-responsibilities)`.
 
-続いて一覧表を置く。
-列は 項目、深刻度、調査日、Issue の 4 つとする。
-項目の列は子への相対リンクにし、表示文字列は症状を 1 行で言い切ったものにする。
+Then put the list table.
+The four columns are Item, Severity, Investigated, and Issue.
+The Item column is a relative link to the child, with the symptom stated in one line as the displayed text.
 
 ```markdown
-| 項目 | 深刻度 | 調査日 | Issue |
+| Item | Severity | Investigated | Issue |
 | --- | --- | --- | --- |
-| [タイマの解放漏れで fd が尽きる](./issues/timer-leak.md) | 高 | 2026-08-31 | #12 |
-| [削除後の一覧に古い値が返る](./issues/stale-cache.md) | 中 | 2026-08-20 | - |
+| [Leaked timers exhaust file descriptors](./issues/timer-leak.md) | High | 2026-08-31 | #12 |
+| [Listing after deletion returns stale values](./issues/stale-cache.md) | Medium | 2026-08-20 | - |
 ```
 
-表の下に、項目間の関係を 1 段落で書く。
-同じ経路にある項目、まとめて直すのが効率的な項目を指摘する。
+Below the table, write one paragraph on the relationships between items.
+Point out items on the same path and items that are efficient to fix together.
 
-末尾に「ここに含めていないもの」の表を置き、設計文書側で扱う設計上の欠落を列挙してリンクする。
+At the end, put a "Not included here" table that lists design gaps handled on the design document side, with links.
 
-## 子文書の形
+## Shape of Child Documents
 
-`docs/issues/<slug>.md` を次の型で書く。
-`<slug>` は症状が分かる kebab-case にする（`timer-leak`、`stale-cache`）。
+Write `docs/issues/<slug>.md` in the following form.
+`<slug>` is kebab-case that conveys the symptom (`timer-leak`, `stale-cache`).
 
 ```markdown
-# 症状が分かる短い題
+# Short title that conveys the symptom
 
-**深刻度: 高**（外部から誘発可能）
+**Severity: High** (can be triggered externally)
 
-調査日 2026-08-31 / 対象コミット `a1b2c3d`
+Investigated 2026-08-31 / Target commit `a1b2c3d`
 
-[issues.md](../issues.md) の 1 項目。
+One item of [issues.md](../issues.md).
 
-## 症状
-何が観測されるか。ログに出るのか、静かに壊れるのか。
+## Symptom
+What is observed. Does it show up in logs, or break silently?
 
-## 該当箇所
-ファイルへの行番号付きリンクと、必要ならコードの引用。
+## Location
+Links to files with line numbers, and a code quote if needed.
 
-## 原因
-なぜそうなっているか。
+## Cause
+Why it is that way.
 
-## 影響
-どこまで壊れるか。他の項目との依存。いま顕在化していないならその理由。
+## Impact
+How far it breaks. Dependencies on other items. If it has not surfaced yet, why.
 
-## 対応方針
-直し方。再発防止の提案（テスト、型、マクロによる検出）まで含めてよい。
+## Remedy
+How to fix it. May include proposals to prevent recurrence (detection by tests, types, or macros).
 ```
 
-5 節すべてを書く。
-見出しに番号を振らない。
-子は親の一覧から入るため、共通規範の §「責務分担表の粒度」に従い §1.1 を持たず、冒頭の親へのリンク 1 行で足りる。
+Write all five sections.
+Do not number the headings.
+Children are entered from the parent's list, so following §"Granularity of the Responsibilities Table" in the common rules, they have no §1.1; one line at the top linking to the parent is enough.
 
-調査日と対象コミットは必須である。
-該当箇所は行番号で指しており、いつ時点のコードを見たかが分からないと使えない。
+The investigation date and target commit are required.
+Location points by line number, and is useless unless you know the point in time of the code that was examined.
 
-## 3 つのモード
+## Three Modes
 
-**新規作成**：コードを読んで調査し、親の一覧表と最初の子を同時に作る。
+**Create**: investigate by reading the code, and create the parent's list table and the first child at the same time.
 
-**更新**：項目の追加、起票した Issue 番号の追記、修正された項目の削除。
-既存の子を読み直したときは、該当箇所の行番号を確かめ、調査日と対象コミットを進める。
+**Update**: add items, add the number of a filed Issue, delete fixed items.
+When rereading an existing child, verify the line numbers in Location and advance the investigation date and target commit.
 
-**点検**：§「執筆後の点検」を機械的に走らせ、本文は変更せず所見と根拠だけを報告する。
+**Check**: run §"Post-Writing Check" mechanically; do not change the body, and report only findings and their grounds.
 
-## 保持する意味要素
+## Semantic Elements to Preserve
 
-共通規範の §「情報密度」に従い、圧縮しても次を残す。
+Following §"Information Density" in the common rules, keep the following even when compressing.
 
-- 各項目の調査日と対象コミット
-- 各項目の症状、該当箇所、原因、影響、対応方針
-- 深刻度と顕在性
-- 項目間の関係
-- ここに含めていないもの
+- Each item's investigation date and target commit
+- Each item's symptom, location, cause, impact, and remedy
+- Severity and manifestation
+- Relationships between items
+- What is not included here
 
-## 検証用サブエージェント
+## Verification Subagent
 
-共通規範の §「検証用サブエージェント」に従い、新規作成と項目の追加で `verifier` を必須とする。
-起票した Issue 番号の追記と、修正された項目の削除だけなら要さない。
-点検では本文を変更しないため要さない。
+Following §"Verification Subagent" in the common rules, the `verifier` is required for creating and adding items.
+Adding the number of a filed Issue, or only deleting fixed items, does not require it.
+A check does not change the body and does not require it.
 
-blocking とする指摘に次を追加する。
+Add the following to the blocking findings.
 
-- 項目に 5 節のいずれかがない
-- 深刻度に顕在性が添えられていない
-- 該当箇所に行番号がない
-- 項目に調査日または対象コミットがない
-- 設計論点が項目として混ざっている
-- 外部の振る舞いそのものが項目として混ざっている
-- 一覧表の行と子ファイルが 1 対 1 でない
+- An item lacks any of the five sections
+- Severity is not accompanied by manifestation
+- Location has no line numbers
+- An item has no investigation date or target commit
+- Design questions are mixed in as items
+- External behavior itself is mixed in as an item
+- The rows of the list table and the child files do not correspond one-to-one
 
-## 深刻度
+## Severity
 
-3 段階で、次の基準で判定する。
+There are three levels, judged by the following criteria.
 
-- **高**：その経路の機能が成立しない、データを壊す、外部からの入力で停止させられる、のいずれか。
-- **中**：現時点では結果が変わらないが条件が揃うと壊れる、または設計判断が決まらないと直せない。
-- **低**：実害はないが読む人を誤解させる、または品質上の負債である。
+- **High**: the feature on that path does not work, data is corrupted, or it can be stopped by external input.
+- **Medium**: the result does not change at present but breaks when conditions line up, or it cannot be fixed until a design decision is made.
+- **Low**: no actual harm, but it misleads readers, or it is quality debt.
 
-深刻度の直後に、顕在性を括弧で必ず添える。
-いま実際に壊れているものには何も付けない。
-壊れていないものには、なぜ今は壊れていないのかを短く書く（「現時点では未顕在」「設計論点に依存」）。
-逆に、深刻度が中や低でも外部から誘発できるものはそう書く。
+Right after the severity, always add the manifestation in parentheses.
+Add nothing for something that is actually broken now.
+For something that is not broken, briefly write why it is not broken now ("not yet manifest", "depends on a design question").
+Conversely, write it when something can be triggered externally even if its severity is Medium or Low.
 
-顕在性は深刻度と直交する。
-「未結線ゆえに安全」な項目と、そうでない項目を区別できるようにしておく。
+Manifestation is orthogonal to severity.
+Keep items that are "safe because not wired up" distinguishable from those that are not.
 
-## ライフサイクル
+## Lifecycle
 
-- 不具合を確認したら、親の一覧表に行を足し、子を作る
-- 起票したら、一覧表の Issue 列に番号を追記する。子は残す
-- 修正されたら、子ファイルを削除し、一覧表の行も消す
-- ここに残っているものは未対応、が原則である
+- When a bug is confirmed, add a row to the parent's list table and create a child
+- When filed, add the number to the Issue column of the list table. Keep the child
+- When fixed, delete the child file and remove the row from the list table
+- As a rule, whatever remains here is unaddressed
 
-レビュー結果文書から転記された項目も同じ扱いにする。
-転記元へのリンクは張らない。
-出所をたどりたいときは `<slug>` で `docs/reviews/` を検索すれば足りる。
+Items transcribed from review result documents are treated the same way.
+Do not link to the transcription source.
+To trace the origin, searching `docs/reviews/` for the `<slug>` is enough.
 
-外部コンポーネント側の不具合が原因でも、回避策を自分たちのコードに入れる必要があるなら本書に項目を立てる。
-外部が実際にどう振る舞うかは `knowledges.md` にも項目が立つ。
-両方に現れるのは正常であり、片方に寄せない。
+Even when the cause is a bug in an external component, if a workaround must go into our own code, create an item in this document.
+How the external thing actually behaves also gets an item in `knowledges.md`.
+It is normal to appear in both; do not consolidate into one.
 
-## 書かないこと
+## What Not to Write
 
-**設計論点**は該当する設計文書の設計判断章が持つ。
-何を選ぶかが決まっていないものを不具合として起票しない。
+**Design questions** are held by the design decisions section of the relevant design document.
+Do not file something as a bug when what to choose has not been decided.
 
-**外部の振る舞いそのもの**は `knowledges.md` が持つ。
-本書が持つのは自分たちのコードが壊れていることであり、外部がどう動くかではない。
+**External behavior itself** is held by `knowledges.md`.
+What this document holds is that our own code is broken, not how the external thing behaves.
 
-**語の定義**は用語文書が持つ。
-名前が揃っていないこと自体を不具合として書くときも、正しい名前は用語文書を指す。
+**Term definitions** are held by the terms documents.
+Even when writing that names are inconsistent as a bug, point to the terms documents for the correct name.
 
-**レビューの経緯**は `docs/reviews/<slug>.md` が持つ。
-誰がいつ見つけたかは本書に書かない。
+**Review history** is held by `docs/reviews/<slug>.md`.
+Do not write who found it and when in this document.
 
-## 執筆後の点検
+## Post-Writing Check
 
-共通規範の §「共通の執筆後の点検」に加えて、次を確認する。
+In addition to §"Common Post-Writing Check" in the common rules, confirm the following.
 
-1. すべての項目に調査日と対象コミットがあるか
-2. すべての項目に、症状、該当箇所、原因、影響、対応方針の 5 節があるか
-3. 一覧表の行と `docs/issues/*.md` が 1 対 1 か
-4. すべての深刻度に顕在性が括弧で添えられているか
-5. 該当箇所のコードへの参照に行番号があるか。`rg -nH '\]\((\.\./)+[^)#]*\.[A-Za-z0-9]+\)' docs/issues/*.md | rg -v '\.md\)'` が空であること（`#L` の欠けたコードへのリンクを拾い、文書どうしの `.md` リンクは除く）
-6. 一覧表の下に項目間の関係の段落があるか
-7. 末尾に「ここに含めていないもの」の表があり、設計文書へのリンクが見出しのアンカーまで含んでいるか
-8. 設計論点、外部の振る舞い、語の定義、レビューの経緯が混ざっていないか
-9. 通し番号の ID が残っていないか。`rg -n 'I-[0-9]' docs/` が空であること
+1. Does every item have an investigation date and target commit?
+2. Does every item have the five sections: symptom, location, cause, impact, and remedy?
+3. Do the rows of the list table correspond one-to-one with `docs/issues/*.md`?
+4. Is every severity accompanied by manifestation in parentheses?
+5. Do references to code in Location have line numbers? `rg -nH '\]\((\.\./)+[^)#]*\.[A-Za-z0-9]+\)' docs/issues/*.md | rg -v '\.md\)'` must be empty (it picks up links to code that lack `#L`, excluding `.md` links between documents)
+6. Is there a paragraph on relationships between items below the list table?
+7. Is there a "Not included here" table at the end, and do its links to design documents include the heading anchor?
+8. Are design questions, external behavior, term definitions, and review history not mixed in?
+9. Are no sequential-number IDs left? `rg -n 'I-[0-9]' docs/` must be empty
+
+## Japanese Equivalents
+
+When writing in Japanese, use the following headings, labels, column names, and values.
+
+| English | Japanese |
+| --- | --- |
+| Columns `Item` / `Severity` / `Investigated` / `Issue` | `項目` / `深刻度` / `調査日` / `Issue` |
+| Severity `High` / `Medium` / `Low` | `高` / `中` / `低` |
+| `**Severity: High**` | `**深刻度: 高**` |
+| `Investigated 2026-08-31 / Target commit` | `調査日 2026-08-31 / 対象コミット` |
+| `One item of [issues.md](../issues.md).` | `[issues.md](../issues.md) の 1 項目。` |
+| `## Symptom` | `## 症状` |
+| `## Location` | `## 該当箇所` |
+| `## Cause` | `## 原因` |
+| `## Impact` | `## 影響` |
+| `## Remedy` | `## 対応方針` |
+| "Not included here" | 「ここに含めていないもの」 |
+| Manifestation "not yet manifest" / "depends on a design question" | 「現時点では未顕在」「設計論点に依存」 |

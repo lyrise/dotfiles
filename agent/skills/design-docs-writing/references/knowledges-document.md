@@ -1,205 +1,220 @@
-# 外部知識
+# External Knowledge
 
-`docs/knowledges.md` と `docs/knowledges/<slug>.md` を書くとき、直すとき、点検するときは、本書に従う。
-文書族の責務、親と子、識別子、文体、図、情報密度、根拠の扱い、リンク規約は [共通規範](../SKILL.md) に従い、本書では外部知識に固有の点だけを定める。
+When writing, revising, or checking `docs/knowledges.md` and `docs/knowledges/<slug>.md`, follow this document.
+For the family's responsibilities, parents and children, identifiers, style, diagrams, information density, handling of evidence, and link conventions, follow the [common rules](../SKILL.md); this document defines only what is specific to external knowledge.
 
-本書が扱うのは、依存ライブラリ、OS、プロトコル、外部 API、実行環境が実際にどう振る舞うかである。
-自分たちのコードの構造と設計判断は設計文書が持ち、自分たちのコードの不具合は `issues.md` が持つ。
+This document covers how dependency libraries, the OS, protocols, external APIs, and runtime environments actually behave.
+The structure of and design decisions about our own code are held by design documents, and bugs in our own code by `issues.md`.
 
-この族を独立させる理由は 3 つある。
-外部の挙動は設計判断の前提であって、設計判断そのものではない。
-設計文書の地の文に埋めると、依存を上げたときに何を確かめ直すべきかを引けない。
-計画書に書くと、計画書を畳んだ時点で消える。
+There are three reasons to make this family independent.
+External behavior is a premise of design decisions, not a design decision itself.
+Embedded in the prose of a design document, it cannot be looked up for what to recheck when upgrading a dependency.
+Written in a plan, it disappears when the plan is folded.
 
-## 親文書の形
+## Shape of the Parent Document
 
-冒頭に次を置く。
+Put the following at the top.
 
-1. この文書が扱うもの（外部世界について確かめた事実）と、扱わないもの（自分たちのコードの話は設計文書と `issues.md`）
-2. 使い方（外部が変わったら書き換える、古い記述は残さない、`文献のみ` は 3 か月ごとに読み直す）
+1. What this document covers (facts confirmed about the outside world) and what it does not (matters of our own code go in design documents and `issues.md`)
+2. How to use it (rewrite when the outside changes; do not keep old descriptions; reread `Literature only` items every three months)
 
-§1.1 には本書が受け持つものと置かないものを書き、族の地図は `[design.md](./design.md#11-文書間の責務分担)` へリンクする。
+In §1.1, write what this document holds and what it does not, and link the family map to `[design.md](./design.md#11-document-responsibilities)`.
 
-続いて一覧表を置く。
-列は 項目、検証対象、出所、最終確認日 の 4 つとする。
+Then put the list table.
+The four columns are Item, Target, Source, and Last checked.
 
-| 列 | 書くもの |
+| Column | What to write |
 | --- | --- |
-| 項目 | 子への相対リンク。表示文字列は事実を 1 行で言い切ったもの |
-| 検証対象 | バージョンまたは版を特定した文字列（`tokio 1.47.1`、`macOS 15.6`、`Stripe API 2026-04-10`） |
-| 出所 | `検証済み` か `文献のみ` |
-| 最終確認日 | 検証日または参照日 |
+| Item | A relative link to the child. The displayed text states the fact in one line |
+| Target | A string that pins down the version or edition (`tokio 1.47.1`, `macOS 15.6`, `Stripe API 2026-04-10`) |
+| Source | `Verified` or `Literature only` |
+| Last checked | The verification date or reference date |
 
 ```markdown
-| 項目 | 検証対象 | 出所 | 最終確認日 |
+| Item | Target | Source | Last checked |
 | --- | --- | --- | --- |
-| [LocalSet は run_until の内側でしか poll しない](./knowledges/tokio-localset.md) | tokio 1.47.1 | 検証済み | 2026-08-31 |
+| [LocalSet polls only inside run_until](./knowledges/tokio-localset.md) | tokio 1.47.1 | Verified | 2026-08-31 |
 ```
 
-検証対象の列は、点検で現在の依存と突き合わせるための機械可読な鍵である（§「陳腐化の検出」）。
-`最新`、`現行` のように解決できない値を書かない。
+The Target column is a machine-readable key for matching against the current dependencies during checks (§"Detecting Staleness").
+Do not write values that cannot be resolved, such as `latest` or `current`.
 
-表の下に、項目間の関係を 1 段落で書く。
-同じ外部コンポーネントについての項目、片方が成り立たないともう片方も崩れる項目を指摘する。
+Below the table, write one paragraph on the relationships between items.
+Point out items about the same external component, and items where if one does not hold, the other also collapses.
 
-## 子文書の形
+## Shape of Child Documents
 
-`docs/knowledges/<slug>.md` を次の型で書く。
-`<slug>` は外部コンポーネントと事実が分かる kebab-case にする（`tokio-localset`、`launchd-termination`）。
+Write `docs/knowledges/<slug>.md` in the following form.
+`<slug>` is kebab-case that conveys the external component and the fact (`tokio-localset`, `launchd-termination`).
 
 ```markdown
-# 事実を 1 行で言い切った題
+# Title stating the fact in one line
 
-**出所: 検証済み**（tokio 1.47.1 / 2026-08-31）
+**Source: Verified** (tokio 1.47.1 / 2026-08-31)
 
-[knowledges.md](../knowledges.md) の 1 項目。
+One item of [knowledges.md](../knowledges.md).
 
-## 事実
-何がどう振る舞うか。
-それが成り立つ条件も書く。
+## Fact
+What behaves how.
+Also write the conditions under which it holds.
 
-## 根拠
-検証済みなら、再現手順と実行したコマンド。
-文献のみなら、一次資料への参照と参照日。
+## Evidence
+If verified, the reproduction steps and the commands run.
+If literature only, the reference to the primary source and the reference date.
 
-## 含意
-このプロジェクトのどこがこの事実に依存しているか。
-依存している設計文書の節へ相対リンクする。
+## Implications
+Which parts of this project depend on this fact.
+Link with a relative link to the subsection of the design document that depends on it.
 ```
 
-3 節すべてを書く。
-見出しに番号を振らない。
-子は親の一覧から入るため、共通規範の §「責務分担表の粒度」に従い §1.1 を持たず、冒頭の親へのリンク 1 行で足りる。
+Write all three sections.
+Do not number the headings.
+Children are entered from the parent's list, so following §"Granularity of the Responsibilities Table" in the common rules, they have no §1.1; one line at the top linking to the parent is enough.
 
-**事実**は、成り立つ条件とともに書く。
-条件のない事実は、条件が変わったときに嘘になったことに誰も気づけない。
-「`LocalSet` は `run_until` の内側でしか `spawn_local` したタスクを poll しない」と書くなら、`block_on` で包んだ場合にどうなるかまで書く。
+Write the **Fact** together with the conditions under which it holds.
+With a fact that has no conditions, nobody can notice it has become false when the conditions change.
+If you write "`LocalSet` polls tasks spawned with `spawn_local` only inside `run_until`", also write what happens when wrapped in `block_on`.
 
-**含意**が書けない項目は、このプロジェクトには関係がない。
-一般に有用でも、どこも依存していない外部知識は置かない。
-置くと、依存を上げるたびに再検証の対象が増えるだけになる。
+An item whose **Implications** cannot be written is irrelevant to this project.
+Do not keep external knowledge nothing depends on, even if it is generally useful.
+Keeping it only adds to what must be reverified every time a dependency is upgraded.
 
-## 3 つのモード
+## Three Modes
 
-**新規作成**：確かめた事実を、出所ラベルと検証対象を固定してから書く。
-親の一覧表と子を同時に作る。
+**Create**: write a confirmed fact after fixing its source label and target.
+Create the parent's list table and the child at the same time.
 
-**更新**：外部が変わったときに書き換える。
-再検証した結果が同じなら、検証日だけを進める。
+**Update**: rewrite when the outside changes.
+If reverification gives the same result, advance only the verification date.
 
-**点検**：§「陳腐化の検出」と §「執筆後の点検」を機械的に走らせ、本文は変更せず所見と根拠だけを報告する。
+**Check**: run §"Detecting Staleness" and §"Post-Writing Check" mechanically; do not change the body, and report only findings and their grounds.
 
-## 保持する意味要素
+## Semantic Elements to Preserve
 
-共通規範の §「情報密度」に従い、圧縮しても次を残す。
+Following §"Information Density" in the common rules, keep the following even when compressing.
 
-- 確かめた事実と、それが成り立つ条件
-- 出所ラベルと検証対象
-- 検証日または参照日
-- 再現手順、または一次資料への参照
-- このプロジェクトのどこがこの事実に依存しているか
+- The confirmed fact, and the conditions under which it holds
+- The source label and target
+- The verification date or reference date
+- The reproduction steps, or the reference to the primary source
+- Which parts of this project depend on this fact
 
-## 検証用サブエージェント
+## Verification Subagent
 
-共通規範の §「検証用サブエージェント」に従い、新規作成と項目の追加で `verifier` を必須とする。
-再検証で検証日だけを進めるときは要さない。
-点検では本文を変更しないため要さない。
+Following §"Verification Subagent" in the common rules, the `verifier` is required for creating and adding items.
+Advancing only the verification date after reverification does not require it.
+A check does not change the body and does not require it.
 
-blocking とする指摘に次を追加する。
+Add the following to the blocking findings.
 
-- 出所ラベルがない、または `検証済み` と `文献のみ` のいずれでもない
-- 出所が `検証済み` なのに再現手順がない
-- 出所が `文献のみ` なのに一次資料への参照または参照日がない
-- 検証対象にバージョンまたは版が特定されていない
-- 事実が成り立つ条件が書かれていない
-- 自分たちのコードについての記述が混ざっている
-- 一覧表の行と子ファイルが 1 対 1 でない
+- There is no source label, or it is neither `Verified` nor `Literature only`
+- The source is `Verified` but there are no reproduction steps
+- The source is `Literature only` but there is no reference to a primary source or no reference date
+- The target does not pin down a version or edition
+- The conditions under which the fact holds are not written
+- Statements about our own code are mixed in
+- The rows of the list table and the child files do not correspond one-to-one
 
-## 出所ラベル
+## Source Labels
 
-題の直後に、次のいずれかを置く。
+Right after the title, put one of the following.
 
-**出所: 検証済み**（`<検証対象>` / `<検証日>`）
-手を動かして確かめたもの。
-§「根拠」に再現手順を書き、リポジトリ内に検証コードがあるなら行番号付きリンクで指す。
+**Source: Verified** (`<target>` / `<verification date>`)
+Confirmed hands-on.
+Write the reproduction steps in §"Evidence", and if there is verification code in the repository, point to it with a link with line numbers.
 
-**出所: 文献のみ**（`<一次資料>` / `<参照日>`）
-一次資料に書かれているが、自分では確かめていないもの。
-§「根拠」に一次資料への参照と参照日を書く。
+**Source: Literature only** (`<primary source>` / `<reference date>`)
+Written in a primary source, but not confirmed yourself.
+Write the reference to the primary source and the reference date in §"Evidence".
 
-一次資料とは、そのコンポーネントの提供元が出しているものを指す。
-公式ドキュメント、`man` ページ、RFC、ソースコード、リリースノートである。
-ブログ記事と回答サイトは一次資料ではない。
-そこで見つけた話は、一次資料にたどり着くか、自分で確かめてから書く。
+A primary source is something published by the provider of the component:
+official documentation, `man` pages, RFCs, source code, and release notes.
+Blog posts and Q&A sites are not primary sources.
+Before writing something found there, trace it to a primary source or confirm it yourself.
 
-**`文献のみ` の項目は、参照日から 3 か月ごとに一次資料を読み直す。**
-内容が変わっていなければ参照日だけを進める。
-変わっていれば §「事実」と §「根拠」を書き換える。
-確かめていない事実は自然には腐ったことが分からないので、期限を切る以外に検出する手立てがない。
+**Reread the primary source for `Literature only` items every three months from the reference date.**
+If the content has not changed, advance only the reference date.
+If it has changed, rewrite §"Fact" and §"Evidence".
+A fact you have not confirmed gives no natural sign that it has gone stale, so setting a deadline is the only way to detect it.
 
-## ライフサイクル
+## Lifecycle
 
-- 外部の挙動を確かめたら、親の一覧表と子を同時に作る
-- 外部が変わったら書き換える。古い記述は残さない
-- 再検証して結果が同じなら、検証日だけを進める
-- `文献のみ` は 3 か月ごとに読み直す（§「出所ラベル」）
-- 依存しているコードがなくなったら、項目を削除する
+- When external behavior is confirmed, create the parent's list table and the child at the same time
+- When the outside changes, rewrite. Do not keep old descriptions
+- If reverification gives the same result, advance only the verification date
+- Reread `Literature only` items every three months (§"Source Labels")
+- When the code that depends on it is gone, delete the item
 
-過去の版についての記述を残さない。
-「1.47 まではこうだった」は git の履歴が正である。
-本文が現在の依存についてだけ語ることが、この族を信用できるものにしている。
+Do not keep descriptions of past versions.
+For "it used to be like this up to 1.47", git history is authoritative.
+That the body speaks only of the current dependencies is what makes this family trustworthy.
 
-計画書を畳むときとレビューの発行後に、この族へ移すものが出る。
-移し方はそれぞれの reference が定める（[実装計画書](implementation-plan.md)、[レビュー結果文書](review-document.md)）。
+Things to move into this family arise when folding a plan and after publishing a review.
+Each reference defines how to move them ([Implementation Plans](implementation-plan.md), [Review Result Documents](review-document.md)).
 
-## 陳腐化の検出
+## Detecting Staleness
 
-点検では次の 2 つを突き合わせ、食い違いを所見として報告する。
-本文は書き換えない。
-再検証するかどうかは、点検の依頼者が決める。
+During checks, match the following two pairs and report mismatches as findings.
+Do not rewrite the body.
+Whoever requested the check decides whether to reverify.
 
-**検証対象と現在の依存。**
-一覧表の検証対象の列を、`Cargo.lock`、`package-lock.json`、`go.sum`、`Package.resolved` などの実際に解決されているバージョンと比べる。
-食い違った項目を「再検証が未実施」として挙げる。
-OS や外部 API のように lock ファイルを持たない検証対象は、`README.md` や CI の設定に書かれた対応版と比べる。
+**Target vs. current dependencies.**
+Compare the Target column of the list table with the versions actually resolved in `Cargo.lock`, `package-lock.json`, `go.sum`, `Package.resolved`, and the like.
+List mismatched items as "reverification not done".
+For targets without lock files, such as the OS or external APIs, compare with the supported versions written in `README.md` or the CI configuration.
 
-**参照日と 3 か月。**
-出所が `文献のみ` の項目のうち、参照日から 3 か月を超えたものを挙げる。
+**Reference date vs. three months.**
+List the items with source `Literature only` whose reference date is more than three months ago.
 
-どちらも、報告には項目、検証対象に書かれた値、現在の値または経過日数を並べる。
+In both cases, the report lines up the item, the value written in Target, and the current value or elapsed days.
 
-## 書かないこと
+## What Not to Write
 
-**一般的な技術知識**は書かない。
-`TCP` の再送や `B-tree` の計算量の説明は外部が正本である。
-このプロジェクトが依存している具体的な振る舞いだけを書く。
+Do not write **general technical knowledge**.
+The external world is the authoritative source for explanations of `TCP` retransmission or `B-tree` complexity.
+Write only the specific behavior this project depends on.
 
-**自分たちのコードの話**は書かない。
-外部の挙動をどう扱うと決めたかは設計判断であり、その関心事を受け持つ設計文書が持つ。
-外部の挙動が引き金でも、直すのが自分たちのコードなら不具合であり `issues.md` が持つ。
+Do not write **matters of our own code**.
+How it was decided to handle external behavior is a design decision and is held by the design document responsible for that concern.
+Even when external behavior is the trigger, if the fix is in our own code, it is a bug and is held by `issues.md`.
 
-**外部コンポーネントの不具合そのもの**は、事実として書いてよい。
-ただし、それによって自分たちのコードに回避策が要るなら、`issues.md` にも項目を立てる。
-両方に現れるのは正常であり、片方に寄せない。
+**A bug in an external component itself** may be written as a fact.
+However, if it requires a workaround in our own code, also create an item in `issues.md`.
+It is normal to appear in both; do not consolidate into one.
 
-**セットアップ手順と運用手順**は `README.md` と `CONTRIBUTING.md` が持つ。
-本書が持つのは外部がどう振る舞うかであって、それをどう操作するかではない。
+**Setup and operating procedures** are held by `README.md` and `CONTRIBUTING.md`.
+What this document holds is how the external thing behaves, not how to operate it.
 
-**語の定義**は用語文書が持つ。
-外部が定義している語をこのプロジェクトでも使うなら、用語文書の表に行を置く。
+**Term definitions** are held by the terms documents.
+If this project also uses a term defined externally, put a row in the terms documents' table.
 
-## 執筆後の点検
+## Post-Writing Check
 
-共通規範の §「共通の執筆後の点検」に加えて、次を確認する。
+In addition to §"Common Post-Writing Check" in the common rules, confirm the following.
 
-1. すべての項目に出所ラベルがあり、`検証済み` か `文献のみ` のいずれかか
-2. `検証済み` の項目に再現手順があり、リポジトリ内の検証コードへの参照に行番号があるか
-3. `文献のみ` の項目に一次資料への参照と参照日があるか。参照先が一次資料か
-4. 検証対象にバージョンまたは版が特定されているか。`最新`、`現行` が混ざっていないか。`rg -n '最新|現行' docs/knowledges.md docs/knowledges/` が空であること
-5. すべての事実に、成り立つ条件が書かれているか
-6. すべての項目に含意があり、依存している設計文書の節への相対リンクがあるか
-7. 一覧表の行と `docs/knowledges/*.md` が 1 対 1 か
-8. 一覧表の下に項目間の関係の段落があるか
-9. 過去の版についての記述が残っていないか
-10. 一般的な技術知識、自分たちのコードの話、設計判断、運用手順、語の定義が混ざっていないか
-11. §「陳腐化の検出」の 2 つの突き合わせを実行し、所見を報告したか
+1. Does every item have a source label, and is it either `Verified` or `Literature only`?
+2. Do `Verified` items have reproduction steps, and do references to verification code in the repository have line numbers?
+3. Do `Literature only` items have a reference to a primary source and a reference date? Is the reference a primary source?
+4. Does the target pin down a version or edition? Are `latest` and `current` (`最新` and `現行` in Japanese) not mixed in? `rg -n -i '\b(latest|current)\b|最新|現行' docs/knowledges.md docs/knowledges/` must not hit the Target column or a source label
+5. Are the conditions under which each fact holds written?
+6. Does every item have implications, with a relative link to the subsection of the design document that depends on it?
+7. Do the rows of the list table correspond one-to-one with `docs/knowledges/*.md`?
+8. Is there a paragraph on relationships between items below the list table?
+9. Are no descriptions of past versions left?
+10. Are general technical knowledge, matters of our own code, design decisions, operating procedures, and term definitions not mixed in?
+11. Did you run the two matchings in §"Detecting Staleness" and report the findings?
+
+## Japanese Equivalents
+
+When writing in Japanese, use the following headings, labels, column names, and values.
+
+| English | Japanese |
+| --- | --- |
+| Columns `Item` / `Target` / `Source` / `Last checked` | `項目` / `検証対象` / `出所` / `最終確認日` |
+| Source `Verified` / `Literature only` | `検証済み` / `文献のみ` |
+| `**Source: Verified**` / `**Source: Literature only**` | `**出所: 検証済み**` / `**出所: 文献のみ**` |
+| `One item of [knowledges.md](../knowledges.md).` | `[knowledges.md](../knowledges.md) の 1 項目。` |
+| `## Fact` | `## 事実` |
+| `## Evidence` | `## 根拠` |
+| `## Implications` | `## 含意` |
+| "reverification not done" | 「再検証が未実施」 |

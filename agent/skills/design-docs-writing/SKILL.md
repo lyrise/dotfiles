@@ -1,106 +1,116 @@
 ---
 name: design-docs-writing
-description: ソフトウェアプロジェクトの文書群（design.md、design/*.md、terms.md、terms/*.md、issues.md、issues/*.md、knowledges.md、knowledges/*.md、plans.md、plans/*.md、reviews.md、reviews/*.md）の記述規範。親と子の役割分担、文書間の責務分担と寿命、固定章立て、用語と命名の契約、設計判断と不具合と外部知識と指摘の型、観測可能な完了条件、根拠と確度、文体、図、意味と読みやすさを保つ情報圧縮、strict read-only verifier を含む検証手順を定める。設計文書、用語集、既知の不具合一覧、外部知識、実装計画書、レビュー結果文書を書くとき、更新するとき、分割するとき、点検するとき、畳むとき、指摘を転記するときに使用する。
+description: Writing rules for a software project's document family (design.md, design/*.md, terms.md, terms/*.md, issues.md, issues/*.md, knowledges.md, knowledges/*.md, plans.md, plans/*.md, reviews.md, reviews/*.md). Defines the division of roles between parents and children, the division of responsibilities and lifetimes between documents, fixed section structures, the contract for terms and naming, the forms for design decisions, bugs, external knowledge, and findings, observable completion criteria, evidence and confidence, style, diagrams, information compression that preserves meaning and readability, and verification procedures including a strict read-only verifier. Use when writing, updating, splitting, checking, or folding design documents, glossaries, known-bug lists, external knowledge, implementation plans, or review result documents, or when transcribing findings.
 ---
 
-# プロジェクト文書の記述規範
+# Writing Rules for Project Documents
 
-`docs/` 以下の文書を書くとき、直すとき、分割するとき、点検するとき、畳むときは、以下の規範に従う。
-本書は文書族に共通する規範と reference の選択だけを定め、各文書型に固有の章立てと型は reference が持つ。
-依頼に対応する reference を読み、複数の文書を扱う場合は該当する reference を組み合わせる。
-作業前に `../japanese-tech-writing/SKILL.md` と `../sanitize-artifacts/SKILL.md` を読む。
+When writing, revising, splitting, checking, or folding documents under `docs/`, follow the rules below.
+This document defines only the rules common to the document family and how to choose a reference; each reference holds the section structure and forms specific to its document type.
+Read the reference that matches the request, and combine the relevant references when handling several documents.
+Before starting, read `../sanitize-artifacts/SKILL.md`. If the documents are written in Japanese, also read `../japanese-tech-writing/SKILL.md`.
 
-成果物固有の構造、根拠、制約、リポジトリの規約を両スキルより優先する。
-日本語部分は `japanese-tech-writing` に従って初稿から組み立てる。
-完成前に両スキルで再点検し、意味を変えずに冗長さ、不自然な日本語、制作過程の残滓を除く。
+The artifact's own structure, evidence, and constraints, and the repository's conventions, take precedence over both skills.
+Build Japanese parts according to `japanese-tech-writing` from the first draft.
+Before finishing, recheck with the applicable skills, and remove redundancy, unnatural phrasing, and leftovers of the production process without changing the meaning.
 
-この規範が守ろうとしているのは 3 点である。
-第一に、実装が進んでも文書の書き換え箇所が局所に留まること。
-第二に、後から読む人（数か月後の本人、または AI エージェント）が、事実と推測と未決を取り違えないこと。
-第三に、寿命の短い文書が消えても、そこで下した決定と語彙と、外部について確かめたことが失われないこと。
+These rules protect three things.
+First, as implementation progresses, the places where documents must be rewritten stay local.
+Second, a later reader (yourself months later, or an AI agent) does not confuse facts, guesses, and open questions.
+Third, when a short-lived document disappears, the decisions made there, the vocabulary, and what was confirmed about the outside world are not lost.
 
-## Reference の選択
+## Language
 
-| 依頼 | 読む reference |
+Write in the language of the existing documents under `docs/`.
+If there are no existing documents to go by, write in English.
+Do not mix languages within one document family.
+
+Each reference defines its fixed headings, labels, column names, and enumerated values in English.
+When writing in Japanese, use the Japanese equivalents listed in the "Japanese Equivalents" section at the end of each reference.
+Anchors in links follow the actual headings, so with Japanese headings, use anchors such as `#3-全体構成` in place of `#3-overall-structure`.
+
+## Choosing a Reference
+
+| Request | Reference to read |
 | --- | --- |
-| 設計文書を書く、更新する、点検する、分割する | [設計文書](references/design-document.md) |
-| 用語を定義する、改名する、用語集を点検する | [用語文書](references/terms-document.md) |
-| 不具合を記録する、既知の不具合一覧を点検する | [不具合一覧](references/issues-document.md) |
-| 外部の挙動を記録する、外部知識を点検する | [外部知識](references/knowledges-document.md) |
-| 実装計画を書く、更新する、畳む | [実装計画書](references/implementation-plan.md) |
-| レビュー結果を残す、点検する、指摘を転記する | [レビュー結果文書](references/review-document.md) |
+| Write, update, check, or split design documents | [Design Documents](references/design-document.md) |
+| Define or rename terms, or check the glossary | [Terms Documents](references/terms-document.md) |
+| Record a bug, or check the known-bug list | [Bug List](references/issues-document.md) |
+| Record external behavior, or check external knowledge | [External Knowledge](references/knowledges-document.md) |
+| Write, update, or fold an implementation plan | [Implementation Plans](references/implementation-plan.md) |
+| Record or check review results, or transcribe findings | [Review Result Documents](references/review-document.md) |
 
-新規のプロジェクトで文書を立ち上げるときは、設計文書と用語文書を同時に作る。
-設計文書は語の定義を持たないため、用語文書がなければ語彙の置き場がない。
+When starting documents for a new project, create the design document and the terms document at the same time.
+The design document holds no term definitions, so without a terms document there is nowhere to put the vocabulary.
 
-## 文書族と責務
+## The Document Family and Responsibilities
 
-| 文書 | 受け持つもの | 寿命 |
+| Document | What it holds | Lifetime |
 | --- | --- | --- |
-| `docs/design.md` | 文書族の地図、スコープ、全体構成、関心事間の境界、横断的な設計判断 | プロジェクトと同じ |
-| `docs/design/<slug>.md` | 1 つの関心事に閉じる責務と境界、不変条件、設計詳細、設計判断 | プロジェクトと同じ |
-| `docs/terms.md` | 語彙の一覧、隣接語との境界、関心事に閉じない語の定義 | プロジェクトと同じ |
-| `docs/terms/<slug>.md` | 1 つの関心事に閉じる語の定義、表記、使わない別称、命名の却下案 | プロジェクトと同じ |
-| `docs/issues.md` | 不具合の一覧、項目間の関係、調査日と対象コミット | プロジェクトと同じ |
-| `docs/issues/<slug>.md` | 1 つの不具合の症状、該当箇所、原因、影響、対応方針 | 修正されるまで |
-| `docs/knowledges.md` | 外部知識の一覧、検証対象、項目間の関係 | プロジェクトと同じ |
-| `docs/knowledges/<slug>.md` | 外部世界について確かめた 1 つの事実と、その出所 | 外部が変わるまで |
-| `docs/plans.md` | 進行中の作業の一覧と、作業どうしの依存 | プロジェクトと同じ |
-| `docs/plans/<slug>.md` | この作業で何をどの順に作り、どうなったら終わりか | 作業が終わるまで |
-| `docs/reviews.md` | レビューの履歴と、指摘の転記状態 | 恒久 |
-| `docs/reviews/<slug>.md` | いつ、どの範囲を、どの観点で見て、何を根拠に何を判断したか | 恒久 |
+| `docs/design.md` | The map of the document family, scope, overall structure, boundaries between concerns, cross-cutting design decisions | Same as the project |
+| `docs/design/<slug>.md` | Responsibilities and boundaries, invariants, design details, and design decisions confined to one concern | Same as the project |
+| `docs/terms.md` | The vocabulary list, boundaries with adjacent terms, definitions of terms not confined to one concern | Same as the project |
+| `docs/terms/<slug>.md` | Definitions, notation, avoided aliases, and rejected names of terms confined to one concern | Same as the project |
+| `docs/issues.md` | The bug list, relationships between items, investigation dates and target commits | Same as the project |
+| `docs/issues/<slug>.md` | One bug's symptom, location, cause, impact, and remedy | Until fixed |
+| `docs/knowledges.md` | The list of external knowledge, verification targets, relationships between items | Same as the project |
+| `docs/knowledges/<slug>.md` | One fact confirmed about the outside world, and its source | Until the outside changes |
+| `docs/plans.md` | The list of work in progress, and the dependencies between pieces of work | Same as the project |
+| `docs/plans/<slug>.md` | What this work builds, in what order, and when it is finished | Until the work ends |
+| `docs/reviews.md` | The review history, and the transcription status of findings | Permanent |
+| `docs/reviews/<slug>.md` | When, what scope, from what perspectives, on what evidence, and what was judged | Permanent |
 
-境界は次の 5 つの問いで判定する。
+Decide boundaries with the following five questions.
 
-**語そのものか、語で語られる構造か。**
-語の定義、表記、別称、隣接語との境界、その名前を選んだ理由は用語文書が持つ。
-設計文書も不具合一覧も計画書も語を定義せず、用語文書の語彙を前提として使う。
+**Is it the term itself, or the structure described with the term?**
+Term definitions, notation, aliases, boundaries with adjacent terms, and the reason a name was chosen belong to the terms documents.
+Design documents, the bug list, and plans do not define terms; they use the vocabulary of the terms documents as given.
 
-**自分たちのコードの話か、外部の話か。**
-依存ライブラリ、OS、プロトコル、外部 API が実際にどう振る舞うかは `knowledges` が持つ。
-その振る舞いを前提に何を選んだかは設計判断であり、その関心事を受け持つ設計文書が持つ。
-外部の挙動が引き金でも、直すのが自分たちのコードなら不具合であり `issues.md` に書く。
+**Is it about our own code, or about something external?**
+How dependency libraries, the OS, protocols, and external APIs actually behave belongs to `knowledges`.
+What was chosen on the basis of that behavior is a design decision and belongs to the design document responsible for that concern.
+Even when external behavior is the trigger, if the fix is in our own code, it is a bug and goes in `issues.md`.
 
-**直し方が分かっているか。**
-何をどう直すか分かっているものは不具合であり `issues.md` に書く。
-何を選ぶかがまだ決まっていないものは設計論点であり、その関心事を受け持つ設計文書の設計判断章に書く。
+**Is it known how to fix it?**
+Something where it is known what to fix and how is a bug and goes in `issues.md`.
+Something where what to choose is not yet decided is a design question and goes in the design decisions section of the design document responsible for that concern.
 
-**現在の状態か、過去の行為か。**
-`issues.md` はいま何が壊れているかを持ち、修正とともに項目が消える。
-`reviews/<slug>.md` はある時点で誰が何を見たかを持ち、修正されても消えない。
-同じ不具合が両方に現れるのは正常であり、片方を消して片方に寄せない。
+**Is it the current state, or a past act?**
+`issues.md` holds what is broken now, and items disappear with the fix.
+`reviews/<slug>.md` holds who looked at what at some point, and does not disappear when things are fixed.
+It is normal for the same bug to appear in both; do not delete one and consolidate into the other.
 
-**寿命が作業より長いか。**
-作業が終わった後にも価値が残るものは計画書に書かない。
-計画やレビューの過程で新しい設計判断を下したときは、先に正本となる設計文書へ書き、計画書やレビュー結果文書には結論と参照だけを置く。
-順序を逆にすると、計画書を消した時点で理由が消える。
+**Does it outlive the work?**
+Do not write in a plan anything whose value remains after the work is finished.
+When a new design decision is made during planning or review, write it first in the design document that is its authoritative source, and put only the conclusion and a reference in the plan or review result document.
+In the reverse order, the reason disappears when the plan is deleted.
 
-不具合の一覧を設計文書の一節として持たない。
-件数が少なくても `issues.md` に分離する。
-両者は寿命が違い、`issues.md` の項目は修正とともに消えるが、設計判断は残るためである。
+Do not keep the bug list as a section of a design document.
+Separate it into `issues.md` even when there are few items.
+The two have different lifetimes: items in `issues.md` disappear with the fix, but design decisions remain.
 
-## 親と子
+## Parents and Children
 
-`docs/<族>.md` を親、`docs/<族>/<slug>.md` を子と呼ぶ。
+`docs/<family>.md` is called the parent and `docs/<family>/<slug>.md` a child.
 
-親は全体の話を持つ。
-その族が扱うものと扱わないもの、子の一覧表、子どうしの関係である。
-子は 1 単位を持つ。
-1 つの関心事、1 つの関心事に閉じる語群、1 つの不具合、1 つの外部の事実、1 つの作業、1 回のレビューである。
+The parent holds the whole-picture material:
+what the family covers and does not cover, the list of children, and the relationships between children.
+A child holds one unit:
+one concern, one group of terms confined to one concern, one bug, one external fact, one piece of work, or one review.
 
-同じ種類の項目を、分量で親と子に振り分けない。
-どちらに置くかは族ごとの規則で一意に決め、長くなった項目だけを子へ逃がす形にしない。
-分量で振り分けると、読み手はどちらにあるか分からず、常に 2 箇所を探すことになる。
+Do not divide items of the same kind between parent and child by length.
+Decide uniquely, by each family's rule, where they go; do not push only the items that grew long into children.
+Dividing by length leaves readers unsure where an item is, so they always have to look in two places.
 
-子を作る時機は族によって違う。
+When to create children differs by family.
 
-| 族 | 子を作る時機 |
+| Family | When to create children |
 | --- | --- |
-| `issues`、`knowledges` | 1 件目から。項目は互いに独立しており、一緒に読む理由がない |
-| `plans`、`reviews` | 常に。1 つの作業と 1 回のレビューは、生まれた時点で 1 文書である |
-| `design`、`terms` | 独立した責務と境界を持ち、ほかと常に一緒に読む必要がないと判断したとき。行数では切らない |
+| `issues`, `knowledges` | From the first item. Items are independent of each other and there is no reason to read them together |
+| `plans`, `reviews` | Always. One piece of work and one review are one document from the moment they are born |
+| `design`, `terms` | When a concern is judged to have independent responsibilities and boundaries and need not always be read with the others. Do not split by line count |
 
-すべての族が育ちきると、次の形になる。
+When every family has fully grown, it looks like this.
 
 ```text
 docs/
@@ -124,218 +134,223 @@ docs/
     └── 2026-08-10-storage-facade.md
 ```
 
-`design/` と `terms/` だけは子のファイル名が揃う。
-同じ関心事を、設計として読むか語彙として引くかの違いなので、行き先を同じ名前で言えるようにする。
+Only `design/` and `terms/` share child file names.
+The difference is whether the same concern is read as design or looked up as vocabulary, so the destination should be nameable by the same name.
 
-新規プロジェクトで作るのは `docs/design.md` と `docs/terms.md` だけである。
-ほかの族の親は、最初の項目が発生した時点で子と同時に作る。
-中身のない親を先に置かない。
+A new project creates only `docs/design.md` and `docs/terms.md`.
+The parents of the other families are created together with a child when the first item arises.
+Do not put an empty parent in place ahead of time.
 
-点検では分割候補と根拠だけを報告し、更新の依頼なしに分割しない。
+When checking, report only split candidates and their grounds; do not split without a request to update.
 
-### 識別子
+### Identifiers
 
-項目を指す識別子は、子のファイル名の `<slug>` とする。
-`I-1`、`K-1` のような通し番号を使わない。
-番号は項目が消えたときに欠番になり、振り直すと参照がすべてずれる。
+The identifier for an item is the `<slug>` of the child's file name.
+Do not use sequential numbers such as `I-1` or `K-1`.
+Numbers leave gaps when items disappear, and renumbering shifts every reference.
 
-まだ子に分けていない族でも、項目には `<a id="<slug>"></a>` の明示アンカーを置く。
-こうしておくと、分割したときの参照の書き換えが `./issues.md#timer-leak` から `./issues/timer-leak.md` へのパスの付け替えだけで済む。
-書き換えを禁じられているレビュー結果文書でも、壊れたリンクの修復として扱える。
+Even in a family not yet split into children, put an explicit anchor `<a id="<slug>"></a>` on each item.
+Then, when splitting, rewriting references is just changing the path from `./issues.md#timer-leak` to `./issues/timer-leak.md`.
+Even in review result documents, where rewriting is forbidden, this can be treated as repairing a broken link.
 
-1 つの文書の中に閉じる連番は、この規則の対象外である。
-レビュー結果文書の指摘の `R-1` と実装計画書の手順の `S-1` は、その文書が分割されないため番号のままでよい。
+Sequential numbers confined to one document are outside this rule.
+`R-1` for findings in a review result document and `S-1` for steps in an implementation plan may stay numbers, because those documents are not split.
 
-## 責務分担表の粒度
+## Granularity of the Responsibilities Table
 
-§1.1 に文書間の責務分担を持つのは、単体で読まれる文書だけである。
-6 つの親と、`design/*.md`、`plans/*.md`、`reviews/*.md` が該当する。
-これらは親の一覧を経由せずに渡されることがあり、自分が何の正で何の正でないかを自力で示す必要がある。
+Only documents read on their own hold the division of responsibilities between documents in §1.1.
+These are the six parents and `design/*.md`, `plans/*.md`, and `reviews/*.md`.
+They may be handed over without going through the parent's list, and need to show by themselves what they are and are not the authoritative source for.
 
-`terms/*.md`、`issues/*.md`、`knowledges/*.md` は §1.1 を持たない。
-必ず親の一覧から入るので、冒頭に親への相対リンクを 1 行置けば足りる。
-不具合を 1 件書くたびに責務分担表を写すことにならないようにする。
+`terms/*.md`, `issues/*.md`, and `knowledges/*.md` do not have §1.1.
+They are always entered from the parent's list, so one line at the top with a relative link to the parent is enough.
+This avoids copying the responsibilities table every time a single bug is written.
 
-地図は 2 段である。
-上段は `docs/design.md` の §1.1 が持ち、6 つの親と `docs/design/*.md` の子、API 定義ファイル、`README.md` まで含めて、何がどの文書の正なのかを列挙する。
-下段は各親が持つ。
-`terms.md` は全用語の一覧を、`issues.md`、`knowledges.md`、`plans.md`、`reviews.md` は子の一覧を持つ。
+The map has two tiers.
+The upper tier is held by §1.1 of `docs/design.md`, which lists what is the authoritative source in which document, covering the six parents, the `docs/design/*.md` children, API definition files, and `README.md`.
+The lower tier is held by each parent.
+`terms.md` holds the list of all terms; `issues.md`, `knowledges.md`, `plans.md`, and `reviews.md` hold the list of children.
 
-下段を上段に畳まない。
-不具合を 1 件起票するたびに `docs/design.md` の先頭が動くと、設計の差分と文書管理の差分が混ざる。
+Do not fold the lower tier into the upper tier.
+If the top of `docs/design.md` changed every time a bug was filed, design diffs and document-management diffs would mix.
 
-`docs/design.md` 以外の §1.1 には、本書が受け持つもの、本書に置かないもの、正本を委ねる先だけを書き、族の地図は `docs/design.md` へのリンクで示す。
-文書が増えたときに直す場所を 1 箇所に留めるためである。
-`reviews/` が 30 件たまった後に文書を 1 つ足しても、腐るのは 1 箇所で済む。
+In §1.1 of documents other than `docs/design.md`, write only what this document holds, what it does not, and where the authoritative source is delegated, and show the family map with a link to `docs/design.md`.
+This keeps the place to fix when documents increase to one.
+Even after 30 entries accumulate in `reviews/`, adding one more document leaves only one place to go stale.
 
-## 文書名
+## Document Names
 
-`docs/` 以下の文書名は小文字の kebab-case にする。
-`README.md`、`LICENSE`、`CONTRIBUTING.md` のように外部の慣習が確立している文書は例外とし、大文字のまま扱う。
+Name documents under `docs/` in lowercase kebab-case.
+Documents with established external conventions, such as `README.md`, `LICENSE`, and `CONTRIBUTING.md`, are exceptions and stay uppercase.
 
-## 情報密度
+## Information Density
 
-新規作成と更新では、必要な意味要素を揃えてから圧縮する。
-最初から短く書こうとせず、完全な中間稿を作り、その後で重複と低情報量の記述を落とす。
-中間稿は成果物に残さない。
+When creating and updating, gather the required semantic elements first, then compress.
+Do not try to write short from the start; produce a complete intermediate draft, then drop duplication and low-information text.
+Do not leave the intermediate draft in the deliverable.
 
-圧縮しても残す意味要素は各 reference が定める。
+Each reference defines the semantic elements that must survive compression.
 
-次の記述は削除または統合してよい。
+The following may be deleted or merged.
 
-- 同じ事実の重複
-- 見出し、表、図をそのまま言い直した文
-- コードやほかの正本から機械的に取得できる詳細の複写
-- 解釈を変えない前置きと結び
-- 規則を言い換えただけの重複例
+- Duplicates of the same fact
+- Sentences that merely restate a heading, table, or diagram
+- Copies of details that can be obtained mechanically from code or another authoritative source
+- Preambles and closings that do not change the interpretation
+- Duplicate examples that merely rephrase a rule
 
-正本への参照、図や表から読み取れない設計上の含意、規則の誤読を防ぐ境界事例は残す。
-正本へ委ねる場合は、相対リンクと、参照先で何が分かるかを残す。
+Keep references to authoritative sources, design implications that cannot be read from diagrams or tables, and boundary cases that prevent misreading a rule.
+When delegating to an authoritative source, keep the relative link and what can be learned at the destination.
 
-理由と因果関係は文章で書く。
-同じ形式が繰り返される箇所だけを表や箇条書きにする。
-略語、電文調、名詞の羅列によって短くしない。
+Write reasons and causal relationships in prose.
+Use tables or bullet lists only where the same form repeats.
+Do not shorten by abbreviations, telegraphic style, or strings of nouns.
 
-固定章立てと必須項目は圧縮しない。
-空の任意見出しと内容のない定型文は置かない。
-既存の見出しとアンカーは原則として維持する。
-見出しの統合が明らかに有効な場合は、リポジトリ内の参照をすべて確認して更新する。
+Do not compress fixed section structures and required items.
+Do not leave empty optional headings or boilerplate without content.
+As a rule, keep existing headings and anchors.
+When merging headings is clearly worthwhile, check and update every reference in the repository.
 
-圧縮だけを依頼されたときは、コードとの不一致や情報不足を同じ変更で訂正しない。
-不一致と不足は、圧縮差分から分離して所見として報告する。
+When asked only to compress, do not correct mismatches with the code or missing information in the same change.
+Report mismatches and gaps as findings, separately from the compression diff.
 
-固定の削減率を設けない。
-安全に削れる箇所がなくなった時点で止める。
-圧縮直前と圧縮後の文字数と行数を測り、削減量を報告する。
-対象モデルに合う tokenizer が利用できる場合だけ、トークン数も併記する。
-圧縮後の文字数は圧縮直前を超えてはならない。
+Set no fixed reduction rate.
+Stop when nothing more can be safely removed.
+Measure the character and line counts right before and after compression, and report the reduction.
+Only when a tokenizer suitable for the target model is available, also give the token counts.
+The character count after compression must not exceed the count right before compression.
 
-この文字数の制約は、圧縮を明示的に依頼されたときにだけ適用する。
-更新で前提の変化を書き足せば文字数は増えるのが正常である。
+This character-count constraint applies only when compression is explicitly requested.
+When an update adds a change in premises, the character count normally grows.
 
-## 根拠の出所を区別する
+## Distinguishing the Source of Evidence
 
-3 つに分けて書く。
+Write in three categories.
 
-**コードで確認した事実**は、そのまま断定して書く。
+**Facts confirmed in the code** are stated as assertions.
 
-**コードから読み取った意図**は、出所を明示する。
-「という意図に読める（コード上に理由の記述はない）」のように、推測であることを文中に残す。
-有用な推察を捨てる必要はないが、事実として書いてはいけない。
+**Intent read from the code** states its source.
+Leave the fact that it is a guess in the sentence, as in "this reads as the intent (there is no stated reason in the code)".
+Useful inferences need not be discarded, but they must not be written as facts.
 
-**確認できていないこと**は恒久文書の本文に書かない。
-設計判断章の保留に回すか、`issues.md` に回す。
-検証していない挙動を現在形で書くと、文書が嘘をつく。
+**Things not confirmed** are not written in the body of permanent documents.
+Move them to the deferred items in the design decisions section, or to `issues.md`.
+Writing unverified behavior in the present tense makes the document lie.
 
-例外は 2 つある。
+There are two exceptions.
 
-レビュー結果文書は、疑いを記録すること自体が役割なので、確度を明示したうえで書いてよい（[レビュー結果文書](references/review-document.md)）。
+Review result documents may write them with the confidence stated, because recording suspicions is itself their role ([Review Result Documents](references/review-document.md)).
 
-外部知識は、一次資料に基づく事実を出所ラベル付きで書いてよい（[外部知識](references/knowledges-document.md)）。
-自分で確かめていないことと、根拠のない推測は違う。
-ラベルを付けずに書いた時点で、この例外から外れる。
+External knowledge may write facts based on primary sources with a source label ([External Knowledge](references/knowledges-document.md)).
+Something not confirmed yourself is different from a groundless guess.
+Writing it without a label takes it outside this exception.
 
-## 検証用サブエージェント
+## Verification Subagent
 
-新規作成と更新では、編集前に named `verifier` が利用できることを確認する。
-利用できない場合は別のエージェントやメインエージェントだけで代替せず、文書を変更しないで報告する。
-`verifier` を必須とする範囲は各 reference が定める。
-本文を変更しない点検では `verifier` を必須としない。
+When creating and updating, confirm before editing that the named `verifier` is available.
+If it is not, do not substitute another agent or the main agent alone; report without changing the documents.
+Each reference defines the scope in which the `verifier` is required.
+A check that does not change the body does not require the `verifier`.
 
-編集と必要な機械検査の後、strict read-only の `verifier` に独立検証を依頼する。
-`verifier` にも `../japanese-tech-writing/SKILL.md` と `../sanitize-artifacts/SKILL.md` を読ませる。
-検証には、対象文書、差分、保持すべき意味要素、直接の正本、機械検査の結果を渡す。
-追加の根拠が必要なら `verifier` 自身に確認させる。
+After editing and any required mechanical checks, ask the strict read-only `verifier` for independent verification.
+Have the `verifier` read `../sanitize-artifacts/SKILL.md` as well, and also `../japanese-tech-writing/SKILL.md` when the documents are in Japanese.
+For verification, give it the target documents, the diff, the semantic elements to preserve, the direct authoritative sources, and the results of the mechanical checks.
+If further evidence is needed, have the `verifier` check it itself.
 
-既存文書の圧縮では変更前後を照合させる。
-新規作成では、コードや正本から抽出した意味要素と完成文書を照合させる。
-判定は `pass` または `changes-required` とする。
+When compressing an existing document, have it compare before and after.
+When creating a new one, have it compare the semantic elements extracted from the code and authoritative sources with the finished document.
+The verdict is `pass` or `changes-required`.
 
-共通して blocking とする指摘は次のとおりで、各 reference が固有の項目を追加する。
+The following findings are blocking in common, and each reference adds its own.
 
-- 意味要素の欠落または変質
-- 事実または責務境界の不整合
-- 読解に必要な因果関係または前提の欠落
-- 見出し、アンカー、リンクの破損
-- 必須構造または必須検証の不足
-- 通し番号による項目の識別
-- 同じ族の項目が親と子に分かれている
-- 圧縮を依頼されたときの、圧縮後の文字数増加
-- `japanese-tech-writing` または `sanitize-artifacts` に基づく文体上の指摘
+- Missing or altered semantic elements
+- Inconsistencies in facts or responsibility boundaries
+- Missing causal relationships or premises needed to understand the text
+- Broken headings, anchors, or links
+- Missing required structure or required verification
+- Identifying items by sequential numbers
+- Items of the same family split between parent and child
+- An increase in character count after compression, when compression was requested
+- Style findings based on `japanese-tech-writing` (for Japanese) or `sanitize-artifacts`
 
-`changes-required` の場合はメインエージェントが修正して再検証する。
-修正と再検証は最大 2 回までとし、通らなければ残った指摘と未検証範囲を報告する。
-`pass` の後も、メインエージェントが差分を確認し、必須の機械検査を再実行する。
+On `changes-required`, the main agent fixes and verifies again.
+Fixing and re-verifying is limited to two rounds; if it still does not pass, report the remaining findings and the unverified scope.
+Even after `pass`, the main agent checks the diff and reruns the required mechanical checks.
 
-## 設計文書固有の表記
+## Notation Specific to Design Documents
 
-- 半角英数字の前後に半角スペースを入れる（「Rust 製の daemon」）
-- 数値と単位の間にも半角スペースを入れる（`32 MiB`、`30 分`、`1024 件`）
-- 節への参照は `§7.3` の形で書く。数字だけでは節番号か数値か判別できない
+When writing in Japanese:
 
-太字は次の 3 用途に限る。
+- Put a half-width space before and after half-width alphanumerics (「Rust 製の daemon」)
+- Also put a half-width space between a number and its unit (`32 MiB`, `30 分`, `1024 件`)
 
-1. 定義ブロックのラベル（`**決定**`、`**深刻度: 高**`、`**出所: 検証済み**`）
-2. 用語を本文中で初めて定義するとき
-3. 1 節に 1 つだけ、見落とすと設計を誤る前提（`**この設計には満たすべき前提がある。**`）
+In any language:
 
-強調のための太字を散らさない。
-1 節に太字が 4 つ以上あれば、どれも目に入らなくなっている。
+- Write references to sections in the form `§7.3`. A bare number cannot be told apart as a section number or a value
 
-## 図
+Limit bold to the following three uses.
 
-図種を用途で固定する。
+1. Labels of definition blocks (`**Decision**`, `**Severity: High**`, `**Source: Verified**`)
+2. The first definition of a term in the body
+3. Only one per section: a premise that leads to a wrong design if overlooked (`**This design has a premise that must hold.**`)
 
-| 用途 | 記法 |
+Do not scatter bold for emphasis.
+With four or more bold items in one section, none of them stands out anymore.
+
+## Diagrams
+
+Fix the diagram type by purpose.
+
+| Purpose | Notation |
 | --- | --- |
-| 依存関係、処理の流れ | mermaid `flowchart` / `graph` |
-| コンポーネント間のやり取りの順序 | mermaid `sequenceDiagram` |
-| 状態遷移 | mermaid `stateDiagram-v2` |
-| 層の重なり、ディレクトリツリー | コードブロックの ASCII |
+| Dependencies, processing flow | mermaid `flowchart` / `graph` |
+| Order of interactions between components | mermaid `sequenceDiagram` |
+| State transitions | mermaid `stateDiagram-v2` |
+| Stacked layers, directory trees | ASCII in a code block |
 
-層とツリーを mermaid で描かない。
-ASCII のほうが読みやすく、行の追加で崩れない。
+Do not draw layers and trees in mermaid.
+ASCII is easier to read and does not break when lines are added.
 
-**図の直前か直後に、図から読み取れない設計上の含意を 1 文添える。**
-「依存の向きは一方向である。ただしこの 1 本だけが横方向の依存になっている」「web は daemon と同じプロセス、同じポートから配信される。この前提が §9.5 の CSRF 対策を成立させている」のような文である。
-この一文がない図は飾りであり、削ってよい。
+**Right before or after a diagram, add one sentence with a design implication that cannot be read from the diagram.**
+For example: "Dependencies point in one direction. Only this one edge is a sideways dependency." or "web is served from the same process and the same port as the daemon. This premise is what makes the CSRF countermeasure in §9.5 work."
+A diagram without this sentence is decoration and may be removed.
 
-## 参照とリンク
+## References and Links
 
-コードへの参照の書き方は、文書の寿命で決まる。
+How to refer to code is determined by the document's lifetime.
 
-| 文書 | コードへの参照 | 理由 |
+| Document | References to code | Reason |
 | --- | --- | --- |
-| `design.md`、`design/*.md`、`terms.md`、`terms/*.md` | ファイルまたはディレクトリ単位。行番号（`#L42`）を書かない | 意味論を書く文書が行番号で腐るのは割に合わない。位置は型名や関数名で指す |
-| `issues.md`、`issues/*.md`、`knowledges.md`、`knowledges/*.md`、`plans.md`、`plans/*.md`、`reviews.md`、`reviews/*.md` | 行番号付きリンクを必須とする | 調査日、検証日、対象コミットを明記したスナップショットであり、腐ることが前提である |
+| `design.md`, `design/*.md`, `terms.md`, `terms/*.md` | By file or directory. Do not write line numbers (`#L42`) | It does not pay for a document about semantics to go stale through line numbers. Point to locations by type or function names |
+| `issues.md`, `issues/*.md`, `knowledges.md`, `knowledges/*.md`, `plans.md`, `plans/*.md`, `reviews.md`, `reviews/*.md` | Links with line numbers are required | These are snapshots that state the investigation date, verification date, and target commit, and are expected to go stale |
 
-各文書内で自身を指すときは `本書` とだけ書く。
-ファイル名や自己リンクは併記しない。
-文書間リンクはすべて相対パスで書く。
-親から子へは `./issues/timer-leak.md`、子から親へは `../issues.md`、子からリポジトリ直下へは `../../README.md` の形になる。
+When a document refers to itself, write only `this document` (`本書` in Japanese).
+Do not add the file name or a self-link.
+Write all links between documents as relative paths.
+From parent to child it is `./issues/timer-leak.md`, from child to parent `../issues.md`, and from child to the repository root `../../README.md`.
 
-設計文書と用語文書を指すときは、見出しのアンカーまで含める。
-たとえば `[design.md](./design.md#3-全体構成)`、`[storage.md](./design/storage.md#2-責務と境界)`、`[terms.md](./terms.md#t-session)` と書く。
+When pointing to design documents and terms documents, include the heading anchor.
+For example, write `[design.md](./design.md#3-overall-structure)`, `[storage.md](./design/storage.md#2-responsibilities-and-boundaries)`, and `[terms.md](./terms.md#t-session)`.
 
-責務分担表では `本書` だけを非リンクにし、ほかの文書名はすべて実体への相対 Markdown リンクにする。
+In the responsibilities table, leave only `this document` unlinked, and make every other document name a relative Markdown link to the actual file.
 
-## 共通の執筆後の点検
+## Common Post-Writing Check
 
-各 reference の点検に加えて、次を確認する。
-機械化できる項目はコマンドで検査する。
+In addition to each reference's check, confirm the following.
+Check items that can be automated with commands.
 
-1. `japanese-tech-writing` と `sanitize-artifacts` の点検が完了したか
-2. 節参照が `§` 付きか
-3. 各文書の自己呼称が `本書` か。ファイル名や自己リンクを併記していないか
-4. 責務分担表と文書間リンクが実体への相対リンクになっており、リンク先が実在するか
-5. 恒久文書に行番号付きリンクがなく、スナップショット文書のコードへの参照に行番号があるか
-6. 推測を断定で書いていないか。理由を述べている箇所が、コードのどこに根拠があるか言えるか
-7. 同じ事実の重複、見出しや図表の言い直し、正本の複写、内容のない定型文が残っていないか
-8. すべての図の直前か直後に、含意の一文があるか
-9. 語の定義が用語文書の外に漏れていないか
-10. `terms.md` の用語一覧にすべての語があり、本体を持つ語だけがスコープに対応した親または子のアンカーを指しているか
-11. `issues.md`、`knowledges.md`、`plans.md`、`reviews.md` の親の一覧表の行と子ファイルが 1 対 1 か。どちらか片方にしかない項目がないか
-12. 同じ族の項目が親と子に分かれていないか。子の一覧を持つ族で、子があるのに親に本体を持つ項目が残っていないか
-13. 項目の識別子が `<slug>` であり、通し番号になっていないか。`rg -n '^#+ [A-Z]-[0-9]+\.' docs/` が `reviews/` の指摘と `plans/` の手順だけを拾うこと
-14. `docs/design.md` の §1.1 が親と `design/*.md` までを列挙し、ほかの族の子を列挙していないか
-15. `verifier` が必須の場面で `pass` し、その後にメインエージェントが差分と必須検査を再確認したか
+1. Has the check with `sanitize-artifacts`, and with `japanese-tech-writing` for Japanese documents, been completed?
+2. Do section references carry `§`?
+3. Does each document refer to itself as `this document` (`本書` in Japanese)? Is the file name or a self-link not added alongside?
+4. Are the responsibilities table and links between documents relative links to actual files, and do the link targets exist?
+5. Do permanent documents have no links with line numbers, and do references to code in snapshot documents have line numbers?
+6. Are guesses not written as assertions? Wherever a reason is given, can you say where in the code its basis is?
+7. Are there no remaining duplicates of the same fact, restatements of headings, diagrams, or tables, copies of authoritative sources, or boilerplate without content?
+8. Does every diagram have a sentence of implication right before or after it?
+9. Have term definitions not leaked outside the terms documents?
+10. Does the term list in `terms.md` contain every term, and do only terms with an entry point to the anchor in the parent or child matching their scope?
+11. Do the rows of the parent lists in `issues.md`, `knowledges.md`, `plans.md`, and `reviews.md` correspond one-to-one with the child files? Is there no item that exists in only one of them?
+12. Are items of the same family not split between parent and child? In families that hold a list of children, are there no items still holding their body in the parent despite having children?
+13. Are item identifiers `<slug>`, not sequential numbers? `rg -n '^#+ [A-Z]-[0-9]+\.' docs/` must pick up only findings in `reviews/` and steps in `plans/`
+14. Does §1.1 of `docs/design.md` list the parents and `design/*.md`, and not list the children of other families?
+15. Where the `verifier` is required, did it give `pass`, and did the main agent then recheck the diff and the required checks?

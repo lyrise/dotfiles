@@ -1,271 +1,290 @@
-# 用語文書
+# Terms Documents
 
-`docs/terms.md` と `docs/terms/<slug>.md` を書くとき、直すとき、点検するときは、本書に従う。
-文書族の責務、親と子、識別子、文体、図、情報密度、根拠の扱い、リンク規約は [共通規範](../SKILL.md) に従い、本書では用語文書に固有の点だけを定める。
+When writing, revising, or checking `docs/terms.md` and `docs/terms/<slug>.md`, follow this document.
+For the family's responsibilities, parents and children, identifiers, style, diagrams, information density, handling of evidence, and link conventions, follow the [common rules](../SKILL.md); this document defines only what is specific to terms documents.
 
-用語文書は語彙の唯一の正本である。
-設計文書も不具合一覧も外部知識も計画書もレビュー結果文書も語を定義せず、本書の語彙を前提として使う。
+The terms documents are the single authoritative source for vocabulary.
+Design documents, the bug list, external knowledge, plans, and review result documents do not define terms; they use the vocabulary of this document as given.
 
-正本を独立させる理由は、語彙の参照元が設計根拠より広いことにある。
-コードを書くエージェントが要るのは語と型名と外部表現の対応であって却下案ではない。
-それが設計文書の一章にあると、語を 1 つ引くために設計文書全体を読ませることになる。
+The reason for making this authoritative source independent is that vocabulary is consulted more widely than design rationale.
+What an agent writing code needs is the mapping between terms, type names, and external forms, not rejected alternatives.
+If that lived in a section of a design document, looking up one term would mean reading the whole design document.
 
-用語文書は恒久文書であり、調査日と対象コミットを持たない。
+Terms documents are permanent and have no investigation date or target commit.
 
-## 親文書の形
+## Shape of the Parent Document
 
-`docs/terms.md` の章立ては次のとおりである。
+The section structure of `docs/terms.md` is as follows.
 
 ```
-1. このドキュメントについて
-   1.1 文書間の責務分担
-2. 用語一覧
-3. 隣接語の境界
-4. 個別の用語
+1. About This Document
+   1.1 Document Responsibilities
+2. Term List
+3. Boundaries Between Adjacent Terms
+4. Individual Terms
 ```
 
-第 1 章と第 2 章は必須である。
-第 3 章は境界を書く組があるときだけ、第 4 章はスコープが `全体` で本体を持つ語があるときだけ置き、なければ見出しごと置かない。
+Sections 1 and 2 are required.
+Include section 3 only when there are pairs whose boundaries need writing, and section 4 only when there are terms with scope `global` that have an entry; otherwise omit the heading entirely.
 
-見出しには `## 1.` `### 1.1` の形で番号を振る。
-`####` には番号を振らない。
+Number headings in the form `## 1.` `### 1.1`.
+Do not number `####`.
 
-### 1. このドキュメントについて
+### 1. About This Document
 
-本書が語彙の唯一の正本であることを 1 文から 2 文で述べる。
+State in one or two sentences that this document is the single authoritative source for vocabulary.
 
-**1.1 文書間の責務分担**は表で書く。
-ここには本書が受け持つもの（語の定義、表記、別称、境界、命名の理由）と、本書に置かないもの（設計の理由、実装状況、不具合、外部の振る舞い）を書き、正本を委ねる先へリンクする。
-族の地図は `[design.md](./design.md#11-文書間の責務分担)` が持つと 1 行で示す。
+Write **1.1 Document Responsibilities** as a table.
+Write here what this document holds (term definitions, notation, aliases, boundaries, reasons for names) and what it does not hold (design rationale, implementation status, bugs, external behavior), and link to where the authoritative source is delegated.
+State in one line that the family map is held by `[design.md](./design.md#11-document-responsibilities)`.
 
-### 2. 用語一覧
+### 2. Term List
 
-すべての語を 1 つの表に置く。
-列は 用語、スコープ、識別子、外部表現、指すもの、使わない別称 の 6 つとする。
+Put every term in one table.
+The six columns are Term, Scope, Identifier, External form, Meaning, and Avoided aliases.
 
-| 列 | 書くもの |
+| Column | What to write |
 | --- | --- |
-| 用語 | 実際に使う日本語表記。本体を持つ語は本体へのリンクにする |
-| スコープ | `全体` か、その語が閉じる関心事の slug |
-| 識別子 | コード上の型名や関数名。層によって変わるなら代表を 1 つ書き、対応は本体で示す |
-| 外部表現 | API のフィールド名、URL、画面の文言。ないなら `-` |
-| 指すもの | 1 行の定義 |
-| 使わない別称 | 使ってほしくない同義語。ないなら `-` |
+| Term | The notation actually used in the documents. Terms with an entry link to it |
+| Scope | `global`, or the slug of the concern the term is confined to |
+| Identifier | The type or function name in the code. If it varies by layer, write one representative, and show the mapping in the entry |
+| External form | API field names, URLs, on-screen text. `-` if none |
+| Meaning | A one-line definition |
+| Avoided aliases | Synonyms that should not be used. `-` if none |
 
 ```markdown
-| 用語 | スコープ | 識別子 | 外部表現 | 指すもの | 使わない別称 |
+| Term | Scope | Identifier | External form | Meaning | Avoided aliases |
 | --- | --- | --- | --- | --- | --- |
-| [セッション](#t-session) | 全体 | `Session` | `session_id` | 認証済み利用者の 1 接続 | ログイン状態 |
-| [スナップショット](./terms/storage.md#t-snapshot) | storage | `Snapshot` | `snapshot` | ある時点のツリー全体 | バックアップ |
+| [Session](#t-session) | global | `Session` | `session_id` | One connection of an authenticated user | login state |
+| [Snapshot](./terms/storage.md#t-snapshot) | storage | `Snapshot` | `snapshot` | The entire tree at a point in time | backup |
 ```
 
-用語列のリンク先は、スコープが `全体` なら本書の §4 のアンカー、関心事なら `docs/terms/<slug>.md` のアンカーになる。
-本体を持たない語はリンクにしない。
+The link target in the Term column is an anchor in §4 of this document if the scope is `global`, or an anchor in `docs/terms/<slug>.md` if it is a concern.
+Do not link terms that have no entry.
 
-**指すもの**は 1 行に収める。
-1 行で書けない語は、たいてい 2 つの語に分かれている。
-分けられないなら、それは §「4. 個別の用語」の条件 2 に当たる語であり、本体を持たせる。
+Keep **Meaning** to one line.
+A term that cannot be written in one line has usually split into two terms.
+If it cannot be split, it is a term that meets condition 2 of §"4. Individual Terms" and gets an entry.
 
-並びはスコープ順とし、同一スコープ内は識別子の ABC 順にする。
-1 つの関心事を担当する読み手が、自分に関係する語をひと続きで読めるようにするためである。
+Order rows by scope, and within the same scope alphabetically by identifier.
+This lets a reader responsible for one concern read the terms relevant to them in one stretch.
 
-### 3. 隣接語の境界
+### 3. Boundaries Between Adjacent Terms
 
-誤用が起きる語の組の境界を、この章だけが持つ。
-語の本体には書かない。
-境界は語の属性ではなく語の組の属性であり、両方の語に書くと同じ事実が 2 箇所に割れて片方が腐る。
+Only this section holds the boundaries of term pairs that get misused.
+Do not write them in a term's entry.
+A boundary is an attribute not of a term but of a pair of terms; writing it in both terms splits the same fact into two places, and one goes stale.
 
-スコープが違う語どうしの組もここに置く。
-どちらか片方の `docs/terms/<slug>.md` に寄せると、もう片方の担当者が境界に気づけない。
+Pairs of terms with different scopes go here too.
+Moving the boundary into one side's `docs/terms/<slug>.md` keeps the other side's owner from noticing it.
 
-エントリは `####` 見出しで 1 組ずつ、次の型で書く。
+Write entries one pair per `####` heading, in the following form.
 
 ```markdown
 <a id="t-session-vs-token"></a>
-#### セッションとトークン
+#### Session and token
 
-**境界**
-何がどちらに含まれ、何が含まれないか。
+**Boundary**
+What belongs to which, and what does not.
 
-**取り違えると何が起きるか**
-誤用したときに実際に起きること。
+**What goes wrong if confused**
+What actually happens when they are misused.
 ```
 
-**取り違えると何が起きるか**が書けない組は、そもそも取り違えが起きない。
-その場合はエントリを置かず、表の 指すもの と 使わない別称 だけで足りる。
+A pair for which **What goes wrong if confused** cannot be written is not confused in the first place.
+In that case, do not add an entry; the Meaning and Avoided aliases columns of the table are enough.
 
-アンカーは `t-<a>-vs-<b>` の形にする。
+Anchors take the form `t-<a>-vs-<b>`.
 
-### 4. 個別の用語
+### 4. Individual Terms
 
-スコープが `全体` の語のうち、本体を持つものをここに置く。
-関心事に閉じる語の本体は `docs/terms/<slug>.md` にあり、この章には置かない。
+Put here the terms with scope `global` that have an entry.
+Entries for terms confined to a concern are in `docs/terms/<slug>.md`, not in this section.
 
-本体を持つのは次の 3 条件のいずれかに当てはまる語だけで、それ以外は表だけで足りる。
+Only terms that meet one of the following three conditions have an entry; for the rest, the table is enough.
 
-1. 層によって型名が変わる
-2. 隣接語と誤用が起きる
-3. 名前を選び直した経緯がある
+1. The type name changes by layer
+2. It gets misused with an adjacent term
+3. There is a history of choosing the name again
 
-条件 2 に当たる語は、本体ではなく §3 に組のエントリを持つ。
-本体を持つのは条件 1 と条件 3 だけである。
+A term that meets condition 2 gets a pair entry in §3, not an entry of its own.
+Only conditions 1 and 3 give a term its own entry.
 
-エントリは `####` 見出しで 1 語ずつ、次の型で書く。
+Write entries one term per `####` heading, in the following form.
 
 ```markdown
 <a id="t-session"></a>
-#### セッション
+#### Session
 
-**層ごとの名前**
-daemon `Session` / API `session_id` / 画面「ログイン中」
+**Names by layer**
+daemon `Session` / API `session_id` / screen "Logged in"
 
-**この名前にした理由**
-退けた名前と、退けた理由。
+**Why this name**
+Rejected names, and why they were rejected.
 ```
 
-条件 1 だけなら 層ごとの名前 だけ、条件 3 だけなら この名前にした理由 だけを置く。
-両方に当てはまるなら両方を置く。
+If only condition 1 applies, include only Names by layer; if only condition 3, only Why this name.
+If both apply, include both.
 
-型名が層によって変わる語には、必ず対応を書く。
-名前が 2 つある事実自体が、層の境界を示している。
+For a term whose type name changes by layer, always write the mapping.
+The fact that it has two names itself shows a layer boundary.
 
-アンカーは `t-<識別子の kebab-case>` の形にする。
-番号を振らない。
-語には順序がなく、`T-7` では何を指すか読めないためである。
+Anchors take the form `t-<identifier in kebab-case>`.
+Do not number them.
+Terms have no order, and `T-7` does not tell you what it points to.
 
-語を改名したらアンカーも変える。
-古いアンカーが壊れることが、その名前がもう存在しないという情報になる。
+When a term is renamed, change its anchor too.
+The old anchor breaking conveys the information that the name no longer exists.
 
-## 子文書の形
+## Shape of Child Documents
 
-1 つの関心事に閉じる語の本体だけを持つ。
+A child holds only the entries of terms confined to one concern.
 
 ```markdown
-# storage の用語
+# storage terms
 
-[terms.md](../terms.md) の一部。この関心事に閉じる語の本体を持つ。
-語の一覧と、ほかの語との境界は親にある。
+Part of [terms.md](../terms.md). Holds the entries of terms confined to this concern.
+The list of terms and the boundaries with other terms are in the parent.
 
 <a id="t-snapshot"></a>
-## スナップショット
+## Snapshot
 
-**層ごとの名前**
+**Names by layer**
 daemon `Snapshot` / API `snapshot`
 
-**この名前にした理由**
-退けた名前と、退けた理由。
+**Why this name**
+Rejected names, and why they were rejected.
 ```
 
-エントリの型と、本体を持つ条件は §「4. 個別の用語」と同じである。
-見出しの階層だけが `####` から `##` に変わる。
-子は親の一覧から入るため、共通規範の §「責務分担表の粒度」に従い §1.1 を持たず、冒頭の親へのリンク 1 行で足りる。
+The entry form and the conditions for having an entry are the same as in §"4. Individual Terms".
+Only the heading level changes from `####` to `##`.
+Children are entered from the parent's list, so following §"Granularity of the Responsibilities Table" in the common rules, they have no §1.1; one line at the top linking to the parent is enough.
 
-用語一覧の表を子に複写しない。
-隣接語の境界を子に書かない。
+Do not copy the term list table into a child.
+Do not write boundaries between adjacent terms in a child.
 
-## 分割
+## Splitting
 
-`docs/terms.md` 単一を既定とする。
-`docs/design/<slug>.md` を作った関心事について、本体を持つ語（§「4. 個別の用語」の 3 条件）が複数あるとき、その関心事の `docs/terms/<slug>.md` を作る。
+A single `docs/terms.md` is the default.
+For a concern that has a `docs/design/<slug>.md`, create `docs/terms/<slug>.md` for that concern when several terms have entries (the three conditions in §"4. Individual Terms").
 
-`<slug>` は `docs/design/<slug>.md` と同じ関心事の名前にする。
-語の名前を `<slug>` にしない。
-語を 1 つずつファイルに分けると、隣接語との境界がどのファイルにあるか読み手が特定できなくなり、用語集を通しで読む用途も壊れる。
+Make `<slug>` the same concern name as `docs/design/<slug>.md`.
+Do not use a term's name as `<slug>`.
+Splitting terms into one file each leaves readers unable to identify which file holds the boundary with an adjacent term, and also breaks reading the glossary straight through.
 
-置き場は表のスコープ列が一意に決める。
+The scope column uniquely determines where the entry goes.
 
-| スコープ列の値 | 本体の置き場 |
+| Value of the scope column | Where the entry goes |
 | --- | --- |
-| その関心事の slug | `docs/terms/<slug>.md` |
-| `全体` | `docs/terms.md` の §「4. 個別の用語」 |
+| The slug of that concern | `docs/terms/<slug>.md` |
+| `global` | §"4. Individual Terms" in `docs/terms.md` |
 
-隣接語の境界は、スコープにかかわらず `docs/terms.md` が持つ（§「3. 隣接語の境界」）。
+Boundaries between adjacent terms are held by `docs/terms.md` regardless of scope (§"3. Boundaries Between Adjacent Terms").
 
-分割しても `docs/terms.md` の用語一覧はすべての語を持ち続ける。
-一覧が割れると、語を 1 つ引くために複数のファイルを開くことになり、この文書を独立させた意味がなくなる。
+Even after splitting, the term list in `docs/terms.md` keeps holding every term.
+If the list split, looking up one term would mean opening several files, defeating the point of making this document independent.
 
-## 3 つのモード
+## Three Modes
 
-**新規作成**：`design.md` と同時に `docs/terms.md` を作る。
-コードと外部インターフェースを読み、プロジェクト固有の語を集めてから表を埋める。
+**Create**: create `docs/terms.md` together with `design.md`.
+Read the code and the external interfaces, gather the project-specific terms, and then fill in the table.
 
-**更新**：語が増えたとき、改名したとき、使ってほしくない別称が現れたときに触る。
-実装が進んだだけのときは触らない。
+**Update**: touch it when terms increase, when a term is renamed, or when an alias that should not be used appears.
+Do not touch it when implementation has merely progressed.
 
-**点検**：§「執筆後の点検」を機械的に走らせ、本文は変更せず所見と根拠だけを報告する。
+**Check**: run §"Post-Writing Check" mechanically; do not change the body, and report only findings and their grounds.
 
-## 保持する意味要素
+## Semantic Elements to Preserve
 
-共通規範の §「情報密度」に従い、圧縮しても次を残す。
+Following §"Information Density" in the common rules, keep the following even when compressing.
 
-- 語が指すもの
-- 使う表記（コード上の識別子、外部表現、層ごとの名前）
-- 使わない別称
-- 隣接語との境界と、取り違えたときに起きること
-- 名前を選び直した経緯と、退けた名前
+- What the term means
+- The notation used (identifier in code, external form, names by layer)
+- Avoided aliases
+- Boundaries with adjacent terms, and what happens if they are confused
+- The history of choosing the name again, and the rejected names
 
-## 検証用サブエージェント
+## Verification Subagent
 
-共通規範の §「検証用サブエージェント」に従い、`verifier` を必須とする範囲を次に置き換える。
+Following §"Verification Subagent" in the common rules, replace the scope in which the `verifier` is required with the following.
 
-新規作成では必須とし、利用できない場合は文書を作らないで報告する。
-更新では、語の削除、エントリの追加や削除、境界の書き換え、`docs/terms/<slug>.md` の作成を伴うときだけ必須とする。
-表への行の追加、識別子や外部表現の訂正だけなら要さない。
-実装の途中で止まらないための例外であり、次に必須の書き換えをするときにまとめて検証する。
-点検では本文を変更しないため要さない。
+It is required for creating; if it is unavailable, report without creating the document.
+For updates, it is required only when deleting a term, adding or deleting an entry, rewriting a boundary, or creating `docs/terms/<slug>.md`.
+Adding a row to the table, or only correcting an identifier or external form, does not require it.
+This is an exception so that implementation does not stall midway; verify these together the next time a rewrite that requires it is made.
+A check does not change the body and does not require it.
 
-blocking とする指摘に次を追加する。
+Add the following to the blocking findings.
 
-- 表の行に 用語、スコープ、識別子、指すもの のいずれかがない
-- 本体を持つ条件に当てはまらない語が本体を持っている
-- 条件に当てはまるのに本体がない語がある
-- 隣接語の境界が `docs/terms.md` の外にある
-- 同じ組の境界が 2 箇所に書かれている
-- 使わない別称 に挙げた語が、別の行の 用語 列にも現れている
-- 識別子または外部表現がコードと食い違う
-- スコープ列の値と本体の置き場が対応していない
+- A table row lacks any of Term, Scope, Identifier, or Meaning
+- A term that does not meet the conditions for an entry has one
+- A term that meets the conditions has no entry
+- A boundary between adjacent terms is outside `docs/terms.md`
+- The boundary of the same pair is written in two places
+- A term listed in Avoided aliases also appears in the Term column of another row
+- An identifier or external form disagrees with the code
+- The value of the scope column and the location of the entry do not correspond
 
-## ライフサイクル
+## Lifecycle
 
-- `design.md` と同時に `docs/terms.md` を作る
-- 実装で新しい語が現れたら、その作業の中で表に行を足す
-- 関心事の詳細文書を作り、そこに閉じる本体付きの語が複数になったら `docs/terms/<slug>.md` へ移す
-- 外部から見える名前を追加または変更する作業では、本書の更新を手順の完了条件に入れる（[実装計画書](implementation-plan.md)）
-- 作業の過程で決めた命名判断は、計画書を畳むときに本書へ移す
-- レビューで種別 用語 の指摘が出たら本書へ転記する（[レビュー結果文書](review-document.md)）
-- 語が使われなくなったら、表の行とエントリを削除する
+- Create `docs/terms.md` together with `design.md`
+- When a new term appears in implementation, add a row to the table within that work
+- When a detail document for a concern is created and several terms with entries are confined to it, move them to `docs/terms/<slug>.md`
+- In work that adds or changes externally visible names, include updating this document in the completion criteria of the steps ([Implementation Plans](implementation-plan.md))
+- Move naming decisions made during the work to this document when folding the plan
+- When a review produces a finding of kind Terminology, transcribe it to this document ([Review Result Documents](review-document.md))
+- When a term is no longer used, delete its table row and entry
 
-使われなくなった語を 使わない別称 に移すのは、その名前が今もコードや外部表現に現れうるときだけである。
-どこにも現れない語を別称として残すと、表が墓場になる。
+Move a term that is no longer used into Avoided aliases only when that name can still appear in the code or external forms.
+Keeping a term that appears nowhere as an alias turns the table into a graveyard.
 
-## 書かないこと
+## What Not to Write
 
-**一般的な技術用語**は書かない。
-`OAuth`、`gRPC`、`mutex` の説明は外部が正本である。
-プロジェクト固有の意味を持たせている場合だけ、その意味を書く。
+Do not write **general technical terms**.
+The external world is the authoritative source for explanations of `OAuth`, `gRPC`, and `mutex`.
+Write the meaning only when the project gives the term a project-specific meaning.
 
-外部が定義した語をこのプロジェクトでも使うなら、表に行を置いて識別子と外部表現の対応だけを取る。
-その語が指す仕組みが実際にどう振る舞うかは [外部知識](knowledges-document.md) が持つ。
+If this project also uses a term defined externally, put a row in the table and record only the mapping of identifier and external form.
+How the mechanism the term refers to actually behaves is held by [External Knowledge](knowledges-document.md).
 
-**設計の理由**は設計文書が持つ。
-本書が持つのは名前を選んだ理由だけで、その仕組みを選んだ理由ではない。
-「なぜセッションをサーバ側で保持するのか」は設計判断であり、「なぜ `Session` と呼ぶのか」が本書である。
+**Design rationale** is held by design documents.
+What this document holds is only the reason for choosing a name, not the reason for choosing the mechanism.
+"Why are sessions kept on the server side?" is a design decision; "Why is it called `Session`?" belongs to this document.
 
-**実装状況**は書かない。
-まだ実装されていない概念でも、名前が決まっているなら行を置く。
+Do not write **implementation status**.
+Even for a concept not yet implemented, add a row if its name has been decided.
 
-## 執筆後の点検
+## Post-Writing Check
 
-共通規範の §「共通の執筆後の点検」に加えて、次を確認する。
+In addition to §"Common Post-Writing Check" in the common rules, confirm the following.
 
-1. 表のすべての行に 用語、スコープ、識別子、指すもの があるか。空欄を `-` で埋めているか
-2. 指すもの が 1 行に収まっているか。収まらない語が 2 つの語に分かれていないか
-3. 本体を持つ語が §「4. 個別の用語」の 3 条件のいずれかに当てはまるか。当てはまるのに本体がない語がないか
-4. 表の 用語 列のリンクと、本体のアンカーが 1 対 1 か。リンク先のファイルがスコープ列と対応しているか
-5. 隣接語の境界が `docs/terms.md` の §3 だけにあるか。`docs/terms/*.md` に `**境界**` が現れないこと
-6. 同じ組の境界が 2 箇所に書かれていないか
-7. 使わない別称 に挙げた語が、別の行の 用語 列に現れていないか
-8. スコープ列が `全体` か、実在する `docs/design/<slug>.md` の slug か
-9. 用語一覧の表が `docs/terms.md` にだけあるか。子に複写されていないか
-10. 識別子と外部表現がコードと一致するか。1 語ずつ `rg` で確認する
-11. 一般的な技術用語、設計の理由、実装状況、外部の振る舞いが混ざっていないか
+1. Does every row of the table have Term, Scope, Identifier, and Meaning? Are empty cells filled with `-`?
+2. Does Meaning fit in one line? Has a term that does not fit not split into two terms?
+3. Does every term with an entry meet one of the three conditions in §"4. Individual Terms"? Are there no terms that meet them but lack an entry?
+4. Do the links in the Term column correspond one-to-one with the entry anchors? Does the linked file correspond to the scope column?
+5. Are boundaries between adjacent terms only in §3 of `docs/terms.md`? `**Boundary**` (`**境界**` in Japanese) must not appear in `docs/terms/*.md`
+6. Is the boundary of the same pair not written in two places?
+7. Does no term listed in Avoided aliases appear in the Term column of another row?
+8. Is the scope column `global` or the slug of an existing `docs/design/<slug>.md`?
+9. Is the term list table only in `docs/terms.md`? Has it not been copied into children?
+10. Do identifiers and external forms match the code? Check each term with `rg`
+11. Are general technical terms, design rationale, implementation status, and external behavior not mixed in?
+
+## Japanese Equivalents
+
+When writing in Japanese, use the following headings, labels, column names, and values.
+
+| English | Japanese |
+| --- | --- |
+| `1. About This Document` | `1. このドキュメントについて` |
+| `1.1 Document Responsibilities` | `1.1 文書間の責務分担` |
+| `2. Term List` | `2. 用語一覧` |
+| `3. Boundaries Between Adjacent Terms` | `3. 隣接語の境界` |
+| `4. Individual Terms` | `4. 個別の用語` |
+| Columns `Term` / `Scope` / `Identifier` / `External form` / `Meaning` / `Avoided aliases` | `用語` / `スコープ` / `識別子` / `外部表現` / `指すもの` / `使わない別称` |
+| Scope value `global` | `全体` |
+| `**Boundary**` | `**境界**` |
+| `**What goes wrong if confused**` | `**取り違えると何が起きるか**` |
+| `**Names by layer**` | `**層ごとの名前**` |
+| `**Why this name**` | `**この名前にした理由**` |
+| Child title `# <slug> terms` | `# <slug> の用語` |
