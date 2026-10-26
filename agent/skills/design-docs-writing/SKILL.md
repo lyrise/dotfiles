@@ -8,11 +8,9 @@ description: Writing rules for a software project's document family (design.md, 
 When writing, revising, splitting, checking, or folding documents under `docs/`, follow the rules below.
 This document defines only the rules common to the document family and how to choose a reference; each reference holds the section structure and forms specific to its document type.
 Read the reference that matches the request, and combine the relevant references when handling several documents.
-Before starting, read `../sanitize-artifacts/SKILL.md`. If the documents are written in Japanese, also read `../japanese-tech-writing/SKILL.md`.
-
-The artifact's own structure, evidence, and constraints, and the repository's conventions, take precedence over both skills.
-Build Japanese parts according to `japanese-tech-writing` from the first draft.
-Before finishing, recheck with the applicable skills, and remove redundancy, unnatural phrasing, and leftovers of the production process without changing the meaning.
+The artifact's own structure, evidence, and constraints, and the repository's conventions, take precedence over style preferences.
+Build Japanese parts in natural technical Japanese from the first draft.
+Before finishing, check the result again and remove redundancy, unnatural phrasing, and leftovers of the production process without changing the meaning.
 
 These rules protect three things.
 First, as implementation progresses, the places where documents must be rewritten stay local.
@@ -253,7 +251,6 @@ Each reference defines the scope in which the `verifier` is required.
 A check that does not change the body does not require the `verifier`.
 
 After editing and any required mechanical checks, ask the strict read-only `verifier` for independent verification.
-Have the `verifier` read `../sanitize-artifacts/SKILL.md` as well, and also `../japanese-tech-writing/SKILL.md` when the documents are in Japanese.
 For verification, give it the target documents, the diff, the semantic elements to preserve, the direct authoritative sources, and the results of the mechanical checks.
 If further evidence is needed, have the `verifier` check it itself.
 
@@ -261,7 +258,7 @@ When compressing an existing document, have it compare before and after.
 When creating a new one, have it compare the semantic elements extracted from the code and authoritative sources with the finished document.
 The verdict is `pass` or `changes-required`.
 
-The following findings are blocking in common, and each reference adds its own.
+The following findings are blocking in common, and each reference adds its own. Japanese style findings are reported but do not block.
 
 - Missing or altered semantic elements
 - Inconsistencies in facts or responsibility boundaries
@@ -271,7 +268,7 @@ The following findings are blocking in common, and each reference adds its own.
 - Identifying items by sequential numbers
 - Items of the same family split between parent and child
 - An increase in character count after compression, when compression was requested
-- Style findings based on `japanese-tech-writing` (for Japanese) or `sanitize-artifacts`
+- Leftovers of the production process, redundancy, or unnatural phrasing in English
 
 On `changes-required`, the main agent fixes and verifies again.
 Fixing and re-verifying is limited to two rounds; if it still does not pass, report the remaining findings and the unverified scope.
@@ -339,7 +336,7 @@ In the responsibilities table, leave only `this document` unlinked, and make eve
 In addition to each reference's check, confirm the following.
 Check items that can be automated with commands.
 
-1. Has the check with `sanitize-artifacts`, and with `japanese-tech-writing` for Japanese documents, been completed?
+1. Have redundancy, unnatural phrasing, and leftovers of the production process been removed?
 2. Do section references carry `§`?
 3. Does each document refer to itself as `this document` (`本書` in Japanese)? Is the file name or a self-link not added alongside?
 4. Are the responsibilities table and links between documents relative links to actual files, and do the link targets exist?

@@ -6,12 +6,9 @@ description: Rules for submitting changes through commits, pushes, PRs, and revi
 # Submitting and Reviewing Changes with Git
 
 Read only the references the request needs, and combine the relevant references when doing several tasks.
-Before starting, read `../sanitize-artifacts/SKILL.md`. If any artifact will be written in Japanese, also read `../japanese-tech-writing/SKILL.md`.
-
-The artifact's own structure, evidence, and constraints, and the repository's conventions, take precedence over both skills.
-Build the Japanese parts of PR descriptions, review comments, titles, and commit messages according to `japanese-tech-writing` from the first draft.
-Do not apply `japanese-tech-writing` to English parts.
-Before finishing, also check every artifact with `sanitize-artifacts`, and remove redundancy, unnatural phrasing, and leftovers of the production process without changing the meaning.
+The artifact's own structure, evidence, and constraints, and the repository's conventions, take precedence over style preferences.
+Build the Japanese parts of PR descriptions, review comments, titles, and commit messages in natural technical Japanese from the first draft.
+Before finishing, remove redundancy, unnatural phrasing, and leftovers of the production process from every artifact without changing the meaning.
 
 ## Choosing a Reference
 
@@ -38,8 +35,8 @@ Before returning an artifact as final, committing it, or posting it, have the na
 Intermediate drafts and options are out of scope.
 
 Give the `verifier` the final drafts, the diff and facts they rest on, the repository's conventions, the relevant references, and, when numbers are claimed, the measurement results and reproduction steps.
-It checks the artifact's structure, logic, placement of evidence, duplication, consistency of facts and numbers, and `sanitize-artifacts`.
-Japanese is judged against `japanese-tech-writing`, English against the repository's conventions and natural technical English, and style findings are also blocking.
+It checks the artifact's structure, logic, placement of evidence, duplication, consistency of facts and numbers, and leftovers of the production process.
+English is judged against the repository's conventions and natural technical English, and Japanese against the Japanese headings given in each reference. Style findings in English and findings about leftovers of the production process are blocking; Japanese style findings are not.
 The verdict is `pass` or `changes-required`.
 With `changes-required`, it points to the location in the artifact, the evidence, and the required fix.
 
