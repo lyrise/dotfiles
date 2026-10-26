@@ -581,6 +581,22 @@ def disable_claude_auto_memory(path: Path) -> None:
     print(f"updated  {path}  (Claude auto memory disabled)")
 
 
+def disable_claude_pr_attribution(path: Path) -> None:
+    content = path.read_text(encoding="utf-8") if path.exists() else "{}\n"
+    settings = json.loads(content)
+    if not isinstance(settings, dict):
+        raise ValueError(f"Claude settings must be a JSON object: {path}")
+    attribution = settings.setdefault("attribution", {})
+    if not isinstance(attribution, dict):
+        raise ValueError(f"Claude settings attribution must be a JSON object: {path}")
+    if attribution.get("pr") == "":
+        return
+    attribution["pr"] = ""
+    updated = json.dumps(settings, ensure_ascii=False, indent=2) + "\n"
+    write_text_atomic(path, updated)
+    print(f"updated  {path}  (Claude PR attribution disabled)")
+
+
 def agent_memory_dir() -> Path | None:
     """Return the directory the memory skills operate on, or None with a warning."""
     value = os.environ.get(MEMORY_DIR_ENV)
@@ -940,6 +956,7 @@ def cmd_install(args: argparse.Namespace) -> int:
     for update, path in (
         (disable_codex_memories, codex_home() / "config.toml"),
         (disable_claude_auto_memory, Path.home() / ".claude" / "settings.json"),
+        (disable_claude_pr_attribution, Path.home() / ".claude" / "settings.json"),
     ):
         try:
             update(path)
