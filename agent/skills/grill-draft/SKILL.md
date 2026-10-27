@@ -9,6 +9,13 @@ This is a sibling of `grill`. That workflow asks about every decision and waits.
 
 Nothing is hidden. There is no class of decision this workflow settles quietly on the user's behalf: the cost of a decision they never saw is far higher than the cost of a line they skim past.
 
+## Flow
+
+```
+1 Enumerate → 2 Draft → 3 Settle → 4 Implement → 5 Map
+      ↑───────────┘ delta only
+```
+
 ## Phase 1 — enumerate before drafting
 
 Enumerate every open decision behind the change, and do **all** environment exploration up front, before posting a single draft. The user should never be waiting on a tool call.
@@ -30,7 +37,7 @@ Order by **how likely the user is to object**, most contentious first, so an obj
 
 Do not draw the line by counting to a fixed number. Draw it where the entries stop being arguable — if you cannot say what a reasonable person would prefer instead, it belongs in the one-line tail. State how many entries are in each tier so the user knows what they are skimming.
 
-The order is a judgement call and you will sometimes get it wrong. That is survivable precisely because the tail is still visible: if the user asks for the alternative behind a one-liner, give it. A misjudged order costs one exchange, not a rewrite.
+The order is a judgement call. A misjudged one costs one exchange, not a rewrite: the tail is still visible, and if the user asks for a one-liner's alternative, give it.
 
 **Show evidence at the right grain.** If an entry turns on a small, self-contained fact, quote the code or prose inline — a link makes the user leave the conversation to see it. If it turns on something broad — a ten-line design, several interacting types, a dependency web — quote nothing and link instead, because an excerpt would mislead.
 
@@ -44,7 +51,7 @@ Offer concrete options and a recommendation. When the answer narrows to four or 
 
 **Never graft.** Do not build a question around a decision the user already accepted and append the real question at the end as "related, cheap" or "agreed?". Start at the contested point itself and give one or two sentences of context, no more.
 
-An answer here can invalidate entries further down the list. Re-post those, renumbered, rather than letting a stale draft stand.
+An answer here can invalidate entries still in the queue; replace those with a fresh draft before asking. Once the queue is settled, re-enumerate what the answers opened and re-draft that delta alone in the phase 2 format, numbered onward. Settle it the same way, and repeat until the delta is empty. This is a check on the answers, not a substitute for the exploration in phase 1.
 
 ## Phase 4 — implement
 
