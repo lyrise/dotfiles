@@ -21,6 +21,7 @@ Identify the helper's provider/model, and pass that provider, the target's `cwd`
 Common to all providers:
 
 - In the schedule MCP as of this writing, `create_schedule` has no mode argument; change it with `mode` in `update_schedule`. There are no arguments to change provider options or features. Do not guess and pass unpublished arguments such as `settings`, `providerOptions`, or `featureValues`. Even if extra arguments are accepted, the update may ignore them.
+- `create_schedule` has no model argument either. Set the helper's model explicitly with `model` in `update_schedule` while the schedule is paused. Without it the new agent falls back to the provider's default model, which may be unrelated to the caller (for example, a small on-device VLM such as Reka Edge for OpenCode). Do not assume the model inherits from the caller.
 - Set `mode` explicitly to the value in each section. After saving, confirm that the mode ID for the schedule's new-agent launch configuration (e.g., `target.config.modeId`) was saved.
 - Rely on a setting that has no update path only when you can confirm, from the inherited settings and defaults, that it meets the conditions in each section. Do not judge the inherited value from a query without a model or from an empty features list alone.
 - If the required mode or feature cannot be set and verified through the MCP, or the provider is disabled, abort creation. Do not compensate by changing the CLI, the SDK, global settings, or the settings of the caller or the target agent.
@@ -44,7 +45,7 @@ Common to all providers:
 - mode: `build` (if it exists in the list). The mode selects which agent to use; it does not specify automatic review.
 - Permissions: not restricted. OpenCode has no automatic review mechanism, so unlike Codex and Claude Code, blanket approval through `auto_accept` is allowed as an exception. To keep the helper from stopping on a pending approval, `auto_accept` is always `true`.
 - Abort condition: the inherited `auto_accept` cannot be confirmed to be `true` (`false` or unknown). The current MCP cannot set it, so judge by the inherited value. If the MCP supports feature updates, set `true` explicitly.
-- Verification: mode is `build` and `auto_accept` is `true`.
+- Verification: mode is `build`, `auto_accept` is `true`, and `target.config.model` is the explicitly set model.
 - The only safeguard is the prohibition in the prompt. State explicitly in the final report that there are no runtime constraints.
 
 Sources for these specifications: [Codex Auto-review](https://learn.chatgpt.com/docs/sandboxing/auto-review), [Claude Code permission modes](https://code.claude.com/docs/en/permission-modes), [OpenCode agents](https://opencode.ai/docs/agents/), [Paseo provider options](https://github.com/getpaseo/paseo/blob/main/public-docs/sdk/provider-options.md). At run time, the tool specifications and provider information of the connected Paseo take precedence.
@@ -93,7 +94,7 @@ To keep the resume prompt from being sent with an unverified launch configuratio
    ```
 
 2. Using the returned schedule ID, immediately pause it with `paseo_pause_schedule`. Confirm with `paseo_inspect_schedule` that it is paused and has not fired. If the placeholder prompt has already fired, abort and do not rerun with the same schedule.
-3. While it is paused, set the provider-specific mode with `paseo_update_schedule`. If updating the required permissions or features is supported by the current MCP, set those as well. Finally, replace `prompt` with the helper template below.
+3. While it is paused, set the helper's provider and model explicitly with `paseo_update_schedule` (`provider` and `model`), and set the provider-specific mode. If updating the required permissions or features is supported by the current MCP, set those as well. Finally, replace `prompt` with the helper template below.
 4. Enable it with `paseo_resume_schedule` only if it passes the verification in step 5. If an update or verification fails, do not resume it; report the paused schedule ID and the reason. If the pause operation itself fails, do not replace the prompt with the real one; abort.
 
 Common settings at creation:
@@ -102,7 +103,7 @@ Common settings at creation:
 - `timezone`: the one confirmed in step 3 (e.g., `Asia/Tokyo`)
 - `maxRuns: 1`
 - `expiresIn`: a relative duration that lasts until the scheduled resume time with at least one hour of margin after firing. A one-shot cron fires once a year, so without an expiry a meaningless schedule would remain.
-- Helper settings: provider/model inherit from the caller; confirm the saved values. `cwd` is the target agent's cwd, with `isolation: local`. Mode and features follow the provider-specific settings above.
+- Helper settings: provider and model do not reliably inherit from the caller; pass the provider at creation, then set the concrete model explicitly with `update_schedule` and confirm the saved values. `cwd` is the target agent's cwd, with `isolation: local`. Mode and features follow the provider-specific settings above.
 - `name`: e.g., `resume-<target short-id>-agent`
 
 Helper prompt template (fill in the target ID, the confirmed limit notice, and the scheduled resume date and time):
@@ -135,7 +136,7 @@ Before enabling, check the following with `paseo_inspect_schedule`. Read the ret
 - cron and timezone are as intended
 - `maxRuns=1`, and the expiry leaves at least one hour of margin after firing
 - It is paused and has not fired, and the prompt is the real template
-- provider/model/cwd and the provider-specific mode are as intended
+- provider/model/cwd and the provider-specific mode are as intended, and `target.config.model` contains the explicitly set model rather than being empty or a provider default
 - The verification items in the relevant provider section can be confirmed, including inherited settings and defaults
 
 If any item cannot be confirmed, leave it paused and abort. While paused, `nextRunAt` may be empty, so do not treat an empty value as a date mismatch. Confirm the intended next fire time from cron/timezone, and right before enabling, confirm again that the scheduled resume time is in the future.
