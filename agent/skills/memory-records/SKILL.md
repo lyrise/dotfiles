@@ -1,6 +1,6 @@
 ---
 name: memory-records
-description: Use the records area of the directory pointed to by the AGENT_MEMORY_DIR environment variable as external memory, consulting point-in-time records that belong to no project (periodic reports, one-off research, decisions and their reasons, etc.) and saving them on explicit request. Research results and history from an ongoing project go in its dir under projects/, following the memory-projects skill. The user archives old records by hand.
+description: Use the records area of the directory pointed to by the AGENT_MEMORY_DIR environment variable as external memory, consulting point-in-time records that belong to no project (periodic reports, one-off research, decisions and their reasons, etc.) and saving them on explicit request. Research results and history from an ongoing project go in its dir under projects/, following the memory-projects skill.
 ---
 
 # Working with Records
@@ -34,7 +34,6 @@ $AGENT_MEMORY_DIR/records/    # Immutable. Point-in-time records that are never 
 - Write only when the user explicitly asks.
 - Do not rewrite a note in `records/` after it is created. Write corrections and follow-ups as a new note with a new date.
 - Before saving to `records/`, search for existing records on the same topic.
-- Even when a new record replaces an old one on the same topic, such as a periodic news report, do not move, copy, or delete the old record. The user archives it by hand. After saving the new record and checking its content, include in the answer the path of the old record to archive and its destination `records/archived/YYYY/MM/`. Use the date in the old record's file name for `YYYY/MM`.
 
 ## Constraints
 
