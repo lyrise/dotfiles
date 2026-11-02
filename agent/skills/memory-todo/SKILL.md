@@ -26,4 +26,4 @@ description: Update todo.md directly under the directory pointed to by the AGENT
 
 - Update only when the user explicitly asks.
 - Write only to todo.md. Only read `projects/` and `knowledge/`; do not change them.
-- When `AGENT_MEMORY_DIR` is unset, or the directory it points to does not exist, report that the update could not be done and stop. Do not guess a path, do not create the directory, and do not switch to the Codex, Claude, or Serena Memory.
+- When `AGENT_MEMORY_DIR` is unset, or the directory it points to does not exist, report that the update could not be done and stop. Do not guess a path, do not create the directory, and do not switch to the Codex or Claude Memory.

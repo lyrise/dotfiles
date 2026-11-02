@@ -22,6 +22,6 @@ description: Use the knowledge area of the directory pointed to by the AGENT_MEM
 
 ## Constraints
 
-- When `AGENT_MEMORY_DIR` is unset, or the directory it points to does not exist, report that reading or saving could not be done and stop. Do not guess a path, do not create the directory, and do not switch to the Codex, Claude, or Serena Memory.
+- When `AGENT_MEMORY_DIR` is unset, or the directory it points to does not exist, report that reading or saving could not be done and stop. Do not guess a path, do not create the directory, and do not switch to the Codex or Claude Memory.
 - Read and write only inside `$AGENT_MEMORY_DIR/knowledge/`. Do not touch other parts of the vault, such as `.obsidian/`.
 - Do not use the Obsidian MCP.

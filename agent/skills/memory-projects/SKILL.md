@@ -63,6 +63,6 @@ When the vault's existing notes use Japanese headings, use the Japanese equivale
 
 ## Constraints
 
-- When `AGENT_MEMORY_DIR` is unset, or the directory it points to does not exist, report that the work could not be done and stop. Do not guess a path, do not create the directory, and do not switch to the Codex, Claude, or Serena Memory.
+- When `AGENT_MEMORY_DIR` is unset, or the directory it points to does not exist, report that the work could not be done and stop. Do not guess a path, do not create the directory, and do not switch to the Codex or Claude Memory.
 - Read and write only inside `$AGENT_MEMORY_DIR/projects/`. Do not touch other parts of the vault, such as `.obsidian/`.
 - Do not use the Obsidian MCP.
