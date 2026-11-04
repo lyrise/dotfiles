@@ -21,13 +21,23 @@
   "profiles": [
     {
       "requires": "opencode",
+      "id": "verifier-gpt",
+      "name": "Verifier (GPT)",
+      "provider": "opencode",
+      "model": "opencode-go/gpt-6-luna",
+      "modeId": "plan",
+      "thinkingOptionId": "high",
+      "notes": "family: gpt / priority: 1 / チェック検証用。OpenCode の plan はグローバル権限で上書きされ書き込めるため、読み取り専用は指示と呼び出し側の事後検知で担保する。"
+    },
+    {
+      "requires": "opencode",
       "id": "verifier-deepseek",
       "name": "Verifier (DeepSeek)",
       "provider": "opencode",
       "model": "opencode-go/deepseek-v4.1-flash",
       "modeId": "plan",
       "thinkingOptionId": "high",
-      "notes": "family: deepseek / priority: 1 / チェック検証用。OpenCode の plan はグローバル権限で上書きされ書き込めるため、読み取り専用は指示と呼び出し側の事後検知で担保する。"
+      "notes": "family: deepseek / priority: 2 / チェック検証用。OpenCode の plan はグローバル権限で上書きされ書き込めるため、読み取り専用は指示と呼び出し側の事後検知で担保する。"
     },
     {
       "requires": "opencode",
@@ -37,7 +47,7 @@
       "model": "opencode-go/glm-5.3-flash",
       "modeId": "plan",
       "thinkingOptionId": "high",
-      "notes": "family: glm / priority: 2 / チェック検証用。OpenCode の plan はグローバル権限で上書きされ書き込めるため、読み取り専用は指示と呼び出し側の事後検知で担保する。"
+      "notes": "family: glm / priority: 3 / チェック検証用。OpenCode の plan はグローバル権限で上書きされ書き込めるため、読み取り専用は指示と呼び出し側の事後検知で担保する。"
     },
     {
       "requires": "claude",
@@ -46,7 +56,7 @@
       "provider": "claude",
       "model": "claude-sonnet-5-5",
       "modeId": "plan",
-      "notes": "family: claude / priority: 3 / チェック検証用。plan モードで書き込みを止める。"
+      "notes": "family: claude / priority: 4 / チェック検証用。plan モードで書き込みを止める。"
     }
   ]
 }
