@@ -45,10 +45,10 @@ Then put the line "This document assumes the vocabulary of [terms.md](./terms.md
 
 Write **1.1 Document Responsibilities** as a table.
 This section is required, and it is the only place in the family that holds the upper tier of the map.
-List what is the authoritative source in which document in this repository, covering the six parents (this document, `terms.md`, `issues.md`, `knowledge.md`, `plans.md`, `reviews.md`), the `docs/design/*.md` children, API definition files, and `README.md`.
+List what is the authoritative source in which document in this repository, covering the seven parents (this document, `terms.md`, `issues.md`, `knowledge.md`, `plans.md`, `measurements.md`, `reviews.md`), the `docs/design/*.md` children, API definition files, and `README.md`.
 Then state explicitly what is not put in this document.
 
-Do not list the children of `terms/`, `issues/`, `knowledge/`, `plans/`, or `reviews/` here.
+Do not list the children of `terms/`, `issues/`, `knowledge/`, `plans/`, `measurements/`, or `reviews/` here.
 Each parent's list holds them (§"Granularity of the Responsibilities Table" in the common rules).
 If this section changed every time a bug was filed, design diffs and document-management diffs would mix.
 
@@ -159,6 +159,7 @@ At the end of the section, put one line pointing to `[issues.md](./issues.md)`.
 **Do not copy what has another single authoritative source.**
 The terms documents hold term definitions and notation.
 `knowledge.md` holds how dependency libraries, the OS, and external APIs actually behave; this document writes only what was chosen on the basis of those facts and links to the `knowledge.md` item.
+The measurement records under `measurements/` hold the conditions, the values of every run, and the limits of a measurement. This document writes only the conclusion and the rounded number needed for its reason, and links to the record.
 The API definition file holds exhaustive lists of API paths and status codes.
 The code holds byte layouts, serialization field numbers, and encoding details.
 `README.md` holds setup steps and dependency packages.
@@ -319,7 +320,7 @@ In addition to §"Common Post-Writing Check" in the common rules, confirm the fo
 2. Does every deferred item have a "condition for deciding"?
 3. Are term definitions not mixed into design documents? Are there no remaining glossary sections or paragraphs defining what a term means?
 4. Does section 1 have the line assuming `terms.md`?
-5. Does §1.1 of `design.md` list the six parents and `design/*.md`, and not list the children of other families? Does §1.1 of each detail document write only where things are delegated?
+5. Does §1.1 of `design.md` list the seven parents and `design/*.md`, and not list the children of other families? Does §1.1 of each detail document write only where things are delegated?
 6. Has nothing whose authoritative source is another document been copied? Have lists of API paths, field numbers, or `TODO`s not crept in?
 7. For each changed subsection, did you internally check where each semantic element from before compression ended up after compression? Do not leave the mapping table in the document
 8. Did you measure character and line counts right before and after compression, and do they not increase after compression?

@@ -292,6 +292,7 @@ Replace the blocking findings with the following.
 **Term definitions and reasons for names** are held by `terms.md`; this document only uses the terms.
 **Details of confirmed bugs** are held by `issues.md`; refer to related ones by `<slug>`.
 **How external things actually behave** is held by `knowledge.md`.
+**Measurement records** are filed under `measurements/` and listed in `measurements.md`. **Acceptance conditions** are held by the comparison procedure in `measurements/`; link the procedure instead of restating its conditions.
 **Setup steps and dependency packages** are held by `README.md`.
 
 Do not write **finished code**.
@@ -342,6 +343,7 @@ In **move**, go through the body one section at a time from the top, and move on
 | Terms that appeared in implementation and are not yet in the terms documents' table | The term list of the terms documents |
 | Naming decisions made during implementation (rejected names and reasons) | The term's entry in the terms documents |
 | External behavior confirmed during implementation | File it as `docs/knowledge/<slug>.md`, and add a row to the list table of `knowledge.md` |
+| Measurement results that outlive the work, and the conditions under which they were taken | File it as `docs/measurements/YYYY-MM-DD-<slug>.md`, and add a row to the list table of `measurements.md` |
 | Leftover bugs | File it as `docs/issues/<slug>.md`, and add a row to the list table of `issues.md` |
 | Non-goals that will eventually be needed | A deferred item in the relevant design document, or `docs/issues/<slug>.md` |
 | Non-goals decided never to be built | Out of scope in `design.md` |
@@ -357,6 +359,7 @@ In **confirm**, with the plan closed, read only the destinations and see whether
 Moved decisions must not point to step numbers or the `<slug>`.
 Filed bugs must satisfy the five sections of §"Shape of Child Documents" in the [Issue List](issue-list.md).
 Filed external facts must satisfy the three sections and the source label of §"Shape of Child Documents" in the [Knowledge Document](knowledge-document.md).
+Filed measurement records must satisfy the four sections and the metadata line of §"Shape of Measurement Records" in the [Measurement Record and Comparison Procedure](measurement-document.md).
 Moved terms must satisfy the six columns of the table and the conditions for entries in the [Terms Document](terms-document.md).
 No links to the plan may remain anywhere.
 Confirm the last one by `rg -n '<slug>' --glob '!docs/plans/**' .` being empty.

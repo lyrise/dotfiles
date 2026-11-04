@@ -1,6 +1,6 @@
 ---
 name: design-docs-writing
-description: Writing rules for a software project's document family (design.md, design/*.md, terms.md, terms/*.md, issues.md, issues/*.md, knowledge.md, knowledge/*.md, plans.md, plans/*.md, reviews.md, reviews/*.md). Defines the division of roles between parents and children, the division of responsibilities and lifetimes between documents, fixed section structures, the contract for terms and naming, the forms for design decisions, bugs, external knowledge, and findings, observable completion criteria, evidence and confidence, style, diagrams, information compression that preserves meaning and readability, and verification procedures including a strict read-only verifier. Use when writing, updating, splitting, checking, or folding design documents, glossaries, known-bug lists, external knowledge, implementation plans, or review result documents, or when transcribing findings.
+description: Writing rules for a software project's document family (design.md, design/*.md, terms.md, terms/*.md, issues.md, issues/*.md, knowledge.md, knowledge/*.md, plans.md, plans/*.md, measurements.md, measurements/*.md, reviews.md, reviews/*.md). Defines the division of roles between parents and children, the division of responsibilities and lifetimes between documents, fixed section structures, the contract for terms and naming, the forms for design decisions, bugs, external knowledge, measurement records and comparison procedures, and findings, observable completion criteria, evidence and confidence, style, diagrams, information compression that preserves meaning and readability, and verification procedures including a strict read-only verifier. Use when writing, updating, splitting, checking, or folding design documents, glossaries, known-bug lists, external knowledge, implementation plans, measurement records and comparison procedures, or review result documents, or when transcribing findings.
 ---
 
 # Writing Rules for Project Documents
@@ -36,6 +36,7 @@ Anchors in links follow the actual headings, so with Japanese headings, use anch
 | Record a bug, or check the known-bug list | [Issue List](references/issue-list.md) |
 | Record external behavior, or check external knowledge | [Knowledge Document](references/knowledge-document.md) |
 | Write, update, or fold an implementation plan | [Implementation Plan](references/implementation-plan.md) |
+| Record or check a measurement, or write a comparison procedure | [Measurement Record and Comparison Procedure](references/measurement-document.md) |
 | Record or check review results, or transcribe findings | [Review Document](references/review-document.md) |
 
 When starting documents for a new project, create the design document and the terms document at the same time.
@@ -55,10 +56,12 @@ The design document holds no term definitions, so without a terms document there
 | `docs/knowledge/<slug>.md` | One fact confirmed about the outside world, and its source | Until the outside changes |
 | `docs/plans.md` | The list of work in progress, and the dependencies between pieces of work | Same as the project |
 | `docs/plans/<slug>.md` | What this work builds, in what order, and when it is finished | Until the work ends |
+| `docs/measurements.md` | The list of measurement records and comparison procedures, and the relationships between them | Same as the project |
+| `docs/measurements/<slug>.md` | One measurement record with its conditions, results, interpretation, and limits; or one comparison procedure | Records: permanent; procedures: same as the project |
 | `docs/reviews.md` | The review history, and the transcription status of findings | Permanent |
 | `docs/reviews/<slug>.md` | When, what scope, from what perspectives, on what evidence, and what was judged | Permanent |
 
-Decide boundaries with the following five questions.
+Decide boundaries with the following six questions.
 
 **Is it the term itself, or the structure described with the term?**
 Term definitions, notation, aliases, boundaries with adjacent terms, and the reason a name was chosen belong to the terms documents.
@@ -78,6 +81,11 @@ Something where what to choose is not yet decided is a design question and goes 
 `reviews/<slug>.md` holds who looked at what at some point, and does not disappear when things are fixed.
 It is normal for the same bug to appear in both; do not delete one and consolidate into the other.
 
+**Is it a measured observation, or a decision about the code?**
+A value observed under fixed conditions belongs to `measurements.md`, with its date, environment, and limits.
+What was chosen on the basis of that observation is a design decision and belongs to the design document responsible for that concern.
+A bug revealed by the measurement goes in `issues.md`, and how an external component behaved goes in `knowledge.md`.
+
 **Does it outlive the work?**
 Do not write in a plan anything whose value remains after the work is finished.
 When a new design decision is made during planning or review, write it first in the design document that is its authoritative source, and put only the conclusion and a reference in the plan or review result document.
@@ -94,7 +102,7 @@ The two have different lifetimes: items in `issues.md` disappear with the fix, b
 The parent holds the whole-picture material:
 what the family covers and does not cover, the list of children, and the relationships between children.
 A child holds one unit:
-one concern, one group of terms confined to one concern, one bug, one external fact, one piece of work, or one review.
+one concern, one group of terms confined to one concern, one bug, one external fact, one piece of work, one measurement, one comparison procedure, or one review.
 
 Do not divide items of the same kind between parent and child by length.
 Decide uniquely, by each family's rule, where they go; do not push only the items that grew long into children.
@@ -106,6 +114,7 @@ When to create children differs by family.
 | --- | --- |
 | `issues`, `knowledge` | From the first item. Items are independent of each other and there is no reason to read them together |
 | `plans`, `reviews` | Always. One piece of work and one review are one document from the moment they are born |
+| `measurements` | Always. One measurement and one comparison procedure are one document from the moment they are born |
 | `design`, `terms` | When a concern is judged to have independent responsibilities and boundaries and need not always be read with the others. Do not split by line count |
 
 When every family has fully grown, it looks like this.
@@ -127,6 +136,9 @@ docs/
 ├── plans.md
 ├── plans/
 │   └── storage-facade-split.md
+├── measurements.md
+├── measurements/
+│   └── 2026-08-10-storage-throughput.md
 ├── reviews.md
 └── reviews/
     └── 2026-08-10-storage-facade.md
@@ -147,6 +159,10 @@ The identifier for an item is the `<slug>` of the child's file name.
 Do not use sequential numbers such as `I-1` or `K-1`.
 Numbers leave gaps when items disappear, and renumbering shifts every reference.
 
+For a measurement record, the date prefix is part of the identifier: `2026-08-10-storage-throughput`.
+The date is the measurement date, not a sequential number. It keeps the records in chronological order and prevents a collision when the same subject is measured again.
+A comparison procedure uses `<slug>` without a date.
+
 Even in a family not yet split into children, put an explicit anchor `<a id="<slug>"></a>` on each item.
 Then, when splitting, rewriting references is just changing the path from `./issues.md#timer-leak` to `./issues/timer-leak.md`.
 Even in review result documents, where rewriting is forbidden, this can be treated as repairing a broken link.
@@ -157,17 +173,17 @@ Sequential numbers confined to one document are outside this rule.
 ## Granularity of the Responsibilities Table
 
 Only documents read on their own hold the division of responsibilities between documents in §1.1.
-These are the six parents and `design/*.md`, `plans/*.md`, and `reviews/*.md`.
+These are the seven parents and `design/*.md`, `plans/*.md`, and `reviews/*.md`.
 They may be handed over without going through the parent's list, and need to show by themselves what they are and are not the authoritative source for.
 
-`terms/*.md`, `issues/*.md`, and `knowledge/*.md` do not have §1.1.
+`terms/*.md`, `issues/*.md`, `knowledge/*.md`, and `measurements/*.md` do not have §1.1.
 They are always entered from the parent's list, so one line at the top with a relative link to the parent is enough.
 This avoids copying the responsibilities table every time a single bug is written.
 
 The map has two tiers.
-The upper tier is held by §1.1 of `docs/design.md`, which lists what is the authoritative source in which document, covering the six parents, the `docs/design/*.md` children, API definition files, and `README.md`.
+The upper tier is held by §1.1 of `docs/design.md`, which lists what is the authoritative source in which document, covering the seven parents, the `docs/design/*.md` children, API definition files, and `README.md`.
 The lower tier is held by each parent.
-`terms.md` holds the list of all terms; `issues.md`, `knowledge.md`, `plans.md`, and `reviews.md` hold the list of children.
+`terms.md` holds the list of all terms; `issues.md`, `knowledge.md`, `plans.md`, `measurements.md`, and `reviews.md` hold the list of children.
 
 Do not fold the lower tier into the upper tier.
 If the top of `docs/design.md` changed every time a bug was filed, design diffs and document-management diffs would mix.
@@ -319,7 +335,7 @@ How to refer to code is determined by the document's lifetime.
 | Document | References to code | Reason |
 | --- | --- | --- |
 | `design.md`, `design/*.md`, `terms.md`, `terms/*.md` | By file or directory. Do not write line numbers (`#L42`) | It does not pay for a document about semantics to go stale through line numbers. Point to locations by type or function names |
-| `issues.md`, `issues/*.md`, `knowledge.md`, `knowledge/*.md`, `plans.md`, `plans/*.md`, `reviews.md`, `reviews/*.md` | Links with line numbers are required | These are snapshots that state the investigation date, verification date, and target commit, and are expected to go stale |
+| `issues.md`, `issues/*.md`, `knowledge.md`, `knowledge/*.md`, `plans.md`, `plans/*.md`, `measurements.md`, `measurements/*.md`, `reviews.md`, `reviews/*.md` | Links with line numbers are required | These are snapshots that state the investigation date, verification date, measurement date, and target commit, and are expected to go stale. A measurement record states the measurement date and target commit; a comparison procedure is undated, but its commands and code references are tied to the code and environment at the time of writing |
 
 When a document refers to itself, write only `this document` (`本書` in Japanese).
 Do not add the file name or a self-link.
@@ -346,8 +362,11 @@ Check items that can be automated with commands.
 8. Does every diagram have a sentence of implication right before or after it?
 9. Have term definitions not leaked outside the terms documents?
 10. Does the term list in `terms.md` contain every term, and do only terms with an entry point to the anchor in the parent or child matching their scope?
-11. Do the rows of the parent lists in `issues.md`, `knowledge.md`, `plans.md`, and `reviews.md` correspond one-to-one with the child files? Is there no item that exists in only one of them?
+11. Do the rows of the parent lists in `issues.md`, `knowledge.md`, `plans.md`, `measurements.md`, and `reviews.md` correspond one-to-one with the child files? Is there no item that exists in only one of them? Are measurement sidecars not listed in the measurement tables?
 12. Are items of the same family not split between parent and child? In families that hold a list of children, are there no items still holding their body in the parent despite having children?
 13. Are item identifiers `<slug>`, not sequential numbers? `rg -n '^#+ [A-Z]-[0-9]+\.' docs/` must pick up only findings in `reviews/` and steps in `plans/`
 14. Does §1.1 of `docs/design.md` list the parents and `design/*.md`, and not list the children of other families?
 15. Where the `verifier` is required, did it give `pass`, and did the main agent then recheck the diff and the required checks?
+16. Does every measurement record have the `Measured` and `Targets` lines, and every comparison procedure its five sections?
+17. Does every measurement record keep the values of every run, or link a sidecar when only aggregates are shown? Is no earlier record overwritten?
+18. Are no credentials, tokens, real paths, or real data names in the measurement documents and sidecars?
