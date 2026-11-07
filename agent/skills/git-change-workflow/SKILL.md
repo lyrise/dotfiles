@@ -37,13 +37,19 @@ Intermediate drafts and options are out of scope.
 Give the `verifier` the final drafts, the diff and facts they rest on, the repository's conventions, the relevant references, and, when numbers are claimed, the measurement results and reproduction steps.
 It checks the artifact's structure, logic, placement of evidence, duplication, consistency of facts and numbers, and leftovers of the production process.
 English is judged against the repository's conventions and natural technical English, and Japanese against the Japanese headings given in each reference. Style findings in English and findings about leftovers of the production process are blocking; Japanese style findings are not.
-The verdict is `pass` or `changes-required`.
-With `changes-required`, it points to the location in the artifact, the evidence, and the required fix.
+The verifier ends every turn with `STATUS: needs-input`, `STATUS: pass`, or `STATUS: changes-required` as the last line.
+On `STATUS: needs-input`, answer facts from the repository, diff, and verification results; ask the user for intent, acceptance, or authorization decisions; send the answers back to the same verifier. This exchange is limited to two rounds.
+On `STATUS: changes-required`, the response may also contain confirmation items; answer them together with the fix.
+After two `needs-input` rounds, ask for a final verdict with the information available. If it still returns `needs-input`, report the unresolved items and do not finalize, commit, or post the artifacts.
+The final verdict is `STATUS: pass` or `STATUS: changes-required`. `pass` requires no blocking finding and no unresolved blocking question.
+Include the questions and answers, approved and denied permissions with reasons, and the unverified areas in the final report.
+With `STATUS: changes-required`, it points to the location in the artifact, the evidence, and the required fix.
 
-On `changes-required`, fix and verify again.
+On `STATUS: changes-required`, fix and verify again.
+The `needs-input` exchange and the fix/re-verify rounds are counted separately.
 Fixing and re-verifying is limited to two rounds; if it still does not pass, report the unresolved findings and do not finalize, commit, or post the artifacts.
 If the `verifier` is unavailable, also do not finalize, commit, or post the artifacts.
-After `pass`, the main agent rechecks the artifacts that will actually be used.
+After `STATUS: pass`, the main agent rechecks the artifacts that will actually be used.
 
 ## Common Checks
 

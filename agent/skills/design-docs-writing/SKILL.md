@@ -272,7 +272,12 @@ If further evidence is needed, have the `verifier` check it itself.
 
 When compressing an existing document, have it compare before and after.
 When creating a new one, have it compare the semantic elements extracted from the code and authoritative sources with the finished document.
-The verdict is `pass` or `changes-required`.
+The verifier ends every turn with `STATUS: needs-input`, `STATUS: pass`, or `STATUS: changes-required` as the last line.
+On `STATUS: needs-input`, answer facts from the documents, code, and verification results; ask the user for intent, acceptance, or authorization decisions; send the answers back to the same verifier. This exchange is limited to two rounds.
+On `STATUS: changes-required`, the response may also contain confirmation items; answer them together with the fix.
+After two `needs-input` rounds, ask for a final verdict with the information available. If it still returns `needs-input`, report the unresolved items and the unverified scope without claiming pass.
+The final verdict is `STATUS: pass` or `STATUS: changes-required`. `pass` requires no blocking finding and no unresolved blocking question.
+Include the questions and answers, approved and denied permissions with reasons, and the unverified areas in the final report.
 
 The following findings are blocking in common, and each reference adds its own. Japanese style findings are reported but do not block.
 
@@ -286,9 +291,10 @@ The following findings are blocking in common, and each reference adds its own. 
 - An increase in character count after compression, when compression was requested
 - Leftovers of the production process, redundancy, or unnatural phrasing in English
 
-On `changes-required`, the main agent fixes and verifies again.
+On `STATUS: changes-required`, the main agent fixes and verifies again.
+The `needs-input` exchange and the fix/re-verify rounds are counted separately.
 Fixing and re-verifying is limited to two rounds; if it still does not pass, report the remaining findings and the unverified scope.
-Even after `pass`, the main agent checks the diff and reruns the required mechanical checks.
+Even after `STATUS: pass`, the main agent checks the diff and reruns the required mechanical checks.
 
 ## Notation Specific to Design Documents
 
