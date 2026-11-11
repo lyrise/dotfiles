@@ -1,7 +1,6 @@
 syntax on
 filetype plugin indent on
 set clipboard+=unnamed
-set clipboard+=autoselect
 
 let mapleader = ","
 

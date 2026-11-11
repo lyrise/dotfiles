@@ -1,0 +1,16 @@
+{
+  "kyujitai": {
+    "basis": "常用漢字表（平成22年内閣告示第2号）",
+    "character_count": 318,
+    "license": "CC-BY-SA-4.0",
+    "source": "https://ja.wikipedia.org/w/api.php?action=parse&page=常用漢字一覧"
+  },
+  "simplified": {
+    "character_count": 6072,
+    "criteria": "kTraditionalVariant present and kIRG_JSource absent or JMJ-only",
+    "license": "Unicode-3.0",
+    "sha256": "f7a48b2b545acfaa77b2d607ae28747404ce02baefee16396c5d2d7a8ef34b5e",
+    "source": "https://www.unicode.org/Public/17.0.0/ucd/Unihan.zip",
+    "unicode_version": "17.0.0"
+  }
+}

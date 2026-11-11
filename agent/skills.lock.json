@@ -12,5 +12,14 @@
     "path": "skills/playwright-cli",
     "ref": "main",
     "url": "https://github.com/microsoft/playwright-cli.git"
+  },
+  "sanitize-artifacts": {
+    "commit": "eb26546bb92b3e88989ba4f06deb4d9ce4443a12",
+    "exclude": [
+      "dot_DS_Store"
+    ],
+    "path": "dot_agents/skills/sanitize-artifacts",
+    "ref": "main",
+    "url": "https://github.com/kotek-7/dotfiles.git"
   }
 }

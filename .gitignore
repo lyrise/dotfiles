@@ -1,3 +1,5 @@
 patch.txt
 __pycache__/
 .paseo-managed-files.json
+.DS_Store
+.serena/

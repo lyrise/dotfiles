@@ -6,3 +6,6 @@
 [skills]
 playwright-cli = { url = "https://github.com/microsoft/playwright-cli.git", path = "skills/playwright-cli" }
 handoff = { url = "https://github.com/kotek-7/dotfiles.git", path = "dot_agents/skills/handoff" }
+sanitize-artifacts = { url = "https://github.com/kotek-7/dotfiles.git", path = "dot_agents/skills/sanitize-artifacts", exclude = [
+    "dot_DS_Store",
+] }
