@@ -63,6 +63,6 @@ tor.py fetch URL [--strip-html] [--max-bytes N] [--timeout SEC] [--json]
 
 - **ahmia currently requires JS** and is not supported (no non-JS version is implemented)
 - 403 / 429 / timeouts depend on the tor exit IP. Retry after a while or switch the engine
-- There is no ControlPort in this setup, so NEWNYM (forcing a new exit IP) is unavailable. Changing it requires editing the torrc in dockerfiles/paseo
+- There is no ControlPort in this setup, so NEWNYM (forcing a new exit IP) is unavailable
 - **torch results are uncensored**. Illegal or harmful ads and results may be mixed in; screen by title before opening a URL
 - Do not forward fetched content or queries to third-party services (it breaks anonymity)
