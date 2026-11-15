@@ -47,7 +47,12 @@ Then wait. The drafts are a proposal, not a notification. Do not begin implement
 
 Take the numbers the user pushed back on and work them one at a time, waiting for each answer. Everything they did not mention is settled.
 
-Offer concrete options and a recommendation. When the answer narrows to four or fewer distinct options, use the toolset's picker (`AskUserQuestion` in Claude Code, `request_user_input` in Codex) so answering costs a keystroke. Otherwise ask in prose — never pad, merge, or drop candidates to force a menu, and don't hand-roll one when no picker is available.
+Offer concrete options and a recommendation. Never pad, merge, or drop candidates to force a menu. Use one of two styles, chosen once and kept for every question in this phase (including later delta rounds) unless the user asks to switch:
+
+- **picker**: When the answer narrows to four or fewer distinct options, use the toolset's picker (`AskUserQuestion` in Claude Code, `request_user_input` in Codex) so answering costs a keystroke. Otherwise ask in prose, and don't hand-roll a picker when none is available.
+- **conversational**: Never use the picker. Ask in prose: state the question and why it matters, list candidates as a short lettered list (A, B, C…) with a one-line trade-off each, and give your recommendation with its reason. Invite free-form replies — a letter, a combination, pushback, a counter-question, or a new proposal. Answer counter-questions and discuss before moving on; treat the decision as settled only once the user clearly agrees.
+
+Choosing the style: if the user says something like "対話的に", "AskUserQuestion を使わず", "conversational", or "no picker" — at any point, including in the original request — use conversational; if they ask for the picker, use picker. If unspecified, use picker when available, otherwise conversational. Switching mid-session applies from the next question.
 
 **Never graft.** Do not build a question around a decision the user already accepted and append the real question at the end as "related, cheap" or "agreed?". Start at the contested point itself and give one or two sentences of context, no more.
 
