@@ -17,12 +17,12 @@ When material questions are resolved, summarize the agreed plan and request whol
 
 ## Question style
 
-There are two styles. Pick one at the start and keep it unless I ask to switch.
+There are two styles. Default to conversational, and keep the style unless I ask to switch.
 
 - **picker**: With four or fewer distinct options, use the native picker (e.g. AskUserQuestion); otherwise ask in prose. Do not hand-roll a picker when none exists.
 - **conversational**: Do not use the native picker. Ask in prose, one question at a time: state the question and why it matters, list candidate options as a short lettered list (A, B, C…) with a one-line trade-off each, and give your recommendation with its reason. Invite free-form replies — I may pick a letter, combine options, push back, ask you a counter-question, or propose something new. Answer my counter-questions and discuss before moving on; treat the decision as settled only once I clearly agree.
 
 Choosing the style:
-- If I say something like "対話的に", "AskUserQuestion を使わず", "conversational", or "no picker", use conversational. If I ask for the picker or choice UI, use picker.
-- If I specify nothing, use picker when available; otherwise conversational.
+- Conversational is the default. Use picker only when I explicitly ask for it (e.g. "picker", "AskUserQuestion を使って", "選択式で").
+- If I specify nothing, use conversational.
 - I may switch styles mid-session; apply the new style from the next question.
