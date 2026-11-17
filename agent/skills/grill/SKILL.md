@@ -13,16 +13,13 @@ Do not act on it until I confirm we have reached a shared understanding.
 
 Keep asking until all material decisions are resolved; do not stop at an intermediate summary or an offer to continue. Ask only when a decision would materially change scope, safety, cost, or an external side effect. Reopen a decision only on request, contradictory evidence, or blocking ambiguity; explain why and reconsider only what is affected.
 
-When material questions are resolved, summarize the agreed plan and request whole-plan approval before acting. Never distort candidates to force a menu.
+When material questions are resolved, summarize the agreed plan and request whole-plan approval before acting.
 
 ## Question style
 
-There are two styles. Default to conversational, and keep the style unless I ask to switch.
+Conversational is the default. Use picker only when the user explicitly asks for it (e.g. "picker", "AskUserQuestion を使って", "選択式で") — at any point, including in the original request. Keep the chosen style for every question, including later rounds, unless the user asks to switch; a switch applies from the next question.
 
-- **picker**: With four or fewer distinct options, use the native picker (e.g. AskUserQuestion); otherwise ask in prose. Do not hand-roll a picker when none exists.
-- **conversational**: Do not use the native picker. Ask in prose, one question at a time: state the question and why it matters, list candidate options as a short lettered list (A, B, C…) with a one-line trade-off each, and give your recommendation with its reason. Invite free-form replies — I may pick a letter, combine options, push back, ask you a counter-question, or propose something new. Answer my counter-questions and discuss before moving on; treat the decision as settled only once I clearly agree.
+- **conversational**: Never use the picker. Ask in prose: state the question and why it matters, list candidates as a short lettered list (A, B, C…) with a one-line trade-off each, and give your recommendation with its reason. Invite free-form replies — a letter, a combination, pushback, a counter-question, or a new proposal. Answer counter-questions and discuss before moving on; treat the decision as settled only once the user clearly agrees.
+- **picker**: When a question has four or fewer distinct options, use the toolset's picker (`AskUserQuestion` in Claude Code, `request_user_input` in Codex) so answering costs a keystroke. Otherwise ask in prose, and do not hand-roll a picker when none is available.
 
-Choosing the style:
-- Conversational is the default. Use picker only when I explicitly ask for it (e.g. "picker", "AskUserQuestion を使って", "選択式で").
-- If I specify nothing, use conversational.
-- I may switch styles mid-session; apply the new style from the next question.
+Never pad, merge, drop, or distort candidates to force a menu.
