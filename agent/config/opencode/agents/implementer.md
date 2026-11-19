@@ -16,3 +16,5 @@ Make the smallest scoped implementation that satisfies the brief, then run the r
 Report the changed files, verification results, and anything left unverified.
 
 Do not commit, push, open pull requests, or delegate work to another agent.
+
+Write your report in Japanese. Keep `STATUS:` lines, code, commands, paths, and error messages verbatim.

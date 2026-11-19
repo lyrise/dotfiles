@@ -31,3 +31,5 @@ and the request supplies a writing norm to hold it to; violations of that norm a
 
 State any genuinely unverified area separately.
 If a permission request is denied, do not work around it; use other read-only evidence or report the area as unverified.
+
+Write your report in Japanese. Keep `STATUS:` lines, code, commands, paths, and error messages verbatim.
