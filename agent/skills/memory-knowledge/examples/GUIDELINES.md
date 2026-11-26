@@ -1,7 +1,7 @@
 # Knowledge Guidelines
 
 `$AGENT_MEMORY_DIR/knowledge/` holds only knowledge that is still valid and reusable. Work and personal life are not separated.
-Point-in-time research results, work history, and the reasons behind decisions go in `$AGENT_MEMORY_DIR/records/`.
+Point-in-time research results, work history, and the reasons behind decisions go in `$AGENT_MEMORY_DIR/reports/`.
 Knowledge specific to one project or repository does not go in `$AGENT_MEMORY_DIR`; it goes in the documents inside that project or repository.
 
 ## Folder Layout
@@ -18,8 +18,8 @@ $AGENT_MEMORY_DIR/knowledge/
 | Category  | Put here                                                     | Do not put here                          |
 | --------- | ------------------------------------------------------------ | ---------------------------------------- |
 | `me/`     | Preferences, ways of working, decision criteria, daily habits | Temporary plans, momentary moods         |
-| `people/` | Relationship, affiliation, expertise, preferences, interaction tendencies | Point-in-time events (→ records) |
-| `things/` | Usage, procedures, settings, constraints, known pitfalls     | Troubleshooting history (→ records)      |
+| `people/` | Relationship, affiliation, expertise, preferences, interaction tendencies | Point-in-time events (→ reports) |
+| `things/` | Usage, procedures, settings, constraints, known pitfalls     | Troubleshooting history (→ reports)      |
 | `topics/` | Key points of concepts, methods, procedures, comparisons, established practices | Procedures for a specific thing (→ things) |
 
 When in doubt, decide by "what is the subject of this knowledge". If the subject is the user, use `me/`; another person, `people/`; a named thing, `things/`; none of these, `topics/`.
@@ -72,7 +72,7 @@ Omit sections that have no content. Do not change the heading names or their ord
 ## Updating, Merging, and Deleting
 
 - The body always describes only the current state. Overwrite outdated text; do not keep strikethroughs or change history.
-- When the history of a change is worth keeping, write a record in `$AGENT_MEMORY_DIR/records/` and link to it from the note's `## Related`.
+- When the history of a change is worth keeping, write a report in `$AGENT_MEMORY_DIR/reports/` and link to it from the note's `## Related`.
 - Update `updated` whenever the content changes.
 - Before writing, search `title` and `aliases` for an existing note on the same subject. If one is found, append to it instead of creating a new one.
 - Delete, merge, or rename a note only after showing the target path and the reason and getting the user's approval. When merging, add the old name to the merged note's `aliases`.

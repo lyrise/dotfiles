@@ -18,7 +18,7 @@ description: Use the knowledge area of the directory pointed to by the AGENT_MEM
 - Write only when the user explicitly asks.
 - Before writing, read `GUIDELINES.md` and decide the location and format by its rules.
 - When the content fits no existing category, or the rules need to change, show the user a proposed change to `GUIDELINES.md`, update `GUIDELINES.md` only after getting approval, and then write the note. Never change `GUIDELINES.md` without approval.
-- Put point-in-time records, such as research results and work history, in `$AGENT_MEMORY_DIR/records/`, following the `memory-records` skill.
+- Put point-in-time reports, such as research results and work history, in `$AGENT_MEMORY_DIR/reports/`, following the `memory-reports` skill.
 
 ## Constraints
 

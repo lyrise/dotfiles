@@ -11,7 +11,7 @@ description: Use the projects area of the directory pointed to by the AGENT_MEMO
 
 ```
 $AGENT_MEMORY_DIR/projects/
-├── YYYY-MM-DD-<slug>/        # Ongoing project. The date is the creation date; the slug may be Japanese, as in records/
+├── YYYY-MM-DD-<slug>/        # Ongoing project. The date is the creation date; the slug may be Japanese, as in reports/
 │   ├── YYYY-MM-DD-<slug>.md  # Index note (required). The file name matches the dir name
 │   └── ...                   # Documents, scripts, raw data, etc. Arrange freely
 └── archived/
@@ -35,7 +35,7 @@ updated: 2026-10-13 # Required. Date the body was last changed
 ---
 ```
 
-The body sections are `## Purpose` `## Current State` `## Next Step` `## Related`. Omit sections that do not apply. Put `[[wikilink]]`s to related records, knowledge notes, and todo.md under `## Related`.
+The body sections are `## Purpose` `## Current State` `## Next Step` `## Related`. Omit sections that do not apply. Put `[[wikilink]]`s to related reports, knowledge notes, and todo.md under `## Related`.
 
 When the vault's existing notes use Japanese headings, use the Japanese equivalents instead and keep the language of the existing notes:
 
@@ -54,7 +54,7 @@ When the vault's existing notes use Japanese headings, use the Japanese equivale
 ## Creating and Updating
 
 - Create a project dir only when the user explicitly asks. Before creating one, check `projects/` and `projects/archived/` for a dir with the same purpose.
-- Put research results and work history from an ongoing project inside the project dir, not in `records/`. `records/` is only for records outside projects (the `memory-records` skill).
+- Put research results and work history from an ongoing project inside the project dir, not in `reports/`. `reports/` is only for reports outside projects (the `memory-reports` skill).
 - Put reusable knowledge and the user's own policies in `knowledge/`, following the `memory-knowledge` skill.
 - Move a completed or suspended project to `projects/archived/YYYY/MM/` only after showing the path and destination and getting the user's approval. Use the date in the dir name for `YYYY/MM`.
 - Ask the user before adding raw data that would bloat the repository (audio, video, large CSVs, etc.).
